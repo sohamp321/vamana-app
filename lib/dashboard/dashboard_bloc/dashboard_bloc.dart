@@ -33,7 +33,7 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DashBoardState> {
 
         dev.log(_headers["Authorization"]!);
 
-        var response = await http.get(url, headers: _headers);
+        var response = await http.get(url, headers: _headers).timeout(const Duration(seconds: 300));
 
         if (response.statusCode == 200) {
           var data = jsonDecode(response.body);

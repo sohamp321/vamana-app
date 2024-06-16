@@ -70,14 +70,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
                       "Physician's Dashboard",
                       style: TextStyle(
                           color: Color(0xff15400D),
                           fontWeight: FontWeight.w900,
-                          fontSize: 40),
+                          fontSize: 30),
                     ),
                   ),
                 ),
@@ -87,7 +87,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     width: screenWidth * 0.95,
-                    height: screenHeight * 0.73,
+                    height: screenHeight * 0.75,
                     child: BlocConsumer<DashBoardBloc, DashBoardState>(
                       listener: (context, state) {},
                       builder: (context, state) {
@@ -152,7 +152,7 @@ class AssessmentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
+    
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       child: Container(
