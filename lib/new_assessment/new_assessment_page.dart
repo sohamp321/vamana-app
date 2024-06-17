@@ -2,6 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import "package:carousel_slider/carousel_slider.dart";
+import "package:vamana_app/aama_lakshana/aama_lakshana_page.dart";
+import "new_assessment_bloc/new_assessment_bloc.dart";
+import "new_assessment_bloc/new_assessment_event.dart";
+import "new_assessment_bloc/new_assessment_state.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "dart:developer" as dev;
 
 class NewAssessmentPage extends StatefulWidget {
@@ -106,12 +111,18 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
   };
 
   //State 4: Deepana Pachana
+  Map<String, dynamic> deepanaPachanaData = {
+    "guduchiChoorna": false,
+    "mustaChoorna": false,
+    "panchaKolChoorna": false,
+    "other": TextEditingController()
+  };
   bool guduchiChoornaSelected = false;
   bool mustaChoornaSelected = false;
   bool panchakolChoornaSelected = false;
 
   final TextEditingController otherDeepanaPachana = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -139,10 +150,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
       DeepanaPachana(
         screenWidth: screenWidth,
         screenHeight: screenHeight,
-        guduchiChoornaSelected: guduchiChoornaSelected,
-        mustaChoornaSelected: mustaChoornaSelected,
-        panchakolChoornaSelected: panchakolChoornaSelected,
-        otherDeepanaPachana: otherDeepanaPachana,
+        deepanaPachanaData: deepanaPachanaData,
       ),
     ];
 
@@ -276,29 +284,134 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                   ],
                                 )),
                             const Spacer(),
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            const Color(0xff0f6f03))),
-                                onPressed: () {
-                                  _carouselController.nextPage();
-                                },
-                                child: const Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Next",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_rounded,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                )),
+                            BlocListener<NewAssessmentBloc, NewAssessmentState>(
+                              listener: (context, state) {
+                                if (state is CreatedAssessment) {
+                                  patientData.forEach((key, value) {
+                                    value["controller"].clear();
+                                  });
+
+                                  complaints.forEach((key, value) {
+                                    value = null;
+                                  });
+
+                                  investigationsData.forEach((key, value) {
+                                    value["controller"].clear();
+                                  });
+
+                                  deepanaPachanaData["other"].clear();
+
+                                  deepanaPachanaData["guduchiChoorna"] = false;
+                                  deepanaPachanaData["mustaChoorna"] = false;
+                                  deepanaPachanaData["panchaKolChoorna"] =
+                                      false;
+
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AamaLakshanaPage()));
+                                }
+                              },
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0xff0f6f03))),
+                                  onPressed: () {
+                                    // Patient Details Page
+                                    if (currentIndex == 0) {
+                                      if (patientDetailsKey.currentState
+                                              ?.validate() ??
+                                          false) {
+                                        final Map<String, String> formData = {};
+
+                                        patientData.forEach((label, data) {
+                                          formData[label] =
+                                              data['controller'].text;
+
+                                          // data["controller"].clear();
+                                        });
+
+                                        BlocProvider.of<NewAssessmentBloc>(
+                                                context)
+                                            .add(UpdatePatientDetails(
+                                                patientInfo: formData));
+
+                                        _carouselController.nextPage();
+                                      }
+                                    }
+                                    // Complaints Page
+                                    if (currentIndex == 1) {
+                                      BlocProvider.of<NewAssessmentBloc>(
+                                              context)
+                                          .add(UpdateComplaints(
+                                              complaintsInfo: complaints));
+                                      _carouselController.nextPage();
+                                    }
+                                    // Investigations Page
+                                    if (currentIndex == 2) {
+                                      if (investigationsKey.currentState
+                                              ?.validate() ??
+                                          false) {
+                                        Map<String, dynamic>
+                                            _investigationsData = {};
+                                        investigationsData
+                                            .forEach((key, value) {
+                                          _investigationsData[key] =
+                                              value["controller"].text;
+                                        });
+                                        BlocProvider.of<NewAssessmentBloc>(
+                                                context)
+                                            .add(UpdateInvestigations(
+                                                investigationsInfo:
+                                                    _investigationsData));
+
+                                        _carouselController.nextPage();
+                                      }
+                                    }
+                                    if (currentIndex == 3) {
+                                      Map<String, dynamic> _deepanaPachanaData =
+                                          {
+                                        "guduchiChoorna": deepanaPachanaData[
+                                            "guduchiChoorna"],
+                                        "mustaChoorna":
+                                            deepanaPachanaData["mustaChoorna"],
+                                        "panchaKolChoorna": deepanaPachanaData[
+                                            "panchaKolChoorna"],
+                                        "other":
+                                            deepanaPachanaData["other"].text
+                                      };
+
+                                      BlocProvider.of<NewAssessmentBloc>(
+                                              context)
+                                          .add(UpdatePoorvaKarma(
+                                              poorvaKarmaInfo:
+                                                  _deepanaPachanaData));
+
+                                      BlocProvider.of<NewAssessmentBloc>(
+                                              context)
+                                          .add(CreateAssessment());
+                                    }
+                                    //
+                                  },
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Next",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_rounded,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  )),
+                            ),
                           ],
                         ),
                       )
@@ -315,29 +428,28 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
   }
 }
 
-class DeepanaPachana extends StatelessWidget {
-  const DeepanaPachana({
+class DeepanaPachana extends StatefulWidget {
+  DeepanaPachana({
     super.key,
     required this.screenWidth,
     required this.screenHeight,
-    required this.guduchiChoornaSelected,
-    required this.mustaChoornaSelected,
-    required this.panchakolChoornaSelected,
-    required this.otherDeepanaPachana,
+    required this.deepanaPachanaData,
   });
 
   final double screenWidth;
   final double screenHeight;
-  final bool guduchiChoornaSelected;
-  final bool mustaChoornaSelected;
-  final bool panchakolChoornaSelected;
-  final TextEditingController otherDeepanaPachana;
+  Map<String, dynamic> deepanaPachanaData;
 
+  @override
+  State<DeepanaPachana> createState() => _DeepanaPachanaState();
+}
+
+class _DeepanaPachanaState extends State<DeepanaPachana> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: screenWidth * 0.93,
-        height: screenHeight * 0.65,
+        width: widget.screenWidth * 0.93,
+        height: widget.screenHeight * 0.65,
         child: Column(children: [
           const Padding(
             padding: EdgeInsets.all(8.0),
@@ -369,19 +481,61 @@ class DeepanaPachana extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SelectionButton(
-                  selectionState: guduchiChoornaSelected,
-                  buttonName: "Guduchi Choorna"),
-              SelectionButton(
-                  selectionState: mustaChoornaSelected,
-                  buttonName: "Musta Choorna"),
-              SelectionButton(
-                  selectionState: panchakolChoornaSelected,
-                  buttonName: "Pancha Kol Churna"),
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(widget
+                              .deepanaPachanaData["guduchiChoorna"]
+                          ? const Color(0xff0f6f03)
+                          : Theme.of(context).colorScheme.primaryContainer)),
+                  onPressed: () {
+                    setState(() {
+                      widget.deepanaPachanaData["guduchiChoorna"] =
+                          !widget.deepanaPachanaData["guduchiChoorna"];
+                    });
+                  },
+                  child: Text("Guduchi Choorna",
+                      style: TextStyle(
+                          color: widget.deepanaPachanaData["guduchiChoorna"]
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.primary))),
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(widget
+                              .deepanaPachanaData["mustaChoorna"]
+                          ? const Color(0xff0f6f03)
+                          : Theme.of(context).colorScheme.primaryContainer)),
+                  onPressed: () {
+                    setState(() {
+                      widget.deepanaPachanaData["mustaChoorna"] =
+                          !widget.deepanaPachanaData["mustaChoorna"];
+                    });
+                  },
+                  child: Text("Musta Choorna",
+                      style: TextStyle(
+                          color: widget.deepanaPachanaData["mustaChoorna"]
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.primary))),
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(widget
+                              .deepanaPachanaData["panchaKolChoorna"]
+                          ? const Color(0xff0f6f03)
+                          : Theme.of(context).colorScheme.primaryContainer)),
+                  onPressed: () {
+                    setState(() {
+                      widget.deepanaPachanaData["panchaKolChoorna"] =
+                          !widget.deepanaPachanaData["panchaKolChoorna"];
+                    });
+                  },
+                  child: Text("Pancha Kol Choorna",
+                      style: TextStyle(
+                          color: widget.deepanaPachanaData["panchaKolChoorna"]
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.primary))),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: otherDeepanaPachana,
+                  controller: widget.deepanaPachanaData["other"],
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: "Other"),
                   validator: (value) {
@@ -480,41 +634,6 @@ class PatientDetailsForm extends StatelessWidget {
                   ),
                 )),
           ),
-          // ! Remove This Add to next button
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                if (patientDetailsKey.currentState?.validate() ?? false) {
-                  final Map<String, String> formData = {};
-
-                  fieldData.forEach((label, data) {
-                    formData[label] = data['controller'].text;
-
-                    data["controller"].clear();
-                  });
-
-                  print(formData);
-
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: const Text('Form Data'),
-                      content: Text(formData.toString()),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(),
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              child: const Text(
-                  'Submit Button -> To Be Added to Next Without Dialogue'),
-            ),
-          )
         ],
       ),
     );
@@ -573,80 +692,7 @@ class Investigations extends StatelessWidget {
                   ),
                 )),
           ),
-          // ! Remove This -> Add To Next Button
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                if (investigationsKey.currentState?.validate() ?? false) {
-                  final Map<String, String> formData = {};
-
-                  fieldData.forEach((label, data) {
-                    formData[label] = data['controller'].text;
-
-                    data["controller"].clear();
-                  });
-
-                  print(formData);
-
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: Text('Form Data'),
-                      content: Text(formData.toString()),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(),
-                          child: Text('OK'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              child: const Text(
-                  'Submit Button -> To Be Added to Next Without Dialogue'),
-            ),
-          ),
         ],
-      ),
-    );
-  }
-}
-
-class SelectionButton extends StatefulWidget {
-  bool selectionState;
-  String buttonName;
-
-  SelectionButton({required this.selectionState, required this.buttonName});
-
-  @override
-  State<SelectionButton> createState() => _SelectionButtonState();
-}
-
-class _SelectionButtonState extends State<SelectionButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-                widget.selectionState
-                    ? const Color(0xff0f6f03)
-                    : Theme.of(context).colorScheme.primaryContainer)),
-        onPressed: () {
-          setState(() {
-            widget.selectionState = !widget.selectionState;
-          });
-        },
-        child: Text(
-          widget.buttonName,
-          style: TextStyle(
-              color: widget.selectionState
-                  ? Colors.white
-                  : Theme.of(context).colorScheme.primary),
-        ),
       ),
     );
   }

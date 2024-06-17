@@ -6,20 +6,22 @@ abstract class NewAssessmentEvent extends Equatable {
 }
 
 class CreateAssessment extends NewAssessmentEvent {
-  Map<String, dynamic> patientInfo;
-  Map<String, dynamic> complaintsInfo;
-  Map<String, dynamic> investigationsInfo;
-  Map<String, dynamic> poorvaKarmaInfo;
+  // Map<String, dynamic> patientInfo;
+  // Map<String, dynamic> complaintsInfo;
+  // Map<String, dynamic> investigationsInfo;
+  // Map<String, dynamic> poorvaKarmaInfo;
 
-  CreateAssessment(
-      {required this.patientInfo,
-      required this.complaintsInfo,
-      required this.investigationsInfo,
-      required this.poorvaKarmaInfo});
-
+  // CreateAssessment(
+  //     {required this.patientInfo,
+  //     required this.complaintsInfo,
+  //     required this.investigationsInfo,
+  //     required this.poorvaKarmaInfo});
+  
+  // @override
+  // List<Object> get props =>
+  //     [patientInfo, complaintsInfo, investigationsInfo, poorvaKarmaInfo];
   @override
-  List<Object> get props =>
-      [patientInfo, complaintsInfo, investigationsInfo, poorvaKarmaInfo];
+  List<Object> get props => [];
 }
 
 class UpdatePatientDetails extends NewAssessmentEvent {
