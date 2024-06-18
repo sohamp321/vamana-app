@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff15400d)),
           useMaterial3: true,
         ),
-        home: NewAssessmentPage()
+        home: AamaLakshanaPage()
         // home: BlocConsumer<LoginBloc, LoginState>(
         //   listener: (context, state) {
         //     if (state is LoginError) {

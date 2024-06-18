@@ -301,7 +301,6 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                   });
 
                                   deepanaPachanaData["other"].clear();
-
                                   deepanaPachanaData["guduchiChoorna"] = false;
                                   deepanaPachanaData["mustaChoorna"] = false;
                                   deepanaPachanaData["panchaKolChoorna"] =
@@ -396,15 +395,30 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                     }
                                     //
                                   },
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        "Next",
-                                        style: TextStyle(color: Colors.white),
+                                      BlocBuilder<NewAssessmentBloc,
+                                          NewAssessmentState>(
+                                        builder: (context, state) {
+                                          if (state is CreatingAssessment) {
+                                            return const Center(
+                                                child: CircularProgressIndicator
+                                                    .adaptive(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.white),
+                                            ));
+                                          }
+                                          return const Text(
+                                            "Next",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          );
+                                        },
                                       ),
                                       Icon(
                                         Icons.arrow_forward_rounded,
