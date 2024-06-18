@@ -6,6 +6,7 @@ import "dart:developer" as dev;
 import 'dart:convert';
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
+import "package:bson/bson.dart";
 
 class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
   Map<String, dynamic> patientInfo = {};
@@ -23,7 +24,7 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
   void updatePatientInfo(
       UpdatePatientDetails event, Emitter<NewAssessmentState> emit) {
     emit(UpdatingInfo());
-    
+
     patientInfo = event.patientInfo;
 
     dev.log("Updated Patient Info Stored: ${patientInfo.toString()}");
@@ -31,7 +32,8 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
     emit(UpdatedPatientDetails(patientInfo: patientInfo));
   }
 
-  void updateComplaintsInfo(UpdateComplaints event, Emitter<NewAssessmentState> emit){
+  void updateComplaintsInfo(
+      UpdateComplaints event, Emitter<NewAssessmentState> emit) {
     emit(UpdatingInfo());
 
     complaintsInfo = event.complaintsInfo;
@@ -41,17 +43,20 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
     emit(UpdatedComplaints(complaintsInfo: complaintsInfo));
   }
 
-  void updateInvestigationsInfo(UpdateInvestigations event, Emitter<NewAssessmentState> emit){
+  void updateInvestigationsInfo(
+      UpdateInvestigations event, Emitter<NewAssessmentState> emit) {
     emit(UpdatingInfo());
 
     investigationsInfo = event.investigationsInfo;
 
-    dev.log("Updated Investigations Info Stored: ${investigationsInfo.toString()}");
+    dev.log(
+        "Updated Investigations Info Stored: ${investigationsInfo.toString()}");
 
     emit(UpdatedInvestigations(investigationsInfo: investigationsInfo));
   }
 
-  void updatePoorvaKarmaInfo(UpdatePoorvaKarma event, Emitter<NewAssessmentState> emit){
+  void updatePoorvaKarmaInfo(
+      UpdatePoorvaKarma event, Emitter<NewAssessmentState> emit) {
     emit(UpdatingInfo());
 
     poorvaKarmaInfo = event.poorvaKarmaInfo;
@@ -61,19 +66,92 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
     emit(UpdatedPoorvaKarma(poorvaKarmaInfo: poorvaKarmaInfo));
   }
 
-  void createAssessment(CreateAssessment event, Emitter<NewAssessmentState> emit){
+  void createAssessment(
+      CreateAssessment event, Emitter<NewAssessmentState> emit) async {
     emit(CreatingAssessment());
 
-    dev.log("Creating New Assessment");
+    Map<String, dynamic> addRequest = {
+      "uhid": patientInfo["UHID"],
+      "name": patientInfo["Name"],
+      "DOB": patientInfo["Date of Birth"],
+      "occupation": patientInfo["Occupation"],
+      "address": patientInfo["Address"],
+      "pastIllness": patientInfo["Past Illness"],
+      "medicalHistory": patientInfo["Medical History"],
+      "complaints": {
+        "avipaka": complaintsInfo["Avipaka(Indigestion)"],
+        "trishana": complaintsInfo["Trishna(Feeling thirsty)"],
+        "aruchi": complaintsInfo["Aruchi(Anorexia)"],
+        "gauravam": complaintsInfo["Gauravam(Heaviness)"],
+        "alasya": complaintsInfo["Aalasya(Laziness)"],
+        "nidranaasha": complaintsInfo["Nidranaasha(Sleeplessness)"],
+        "atinidrata": complaintsInfo["Atinidrata(excessive sleep)"],
+        "ashasta_swapna_darshanam":
+            complaintsInfo["Ashasta-swapna-darshanam (Abnormal dreams)"],
+        "tandra": complaintsInfo["Tandra (somnolent/feeling sleepy)"],
+        "shrama": complaintsInfo["Shrama (Breathlessnesswhile exertion)"],
+        "daurbalayam": complaintsInfo["Daurbalayam (Weakness)"],
+        "klamah": complaintsInfo["Klamah (Fatigue)"],
+        "sthaulyam": complaintsInfo["Sthaulyam (Obesity)"],
+        "pitta_samutklesha":
+            complaintsInfo["Pitta-samutklesha (Vitiated Pitta Features)"],
+        "shleshma_samutklesha":
+            complaintsInfo["Shleshma-samutklesha (Vitiated Kapha Features)"],
+        "panduta": complaintsInfo["Panduta (Anaemic)"],
+        "kandu": complaintsInfo["Kandu (Itching)"],
+        "pidka_kotha": complaintsInfo["Pidka,Kotha (Skin eruptions)"],
+        "daurgandhyatvam": complaintsInfo[
+            "Daurgandhyatvam (Foul smell from sweat, stool, urine etc.)"],
+        "arati": complaintsInfo["Arati (Disturbed mind)"],
+        "avasadaka": complaintsInfo["Avasadaka (Depressed Mind)"],
+        "bala_pranasha_brumhanairapi": complaintsInfo[
+            "Bala-pranasha/ Brumhanairapi (Loss of physical strength even after taking good diet)"],
+        "varna_pranasha": complaintsInfo["Varna-pranasha (Loss of glow)"],
+        "abudhitvam": complaintsInfo["Abudhitvam (absent mindedness)"],
+        "klaibyam": complaintsInfo["Klaibyam (Lost Vitality)"],
+      },
+      "investigations": investigationsInfo,
+      "poorvaKarma": poorvaKarmaInfo
+    };
 
-    dev.log("Patient Info: ${patientInfo.toString()}");
-    dev.log("Complaints Info: ${complaintsInfo.toString()}");
-    dev.log("Investigations Info: ${investigationsInfo.toString()}");
-    dev.log("Poorva Karma Info: ${poorvaKarmaInfo.toString()}");
+    var _addRequest = jsonEncode(addRequest);
 
-    // TODO: Implement New Assessment Creation
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? _userToken = prefs.getString("userToken");
 
-    emit(CreatedAssessment());
+    if (_userToken != null) {
+      try {
+        var url = Uri.parse('${dotenv.env["SERVER_URL"]}/add');
+        dev.log("Sending request to : $url");
+        var response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer $_userToken"
+          },
+          body: _addRequest,
+        );
+
+        if (response.statusCode == 200) {
+          var data = jsonDecode(response.body);
+
+          // dev.log(" Response: ${response.body}");
+
+         
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          await prefs.setString('assessmentID', data["_id"]);
+
+          emit(CreatedAssessment(assessmentID: data["_id"]));
+        } else {
+          dev.log(
+              "Error Occured with code : ${response.statusCode} and error message : ${response.body}");
+        }
+      } catch (e) {
+        emit(NewAssessmentError(error: e.toString()));
+        dev.log("Login Error: $e");
+      }
+    }
   }
-
 }

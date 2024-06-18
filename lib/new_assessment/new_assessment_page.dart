@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import "package:carousel_slider/carousel_slider.dart";
+import "package:intl/intl.dart";
 import "package:vamana_app/aama_lakshana/aama_lakshana_page.dart";
 import "new_assessment_bloc/new_assessment_bloc.dart";
 import "new_assessment_bloc/new_assessment_event.dart";
@@ -580,7 +581,7 @@ class CustomFormField extends StatelessWidget {
   }
 }
 
-class PatientDetailsForm extends StatelessWidget {
+class PatientDetailsForm extends StatefulWidget {
   const PatientDetailsForm({
     super.key,
     required this.screenWidth,
@@ -595,10 +596,15 @@ class PatientDetailsForm extends StatelessWidget {
   final Map<String, Map<String, dynamic>> fieldData;
 
   @override
+  State<PatientDetailsForm> createState() => _PatientDetailsFormState();
+}
+
+class _PatientDetailsFormState extends State<PatientDetailsForm> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth * 0.93,
-      height: screenHeight * 0.65,
+      width: widget.screenWidth * 0.93,
+      height: widget.screenHeight * 0.65,
       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
       child: Column(
         children: [
@@ -617,18 +623,44 @@ class PatientDetailsForm extends StatelessWidget {
           ),
           Expanded(
             child: Form(
-                key: patientDetailsKey,
+                key: widget.patientDetailsKey,
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: fieldData.entries.map((entry) {
-                        return CustomFormField(
-                            fieldController: entry.value["controller"],
-                            labelText: entry.key,
-                            errorText: entry.value['errorText']);
+                      children: widget.fieldData.entries.map((entry) {
+                        if (entry.key != "Date of Birth") {
+                          return CustomFormField(
+                              fieldController: entry.value["controller"],
+                              labelText: entry.key,
+                              errorText: entry.value['errorText']);
+                        } else {
+                          return GestureDetector(
+                            onTap: () async {
+                              final DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2100),
+                              );
+                              if (picked != null && picked != DateTime.now()) {
+                                setState(() {
+                                  entry.value["controller"].text =
+                                      DateFormat('dd-MM-yyyy').format(picked);
+                                });
+                              }
+                            },
+                            child: AbsorbPointer(
+                              child: CustomFormField(
+                                fieldController: entry.value["controller"],
+                                labelText: entry.key,
+                                errorText: entry.value['errorText'],
+                              ),
+                            ),
+                          );
+                        }
                       }).toList(),
                     ),
                   ),

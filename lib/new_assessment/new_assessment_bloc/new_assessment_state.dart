@@ -47,7 +47,15 @@ class UpdatingInfo extends NewAssessmentState {}
 
 class CreatingAssessment extends NewAssessmentState {}
 
-class CreatedAssessment extends NewAssessmentState {}
+class CreatedAssessment extends NewAssessmentState {
+  String assessmentID;
+
+  CreatedAssessment({required this.assessmentID});
+
+ @override
+  List<Object> get props => [assessmentID];
+
+}
 
 class NewAssessmentError extends NewAssessmentState {
   String error;
