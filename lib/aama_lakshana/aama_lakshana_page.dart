@@ -61,6 +61,11 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
 
   @override
   void initState() {
+    var alb = BlocProvider.of<AamaLakshanaBloc>(context);
+    alb.stream.listen((state) {
+      dev.log('Current state: $state');
+      // Perform other actions here
+    });
     getAaamaLakshana();
     super.initState();
   }
@@ -247,7 +252,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                   AamaLakshanaState>(
                                 listener: (context, state) {
                                   if (state is AamaLakshanaLoaded) {
-                                    dev.log("listened");
+                                    dev.log("yes i did listen bro");
                                     if (state.aamaLakshanaDataRec != null) {
                                       state.aamaLakshanaDataRec!
                                           .forEach((key, value) {
@@ -572,11 +577,11 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                               }
                                             };
                                             dev.log(state.toString());
-                                            // BlocProvider.of<AamaLakshanaBloc>(
-                                            //         context)
-                                            //     .add(CreateAamaLakshana(
-                                            //         aamaLakshanaData:
-                                            //             aamaLakshanReq));
+                                            BlocProvider.of<AamaLakshanaBloc>(
+                                                    context)
+                                                .add(CreateAamaLakshana(
+                                                    aamaLakshanaData:
+                                                        aamaLakshanReq));
                                           },
                                           child: const Row(
                                             mainAxisAlignment:
