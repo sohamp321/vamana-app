@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vamana_app/aama_lakshana/aama_lakshana_bloc/aama_lakshana_bloc.dart';
 import 'package:vamana_app/aama_lakshana/aama_lakshana_page.dart';
 import 'package:vamana_app/dashboard/dashboard_page.dart';
 import 'package:vamana_app/login/login_bloc/login_bloc.dart';
@@ -25,33 +26,33 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => LoginBloc()..add(UserLoggedIn())),
         // BlocProvider(create: (_) => DashBoardBloc())
-        BlocProvider(create: (_) => NewAssessmentBloc())
-      ],
+        BlocProvider(create: (_) => NewAssessmentBloc()),
+        BlocProvider(create: (_) => AamaLakshanaBloc())
+      ],  
       child: MaterialApp(
         title: 'Vamana App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff15400d)),
           useMaterial3: true,
         ),
-        home: AamaLakshanaPage()
-        // home: BlocConsumer<LoginBloc, LoginState>(
-        //   listener: (context, state) {
-        //     if (state is LoginError) {
-        //       ScaffoldMessenger.of(context).showSnackBar(
-        //         SnackBar(content: Text(state.error)),
-        //       );
-        //     }
-        //   },
-        //   builder: (context, state) {
-        //     if (state is UserVerified) {
-        //       return DashBoardPage();
-        //     } else if (state is CheckingUser) {
-        //       return const CircularProgressIndicator.adaptive();
-        //     } else {
-        //       return LoginPage();
-        //     }
-        //   },
-        // ),
+        home: BlocConsumer<LoginBloc, LoginState>(
+          listener: (context, state) {
+            if (state is LoginError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.error)),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is UserVerified) {
+              return AamaLakshanaPage();
+            } else if (state is CheckingUser) {
+              return const CircularProgressIndicator.adaptive();
+            } else {
+              return LoginPage();
+            }
+          },
+        ),
       ),
     );
   }

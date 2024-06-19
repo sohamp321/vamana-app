@@ -135,13 +135,17 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
         if (response.statusCode == 200) {
           var data = jsonDecode(response.body);
 
-          // dev.log(" Response: ${response.body}");
+          dev.log(" Response: ${response.body}");
+
 
          
+          dev.log("Assessment ID: ${data["_id"]}");
 
           final SharedPreferences prefs = await SharedPreferences.getInstance();
 
           await prefs.setString('assessmentID', data["_id"]);
+
+          dev.log("Assessment ID: ${prefs.getString("assessmentID")}");
 
           emit(CreatedAssessment(assessmentID: data["_id"]));
         } else {
