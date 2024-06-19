@@ -115,9 +115,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text("Login Success")));
-
-                                //TODO : Add Navigation Code Here
-
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(

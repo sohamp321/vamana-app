@@ -8,6 +8,7 @@ import "dart:developer" as dev;
 import 'dart:convert';
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
+import 'package:vamana_app/dashboard/dashboard_page.dart';
 import 'aama_lakshana_bloc/aama_lakshana_bloc.dart';
 import 'package:vamana_app/login/login_page.dart';
 import "package:auto_size_text/auto_size_text.dart";
@@ -110,37 +111,59 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return BlocProvider(
-      create: (context) => AamaLakshanaBloc(),
-      child: Scaffold(
-          extendBodyBehindAppBar: true,
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            actions: [
-              IconButton(
-                  onPressed: () async {
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.clear();
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.clear();
 
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                        (route) => false);
-                  },
-                  icon: const Icon(Icons.logout_rounded))
-            ],
-          ),
-          body: Stack(
-            children: [
-              Image.asset(
-                "assets/images/bg1.jpg",
-                width: screenWidth,
-                height: screenHeight,
-                fit: BoxFit.cover,
-              ),
-              Column(
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      (route) => false);
+                },
+                icon: const Icon(Icons.logout_rounded))
+          ],
+        ),
+        body: Stack(
+          children: [
+            Image.asset(
+              "assets/images/bg1.jpg",
+              width: screenWidth,
+              height: screenHeight,
+              fit: BoxFit.cover,
+            ),
+            BlocListener<AamaLakshanaBloc, AamaLakshanaState>(
+              listener: (context, state) {
+                if (state is AamaLakshanaLoaded) {
+                  if (state.aamaLakshanaDataRec != null) {
+                    setState(() {
+                      selectedDate = state.aamaLakshanaDataRec!["date"];
+                    });
+
+                    state.aamaLakshanaDataRec!.forEach((key, value) {
+                      if (key == "date") {
+                        selectedDate = value;
+                      } else if (key == "dose") {
+                        if (value == "3") {
+                          doseSelected = true;
+                        } else {
+                          doseSelected = false;
+                        }
+                      } else {
+                        aamaLakshanData[key]["isSelected"] = value;
+                      }
+                    });
+                  }
+                }
+              },
+              child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -233,8 +256,6 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                   onSelectionChanged: (Set<Days> newSelection) {
                                     setState(() {
                                       selectedDay = newSelection.first;
-                                      if (selectedDay == Days.day1) {}
-
                                       // Get Request of the day 1 data from server and update
                                       aamaLakshanData.forEach((key, value) {
                                         value["isSelected"] = null;
@@ -242,239 +263,208 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                       doseSelected = null;
                                       selectedDate = DateFormat("dd-MM-yyyy")
                                           .format(DateTime.now());
+
+                                      getAaamaLakshana();
                                     });
                                   },
                                 ),
                               ),
                             ),
                             SingleChildScrollView(
-                              child: BlocConsumer<AamaLakshanaBloc,
+                                child: Container(
+                              height: screenHeight * 0.5,
+                              width: screenWidth * 0.9,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xffb5c99a),
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: BlocBuilder<AamaLakshanaBloc,
                                   AamaLakshanaState>(
-                                listener: (context, state) {
-                                  if (state is AamaLakshanaLoaded) {
-                                    dev.log("yes i did listen bro");
-                                    if (state.aamaLakshanaDataRec != null) {
-                                      state.aamaLakshanaDataRec!
-                                          .forEach((key, value) {
-                                        dev.log(key);
-                                        if (key == "date") {
-                                          dev.log(value);
-                                          setState(() {
-                                            selectedDate = value;
-                                          });
-                                        } else if (key == "dose") {
-                                          if (value == "3") {
-                                            doseSelected = true;
-                                          } else {
-                                            doseSelected = false;
-                                          }
-                                        } else {
-                                          aamaLakshanData[key]["isSelected"] =
-                                              value;
-                                        }
-                                      });
-                                    }
-                                  }
-                                },
                                 builder: (context, state) {
-                                  return Container(
-                                    height: screenHeight * 0.5,
-                                    width: screenWidth * 0.9,
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xffb5c99a),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: SingleChildScrollView(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          child: Column(children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0, bottom: 2.0),
-                                              child: SizedBox(
-                                                height: screenHeight * 0.05,
-                                                child: Row(children: [
-                                                  Container(
-                                                    height: screenHeight * 0.5,
-                                                    width: screenWidth * 0.595,
-                                                    decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xff97a97c),
-                                                        border: Border(
-                                                            right: BorderSide(
-                                                                color: Color(
-                                                                    0xff15400D)))),
-                                                    child: const Center(
-                                                        child: Text(
-                                                      "Date",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    )),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      final DateTime? picked =
-                                                          await showDatePicker(
-                                                        context: context,
-                                                        initialDate:
-                                                            DateTime.now(),
-                                                        firstDate:
-                                                            DateTime(1900),
-                                                        lastDate:
-                                                            DateTime(2100),
-                                                      );
-                                                      if (picked != null &&
-                                                          picked !=
-                                                              DateTime.now()) {
-                                                        setState(() {
-                                                          selectedDate =
-                                                              DateFormat(
-                                                                      'dd-MM-yyyy')
-                                                                  .format(
-                                                                      picked);
-                                                        });
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                        width:
-                                                            screenWidth * 0.28,
-                                                        height:
-                                                            screenHeight * 0.05,
-                                                        color: const Color(
-                                                            0xffe9f5db),
-                                                        child: Center(
-                                                          child: Text(
-                                                              selectedDate),
-                                                        )),
-                                                  )
-                                                ]),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 2.0, bottom: 2.0),
-                                              child: SizedBox(
-                                                height: screenHeight * 0.05,
-                                                child: Row(children: [
-                                                  Container(
-                                                    height: screenHeight * 0.5,
-                                                    width: screenWidth * 0.595,
-                                                    decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0xff97a97c),
-                                                        border: Border(
-                                                            right: BorderSide(
-                                                                color: Color(
-                                                                    0xff15400D)))),
-                                                    child: const Center(
-                                                        child: Text(
-                                                      "Dose",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    )),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
+                                  if (state is AamaLakshanaLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator
+                                            .adaptive());
+                                  }
+                                  return SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        child: Column(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 2.0, bottom: 2.0),
+                                            child: SizedBox(
+                                              height: screenHeight * 0.05,
+                                              child: Row(children: [
+                                                Container(
+                                                  height: screenHeight * 0.5,
+                                                  width: screenWidth * 0.595,
+                                                  decoration: const BoxDecoration(
+                                                      color: Color(0xff97a97c),
+                                                      border: Border(
+                                                          right: BorderSide(
+                                                              color: Color(
+                                                                  0xff15400D)))),
+                                                  child: const Center(
+                                                      child: Text(
+                                                    "Date",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    final DateTime? picked =
+                                                        await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime(1900),
+                                                      lastDate: DateTime(2100),
+                                                    );
+                                                    if (picked != null &&
+                                                        picked !=
+                                                            DateTime.now()) {
                                                       setState(() {
-                                                        doseSelected = true;
+                                                        selectedDate =
+                                                            DateFormat(
+                                                                    'dd-MM-yyyy')
+                                                                .format(picked);
                                                       });
-                                                    },
-                                                    child: Container(
-                                                        width:
-                                                            screenWidth * 0.14,
-                                                        height:
-                                                            screenHeight * 0.05,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: doseSelected ==
-                                                                  true
-                                                              ? Colors.green
-                                                                  .withOpacity(
-                                                                      0.5)
-                                                              : const Color(
-                                                                  0xffe9f5db),
-                                                          border: const Border(
-                                                            right: BorderSide(
-                                                                color: Color(
-                                                                    0xff15400d)),
-                                                          ),
-                                                        ),
-                                                        child: const Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 10.0),
-                                                          child: Center(
-                                                            child: AutoSizeText(
-                                                                "3gm 2xday"),
-                                                          ),
-                                                        )),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        doseSelected = false;
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                        width:
-                                                            screenWidth * 0.14,
-                                                        height:
-                                                            screenHeight * 0.05,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: doseSelected ==
-                                                                  false
-                                                              ? Colors.green
-                                                                  .withOpacity(
-                                                                      0.5)
-                                                              : const Color(
-                                                                  0xffe9f5db),
-                                                        ),
-                                                        child: const Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 10.0),
-                                                          child: Center(
-                                                            child: AutoSizeText(
-                                                                "5gm 2xday"),
-                                                          ),
-                                                        )),
-                                                  ),
-                                                ]),
-                                              ),
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      width: screenWidth * 0.28,
+                                                      height:
+                                                          screenHeight * 0.05,
+                                                      color: const Color(
+                                                          0xffe9f5db),
+                                                      child: Center(
+                                                        child:
+                                                            Text(selectedDate),
+                                                      )),
+                                                )
+                                              ]),
                                             ),
-                                            ...aamaLakshanData.values
-                                                .map((lakshan) {
-                                              return ComplaintsRow(
-                                                  screenWidth: screenWidth,
-                                                  screenHeight: screenHeight,
-                                                  label: lakshan["label"],
-                                                  isSelected:
-                                                      lakshan["isSelected"],
-                                                  onCheckPressed: () {
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 2.0, bottom: 2.0),
+                                            child: SizedBox(
+                                              height: screenHeight * 0.05,
+                                              child: Row(children: [
+                                                Container(
+                                                  height: screenHeight * 0.5,
+                                                  width: screenWidth * 0.595,
+                                                  decoration: const BoxDecoration(
+                                                      color: Color(0xff97a97c),
+                                                      border: Border(
+                                                          right: BorderSide(
+                                                              color: Color(
+                                                                  0xff15400D)))),
+                                                  child: const Center(
+                                                      child: Text(
+                                                    "Dose",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
                                                     setState(() {
-                                                      lakshan["isSelected"] =
-                                                          true;
+                                                      doseSelected = true;
                                                     });
                                                   },
-                                                  onCrossPressed: () {
+                                                  child: Container(
+                                                      width: screenWidth * 0.14,
+                                                      height:
+                                                          screenHeight * 0.05,
+                                                      decoration: BoxDecoration(
+                                                        color: doseSelected ==
+                                                                true
+                                                            ? Colors.green
+                                                                .withOpacity(
+                                                                    0.5)
+                                                            : const Color(
+                                                                0xffe9f5db),
+                                                        border: const Border(
+                                                          right: BorderSide(
+                                                              color: Color(
+                                                                  0xff15400d)),
+                                                        ),
+                                                      ),
+                                                      child: const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 10.0),
+                                                        child: Center(
+                                                          child: AutoSizeText(
+                                                              "3gm 2xday"),
+                                                        ),
+                                                      )),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
                                                     setState(() {
-                                                      lakshan["isSelected"] =
-                                                          false;
+                                                      doseSelected = false;
                                                     });
+                                                  },
+                                                  child: Container(
+                                                      width: screenWidth * 0.14,
+                                                      height:
+                                                          screenHeight * 0.05,
+                                                      decoration: BoxDecoration(
+                                                        color: doseSelected ==
+                                                                false
+                                                            ? Colors.green
+                                                                .withOpacity(
+                                                                    0.5)
+                                                            : const Color(
+                                                                0xffe9f5db),
+                                                      ),
+                                                      child: const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 10.0),
+                                                        child: Center(
+                                                          child: AutoSizeText(
+                                                              "5gm 2xday"),
+                                                        ),
+                                                      )),
+                                                ),
+                                              ]),
+                                            ),
+                                          ),
+                                          ...aamaLakshanData.values
+                                              .map((lakshan) {
+                                            return ComplaintsRow(
+                                                screenWidth: screenWidth,
+                                                screenHeight: screenHeight,
+                                                label: lakshan["label"],
+                                                isSelected:
+                                                    lakshan["isSelected"],
+                                                onCheckPressed: () {
+                                                  setState(() {
+                                                    lakshan["isSelected"] =
+                                                        true;
                                                   });
-                                            })
-                                          ]),
-                                        ),
+                                                },
+                                                onCrossPressed: () {
+                                                  setState(() {
+                                                    lakshan["isSelected"] =
+                                                        false;
+                                                  });
+                                                });
+                                          })
+                                        ]),
                                       ),
                                     ),
                                   );
                                 },
                               ),
-                            ),
+                            )),
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 16.0,
@@ -488,12 +478,12 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
                                                   const Color(0xff0f6f03))),
-                                      onPressed: () async {
-                                        BlocProvider.of<AamaLakshanaBloc>(
-                                                context)
-                                            .add(GetAamaLakshana(
-                                                dayNumber:
-                                                    selectedDay.dayNumber));
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DashBoardPage()));
                                       },
                                       child: const Row(
                                         mainAxisAlignment:
@@ -612,10 +602,10 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                     SizedBox(
                       height: screenHeight * 0.01,
                     )
-                  ])
-            ],
-          )),
-    );
+                  ]),
+            )
+          ],
+        ));
   }
 }
 

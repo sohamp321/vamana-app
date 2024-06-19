@@ -86,9 +86,12 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
 // AamaLakshana Response: {"data":{"date":"19-06-2024","dose":"5","aruchi":true,"apakti":false,"nishteeva":true,"anilaMudata":false,"malaSanga":true,"gaurav":false}}
         if (response.statusCode == 200) {
           dev.log("AamaLakshana Response: ${response.body}");
-          var data = jsonDecode(response.body);
-          
-          emit(AamaLakshanaLoaded(aamaLakshanaDataRec: data["data"]));
+          if (response.body == "") {
+            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: null));
+          } else {
+            var data = jsonDecode(response.body);
+            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: data["data"]));
+          }
         }
       } catch (e) {
         emit(AamaLakshanaError(error: e.toString()));
