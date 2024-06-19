@@ -39,7 +39,7 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
 
         if (response.statusCode == 200) {
           dev.log("Create AamaLakshana Response: ${response.body}");
-          
+
           emit(AamaLakshanaCreated());
         }
       } catch (e) {
@@ -58,9 +58,21 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
     String? assessmentID = prefs.getString('assessmentID');
     String? userToken = prefs.getString('userToken');
 
+    dev.log("Getting AamaLakshana assessment ID: $assessmentID");
+    dev.log("Getting AamaLakshana user token: $userToken");
+
     if (assessmentID != null && userToken != null) {
       try {
         var url = Uri.parse('${dotenv.env["SERVER_URL"]}/fetchsingle');
+
+        var fetchBody = {
+          "id": assessmentID,
+          "assessmentName": "aamaLakshana",
+          "day": event.dayNumber
+        };
+        var _fetchBody = jsonEncode(fetchBody);
+
+        dev.log(_fetchBody);
 
         dev.log("Sending request to : $url");
         var response = await http.post(
@@ -69,17 +81,14 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: {
-            "id": assessmentID,
-            "assessmentName": "aamaLakshana",
-            "day": event.dayNumber
-          },
+          body: _fetchBody,
         );
-
+// AamaLakshana Response: {"data":{"date":"19-06-2024","dose":"5","aruchi":true,"apakti":false,"nishteeva":true,"anilaMudata":false,"malaSanga":true,"gaurav":false}}
         if (response.statusCode == 200) {
           dev.log("AamaLakshana Response: ${response.body}");
           var data = jsonDecode(response.body);
-          emit(AamaLakshanaLoaded(aamaLakshanaData: data));
+          
+          emit(AamaLakshanaLoaded(aamaLakshanaDataRec: data["data"]));
         }
       } catch (e) {
         emit(AamaLakshanaError(error: e.toString()));

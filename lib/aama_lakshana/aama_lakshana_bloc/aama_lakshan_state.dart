@@ -16,10 +16,10 @@ class AamaLakshanaLoading extends AamaLakshanaState {
 }
 
 class AamaLakshanaLoaded extends AamaLakshanaState {
-  final Map<String, dynamic>? aamaLakshanaData;
-  AamaLakshanaLoaded({required this.aamaLakshanaData});
+  final Map<String, dynamic>? aamaLakshanaDataRec;
+  AamaLakshanaLoaded({required this.aamaLakshanaDataRec});
   @override
-  List<Object?> get props => [aamaLakshanaData];
+  List<Object?> get props => [aamaLakshanaDataRec];
 }
 
 class AamaLakshanaCreated extends AamaLakshanaState {
