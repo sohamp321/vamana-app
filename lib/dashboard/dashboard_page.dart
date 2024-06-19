@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vamana_app/aama_lakshana/aama_lakshana_bloc/aama_lakshana_bloc.dart';
 import 'package:vamana_app/login/login_page.dart';
 import 'package:vamana_app/new_assessment/new_assessment_page.dart';
+import '../aama_lakshana/aama_lakshana_page.dart';
 import 'dashboard_bloc/dashboard_state.dart';
 import 'dashboard_bloc/dashboard_bloc.dart';
 import 'dashboard_bloc/dashboard_event.dart';
@@ -152,29 +154,41 @@ class AssessmentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-      child: Container(
-        
-        decoration: BoxDecoration(
-            color: const Color(0xffb5c99a),
-            borderRadius: BorderRadius.circular(20)),
-        height: screenHeight * 0.075,
-        width: screenWidth * 0.93,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Text(uhid ?? "UHID Error"),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Text(patientName ?? "Patient Name Error"),
-            )
-          ],
+      child: InkWell(
+        onTap: () async {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          if (assessmentID != null) {
+            prefs.setString("assessmentID", assessmentID!);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AamaLakshanaPage()));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+               const SnackBar(content: Text("Error: Assessment ID does not exist")));
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: const Color(0xffb5c99a),
+              borderRadius: BorderRadius.circular(20)),
+          height: screenHeight * 0.075,
+          width: screenWidth * 0.93,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(uhid ?? "UHID Error"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Text(patientName ?? "Patient Name Error"),
+              )
+            ],
+          ),
         ),
       ),
     );

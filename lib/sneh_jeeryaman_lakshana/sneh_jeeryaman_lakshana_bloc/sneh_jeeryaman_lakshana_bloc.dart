@@ -3,21 +3,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/new_assessment/new_assessment_bloc/new_assessment_state.dart';
 import "dart:developer" as dev;
-import "aama_lakshan_state.dart";
-import 'aama_lakshana_event.dart';
+import "sneh_jeeryaman_lakshana_state.dart";
+import 'sneh_jeeryaman_lakshana_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
-  AamaLakshanaBloc() : super(AamaLakshanaInitial()) {
-    on<CreateAamaLakshana>(_createAamaLakshana);
-    on<GetAamaLakshana>(_getAamaLakshana);
-    on<Day0AamaLakshana>(_firstPost);
+class SnehJeeryamanLakshanaBloc extends Bloc<SnehJeeryamanLakshanaEvent, SnehJeeryamanLakshanaState> {
+  SnehJeeryamanLakshanaBloc() : super(SnehJeeryamanLakshanaInitial()) {
+    on<CreateSnehJeeryamanLakshana>(_createSnehJeeryamanLakshana);
+    on<GetSnehJeeryamanLakshana>(_getSnehJeeryamanLakshana);
+    on<Day0SnehJeeryamanLakshana>(_firstPost);
   }
 
   void _firstPost(
-      Day0AamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(CreatingAamaLakshana());
+      Day0SnehJeeryamanLakshana event, Emitter<SnehJeeryamanLakshanaState> emit) async {
+    emit(CreatingSnehJeeryamanLakshana());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
@@ -30,7 +30,7 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
         dev.log("Sending request to : $url");
 
         Map<String, dynamic> aamaLakshanReq = {
-          "assessmentName": "aamaLakshana",
+          "assessmentName": "SnehJeeryamanLakshana",
           "day": "0",
           "id": assessmentID,
           "data": {}
@@ -46,25 +46,25 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
         );
 
         if (response.statusCode == 200) {
-          emit(AamaLakshanaInitial());
+          emit(SnehJeeryamanLakshanaInitial());
         }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(SnehJeeryamanLakshanaError(error: e.toString()));
       }
     } else {
-      emit(AamaLakshanaError(
+      emit(SnehJeeryamanLakshanaError(
           error: "User not logged in/ Assessment ID Invalid"));
     }
   }
 
-  void _createAamaLakshana(
-      CreateAamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(CreatingAamaLakshana());
+  void _createSnehJeeryamanLakshana(
+      CreateSnehJeeryamanLakshana event, Emitter<SnehJeeryamanLakshanaState> emit) async {
+    emit(CreatingSnehJeeryamanLakshana());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Creating AamaLakshana: ${json.encode(event.aamaLakshanaData)}");
+    dev.log("Creating SnehJeeryamanLakshana: ${json.encode(event.SnehJeeryamanLakshanaData)}");
 
     if (userToken != null) {
       try {
@@ -77,32 +77,32 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: jsonEncode(event.aamaLakshanaData),
+          body: jsonEncode(event.SnehJeeryamanLakshanaData),
         );
 
         if (response.statusCode == 200) {
-          dev.log("Create AamaLakshana Response: ${response.body}");
+          dev.log("Create SnehJeeryamanLakshana Response: ${response.body}");
 
-          emit(AamaLakshanaCreated());
+          emit(SnehJeeryamanLakshanaCreated());
         }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(SnehJeeryamanLakshanaError(error: e.toString()));
       }
     } else {
-      emit(AamaLakshanaError(error: "User not logged in"));
+      emit(SnehJeeryamanLakshanaError(error: "User not logged in"));
     }
   }
 
-  void _getAamaLakshana(
-      GetAamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(AamaLakshanaLoading());
+  void _getSnehJeeryamanLakshana(
+      GetSnehJeeryamanLakshana event, Emitter<SnehJeeryamanLakshanaState> emit) async {
+    emit(SnehJeeryamanLakshanaLoading());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? assessmentID = prefs.getString('assessmentID');
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Getting AamaLakshana assessment ID: $assessmentID");
-    dev.log("Getting AamaLakshana user token: $userToken");
+    dev.log("Getting SnehJeeryamanLakshana assessment ID: $assessmentID");
+    dev.log("Getting SnehJeeryamanLakshana user token: $userToken");
 
     if (assessmentID != null && userToken != null) {
       try {
@@ -110,7 +110,7 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
 
         var fetchBody = {
           "id": assessmentID,
-          "assessmentName": "aamaLakshana",
+          "assessmentName": "SnehJeeryamanLakshana",
           "day": event.dayNumber
         };
         var _fetchBody = jsonEncode(fetchBody);
@@ -127,21 +127,21 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
           body: _fetchBody,
         );
         if (response.statusCode == 200) {
-          dev.log("AamaLakshana Response: ${response.body}");
+          dev.log("SnehJeeryamanLakshana Response: ${response.body}");
           if (response.body == "") {
-            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: null));
+            emit(SnehJeeryamanLakshanaLoaded(SnehJeeryamanLakshanaDataRec: null));
           } else {
             var data = jsonDecode(response.body);
-            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: data["data"]));
+            emit(SnehJeeryamanLakshanaLoaded(SnehJeeryamanLakshanaDataRec: data["data"]));
           }
         }
         // } else {
-        //   emit(AamaLakshanaError(
+        //   emit(SnehJeeryamanLakshanaError(
         //       error:
         //           "Statude Code: ${response.statusCode} with error ${response.body}"));
         // }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(SnehJeeryamanLakshanaError(error: e.toString()));
       }
     }
   }

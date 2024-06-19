@@ -10,6 +10,12 @@ import 'package:vamana_app/login/login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:vamana_app/new_assessment/new_assessment_bloc/new_assessment_bloc.dart';
 import 'package:vamana_app/new_assessment/new_assessment_page.dart';
+import 'package:vamana_app/sneh_jeeryaman_lakshana/sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_bloc.dart';
+import 'package:vamana_app/sneh_jeeryaman_lakshana/sneh_jeeryaman_lakshana_page.dart';
+import 'package:vamana_app/yoga_lakshana/yoga_lakshana_bloc.dart/yoga_lakshana_bloc.dart';
+import 'package:vamana_app/yoga_lakshana/yoga_lakshana_page.dart';
+
+import 'dashboard/dashboard_bloc/dashboard_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +31,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => LoginBloc()..add(UserLoggedIn())),
-        // BlocProvider(create: (_) => DashBoardBloc())
+        BlocProvider(create: (_) => DashBoardBloc()),
         BlocProvider(create: (_) => NewAssessmentBloc()),
-        BlocProvider(create: (_) => AamaLakshanaBloc())
+        BlocProvider(create: (_) => AamaLakshanaBloc()),
+        BlocProvider(create: (_) => YogaLakshanaBloc()),
+        BlocProvider(create: (_) => SnehJeeryamanLakshanaBloc())
       ],  
       child: MaterialApp(
         title: 'Vamana App',
@@ -45,7 +53,7 @@ class MyApp extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is UserVerified) {
-              return AamaLakshanaPage();
+              return SnehJeeryamanLakshanaPage();
             } else if (state is CheckingUser) {
               return const CircularProgressIndicator.adaptive();
             } else {

@@ -3,21 +3,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/new_assessment/new_assessment_bloc/new_assessment_state.dart';
 import "dart:developer" as dev;
-import "aama_lakshan_state.dart";
-import 'aama_lakshana_event.dart';
+import "yoga_lakshana_state.dart";
+import 'yoga_lakshana_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
-  AamaLakshanaBloc() : super(AamaLakshanaInitial()) {
-    on<CreateAamaLakshana>(_createAamaLakshana);
-    on<GetAamaLakshana>(_getAamaLakshana);
-    on<Day0AamaLakshana>(_firstPost);
+class YogaLakshanaBloc extends Bloc<YogaLakshanaEvent, YogaLakshanaState> {
+  YogaLakshanaBloc() : super(YogaLakshanaInitial()) {
+    on<CreateYogaLakshana>(_createYogaLakshana);
+    on<GetYogaLakshana>(_getYogaLakshana);
+    on<Day0YogaLakshana>(_firstPost);
   }
 
   void _firstPost(
-      Day0AamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(CreatingAamaLakshana());
+      Day0YogaLakshana event, Emitter<YogaLakshanaState> emit) async {
+    emit(CreatingYogaLakshana());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
@@ -30,7 +30,7 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
         dev.log("Sending request to : $url");
 
         Map<String, dynamic> aamaLakshanReq = {
-          "assessmentName": "aamaLakshana",
+          "assessmentName": "YogaLakshana",
           "day": "0",
           "id": assessmentID,
           "data": {}
@@ -46,25 +46,27 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
         );
 
         if (response.statusCode == 200) {
-          emit(AamaLakshanaInitial());
+          emit(YogaLakshanaInitial());
         }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(YogaLakshanaError(error: e.toString()));
       }
     } else {
-      emit(AamaLakshanaError(
+      emit(YogaLakshanaError(
           error: "User not logged in/ Assessment ID Invalid"));
     }
   }
 
-  void _createAamaLakshana(
-      CreateAamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(CreatingAamaLakshana());
+  void _createYogaLakshana(
+      CreateYogaLakshana event, Emitter<YogaLakshanaState> emit) async {
+    emit(CreatingYogaLakshana());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Creating AamaLakshana: ${json.encode(event.aamaLakshanaData)}");
+    dev.log(event.YogaLakshanaData.toString());
+
+    dev.log("Creating YogaLakshana: ${json.encode(event.YogaLakshanaData)}");
 
     if (userToken != null) {
       try {
@@ -77,32 +79,32 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: jsonEncode(event.aamaLakshanaData),
+          body: jsonEncode(event.YogaLakshanaData),
         );
 
         if (response.statusCode == 200) {
-          dev.log("Create AamaLakshana Response: ${response.body}");
+          dev.log("Create YogaLakshana Response: ${response.body}");
 
-          emit(AamaLakshanaCreated());
+          emit(YogaLakshanaCreated());
         }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(YogaLakshanaError(error: e.toString()));
       }
     } else {
-      emit(AamaLakshanaError(error: "User not logged in"));
+      emit(YogaLakshanaError(error: "User not logged in"));
     }
   }
 
-  void _getAamaLakshana(
-      GetAamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(AamaLakshanaLoading());
+  void _getYogaLakshana(
+      GetYogaLakshana event, Emitter<YogaLakshanaState> emit) async {
+    emit(YogaLakshanaLoading());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? assessmentID = prefs.getString('assessmentID');
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Getting AamaLakshana assessment ID: $assessmentID");
-    dev.log("Getting AamaLakshana user token: $userToken");
+    dev.log("Getting YogaLakshana assessment ID: $assessmentID");
+    dev.log("Getting YogaLakshana user token: $userToken");
 
     if (assessmentID != null && userToken != null) {
       try {
@@ -110,7 +112,7 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
 
         var fetchBody = {
           "id": assessmentID,
-          "assessmentName": "aamaLakshana",
+          "assessmentName": "YogaLakshana",
           "day": event.dayNumber
         };
         var _fetchBody = jsonEncode(fetchBody);
@@ -127,21 +129,24 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
           body: _fetchBody,
         );
         if (response.statusCode == 200) {
-          dev.log("AamaLakshana Response: ${response.body}");
+          dev.log("YogaLakshana Response: ${response.body}");
           if (response.body == "") {
-            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: null));
+            emit(YogaLakshanaLoaded(
+                YogaLakshanaDataRec: null, selectedLakshana: event.dayNumber));
           } else {
             var data = jsonDecode(response.body);
-            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: data["data"]));
+            emit(YogaLakshanaLoaded(
+                YogaLakshanaDataRec: data["data"],
+                selectedLakshana: event.dayNumber));
           }
         }
         // } else {
-        //   emit(AamaLakshanaError(
+        //   emit(YogaLakshanaError(
         //       error:
         //           "Statude Code: ${response.statusCode} with error ${response.body}"));
         // }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(YogaLakshanaError(error: e.toString()));
       }
     }
   }

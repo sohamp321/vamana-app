@@ -12,8 +12,9 @@ class CreateAamaLakshana extends AamaLakshanaEvent {
   List<Object> get props => [aamaLakshanaData];
 }
 
-class GetAamaLakshana extends AamaLakshanaEvent {
+class Day0AamaLakshana extends AamaLakshanaEvent {}
 
+class GetAamaLakshana extends AamaLakshanaEvent {
   String dayNumber;
   GetAamaLakshana({required this.dayNumber});
   @override

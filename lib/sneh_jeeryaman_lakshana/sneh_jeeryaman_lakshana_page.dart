@@ -9,17 +9,18 @@ import 'dart:convert';
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'package:vamana_app/dashboard/dashboard_page.dart';
-import 'aama_lakshana_bloc/aama_lakshana_bloc.dart';
+import 'sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_bloc.dart';
 import 'package:vamana_app/login/login_page.dart';
 import "package:auto_size_text/auto_size_text.dart";
-import 'aama_lakshana_bloc/aama_lakshana_event.dart';
-import 'aama_lakshana_bloc/aama_lakshan_state.dart';
+import 'sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_event.dart';
+import 'sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_state.dart';
 
-class AamaLakshanaPage extends StatefulWidget {
-  const AamaLakshanaPage({super.key});
+class SnehJeeryamanLakshanaPage extends StatefulWidget {
+  const SnehJeeryamanLakshanaPage({super.key});
 
   @override
-  State<AamaLakshanaPage> createState() => _AamaLakshanaPageState();
+  State<SnehJeeryamanLakshanaPage> createState() =>
+      _SnehJeeryamanLakshanaPageState();
 }
 
 enum Days {
@@ -35,51 +36,33 @@ enum Days {
   const Days({required this.dayNumber});
 }
 
-class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
-  void getAaamaLakshana() async {
-    BlocProvider.of<AamaLakshanaBloc>(context)
-        .add(GetAamaLakshana(dayNumber: selectedDay.dayNumber));
+class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
+  void getASnehJeeryamanLakshana() async {
+    BlocProvider.of<SnehJeeryamanLakshanaBloc>(context)
+        .add(GetSnehJeeryamanLakshana(dayNumber: selectedDay.dayNumber));
   }
 
   @override
   void initState() {
-    BlocProvider.of<AamaLakshanaBloc>(context).add(Day0AamaLakshana());
-    BlocProvider.of<AamaLakshanaBloc>(context).stream.listen((state) {
+    BlocProvider.of<SnehJeeryamanLakshanaBloc>(context)
+        .add(Day0SnehJeeryamanLakshana());
+    BlocProvider.of<SnehJeeryamanLakshanaBloc>(context).stream.listen((state) {
       dev.log('Current state: $state');
     });
-    getAaamaLakshana();
+    getASnehJeeryamanLakshana();
     super.initState();
   }
 
-  Map<String, dynamic> aamaLakshanData = {
-    "aruchi": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
+  Map<String, dynamic> snehajeeryamanaLakshanaData = {
+    "trishna": {
+      "label": "Trishna (Excessive thirst)",
       "isSelected": null as bool?
     },
-    "apakti": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
-      "isSelected": null as bool?
-    },
-    "nishteeva": {
-      "label":
-          "Nishtheeva-Do you have urge for repetitive spitting/ excessive salivation?",
-      "isSelected": null as bool?
-    },
-    "anilaMudata": {
-      "label":
-          "Do you have any bothersome feeling of improper  passing of Flatus / stool?",
-      "isSelected": null as bool?
-    },
-    "malaSanga": {
-      "label":
-          "Mala sanga- Do you experience decreased sweating ? micturition or incomplete evacuation ? (already covered in srotodhalakshan part)",
-      "isSelected": null as bool?
-    },
-    "gaurav": {
-      "label":
-          "Gaurav- Do you ever experience unusual feeling of heaviness in the body?",
-      "isSelected": null as bool?
-    }
+    "daha": {"label": "Daha (Burning sensation)", "isSelected": null as bool?},
+    "bhrama": {"label": "Bhrama (Dizziness)", "isSelected": null as bool?},
+    "saad": {"label": "Saad (Nausea)", "isSelected": null as bool?},
+    "arati": {"label": "Arati (Dislike/aversion)", "isSelected": null as bool?},
+    "klama": {"label": "Klama (Fatigue)", "isSelected": null as bool?}
   };
 
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
@@ -119,26 +102,13 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
               height: screenHeight,
               fit: BoxFit.cover,
             ),
-            BlocListener<AamaLakshanaBloc, AamaLakshanaState>(
+            BlocListener<SnehJeeryamanLakshanaBloc, SnehJeeryamanLakshanaState>(
               listener: (context, state) {
-                if (state is AamaLakshanaLoaded) {
-                  if (state.aamaLakshanaDataRec != null) {
-                    setState(() {
-                      selectedDate = state.aamaLakshanaDataRec!["date"];
-                    });
-
-                    state.aamaLakshanaDataRec!.forEach((key, value) {
-                      if (key == "date") {
-                        selectedDate = value;
-                      } else if (key == "dose") {
-                        if (value == "3") {
-                          doseSelected = true;
-                        } else {
-                          doseSelected = false;
-                        }
-                      } else {
-                        aamaLakshanData[key]["isSelected"] = value;
-                      }
+                if (state is SnehJeeryamanLakshanaLoaded) {
+                  if (state.SnehJeeryamanLakshanaDataRec != null) {
+                
+                    state.SnehJeeryamanLakshanaDataRec!.forEach((key, value) {
+                      snehajeeryamanaLakshanaData[key]["isSelected"] = value;
                     });
                   }
                 }
@@ -151,7 +121,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                       padding: EdgeInsets.all(8.0),
                       child: Center(
                         child: AutoSizeText(
-                          "Aama Lakshana Assessment",
+                          "Sneha Jeeryamana Assessment",
                           minFontSize: 20,
                           style: TextStyle(
                               color: Color(0xff15400D),
@@ -169,24 +139,6 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                         height: screenHeight * 0.75,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: screenWidth * 0.025,
-                                  right: screenWidth * 0.025,
-                                  top: 8.0,
-                                  bottom: 8.0),
-                              child: const Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  "Deepana Pachana Yog",
-                                  minFontSize: 15,
-                                  style: TextStyle(
-                                    color: Color(0xff15400d),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Padding(
@@ -237,14 +189,12 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                     setState(() {
                                       selectedDay = newSelection.first;
                                       // Get Request of the day 1 data from server and update
-                                      aamaLakshanData.forEach((key, value) {
+                                      snehajeeryamanaLakshanaData
+                                          .forEach((key, value) {
                                         value["isSelected"] = null;
                                       });
-                                      doseSelected = null;
-                                      selectedDate = DateFormat("dd-MM-yyyy")
-                                          .format(DateTime.now());
 
-                                      getAaamaLakshana();
+                                      getASnehJeeryamanLakshana();
                                     });
                                   },
                                 ),
@@ -257,10 +207,10 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                               decoration: BoxDecoration(
                                   color: const Color(0xffb5c99a),
                                   borderRadius: BorderRadius.circular(20)),
-                              child: BlocBuilder<AamaLakshanaBloc,
-                                  AamaLakshanaState>(
+                              child: BlocBuilder<SnehJeeryamanLakshanaBloc,
+                                  SnehJeeryamanLakshanaState>(
                                 builder: (context, state) {
-                                  if (state is AamaLakshanaLoading) {
+                                  if (state is SnehJeeryamanLakshanaLoading) {
                                     return const Center(
                                         child: CircularProgressIndicator
                                             .adaptive());
@@ -272,152 +222,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(20)),
                                         child: Column(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 2.0, bottom: 2.0),
-                                            child: SizedBox(
-                                              height: screenHeight * 0.05,
-                                              child: Row(children: [
-                                                Container(
-                                                  height: screenHeight * 0.5,
-                                                  width: screenWidth * 0.595,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xff97a97c),
-                                                      border: Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400D)))),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    "Date",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () async {
-                                                    final DateTime? picked =
-                                                        await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
-                                                      firstDate: DateTime(1900),
-                                                      lastDate: DateTime(2100),
-                                                    );
-                                                    if (picked != null &&
-                                                        picked !=
-                                                            DateTime.now()) {
-                                                      setState(() {
-                                                        selectedDate =
-                                                            DateFormat(
-                                                                    'dd-MM-yyyy')
-                                                                .format(picked);
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.28,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      color: const Color(
-                                                          0xffe9f5db),
-                                                      child: Center(
-                                                        child:
-                                                            Text(selectedDate),
-                                                      )),
-                                                )
-                                              ]),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 2.0, bottom: 2.0),
-                                            child: SizedBox(
-                                              height: screenHeight * 0.05,
-                                              child: Row(children: [
-                                                Container(
-                                                  height: screenHeight * 0.5,
-                                                  width: screenWidth * 0.595,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xff97a97c),
-                                                      border: Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400D)))),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    "Dose",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      doseSelected = true;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.14,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: doseSelected ==
-                                                                true
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.5)
-                                                            : const Color(
-                                                                0xffe9f5db),
-                                                        border: const Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400d)),
-                                                        ),
-                                                      ),
-                                                      child: const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Center(
-                                                          child: AutoSizeText(
-                                                              "3gm 2xday"),
-                                                        ),
-                                                      )),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      doseSelected = false;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.14,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: doseSelected ==
-                                                                false
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.5)
-                                                            : const Color(
-                                                                0xffe9f5db),
-                                                      ),
-                                                      child: const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Center(
-                                                          child: AutoSizeText(
-                                                              "5gm 2xday"),
-                                                        ),
-                                                      )),
-                                                ),
-                                              ]),
-                                            ),
-                                          ),
-                                          ...aamaLakshanData.values
+                                          ...snehajeeryamanaLakshanaData.values
                                               .map((lakshan) {
                                             return ComplaintsRow(
                                                 screenWidth: screenWidth,
@@ -483,10 +288,10 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                         ],
                                       )),
                                   const Spacer(),
-                                  BlocConsumer<AamaLakshanaBloc,
-                                      AamaLakshanaState>(
+                                  BlocConsumer<SnehJeeryamanLakshanaBloc,
+                                      SnehJeeryamanLakshanaState>(
                                     listener: (context, state) {
-                                      if (state is AamaLakshanaError) {
+                                      if (state is SnehJeeryamanLakshanaError) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                                 content: Text(
@@ -494,7 +299,8 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                       }
                                     },
                                     builder: (context, state) {
-                                      if (state is CreatingAamaLakshana) {
+                                      if (state
+                                          is CreatingSnehJeeryamanLakshana) {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
@@ -531,27 +337,27 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                                 "Does not exist");
 
                                             Map<String, dynamic>
-                                                aamaLakshanReq = {
-                                              "assessmentName": "aamaLakshana",
+                                                snehajeeryamanaLakshanaReq = {
+                                              "assessmentName":
+                                                  "SnehJeeryamanLakshana",
                                               "day": selectedDay.dayNumber,
                                               "id": assessmentID,
                                               "data": {
-                                                "date": selectedDate,
-                                                "dose": doseSelected == true
-                                                    ? "3"
-                                                    : "5",
-                                                ...aamaLakshanData.map(
-                                                    (key, value) => MapEntry(
-                                                        key,
-                                                        value["isSelected"]))
+                                                ...snehajeeryamanaLakshanaData
+                                                    .map((key, value) =>
+                                                        MapEntry(
+                                                            key,
+                                                            value[
+                                                                "isSelected"]))
                                               }
                                             };
                                             dev.log(state.toString());
-                                            BlocProvider.of<AamaLakshanaBloc>(
+                                            BlocProvider.of<
+                                                        SnehJeeryamanLakshanaBloc>(
                                                     context)
-                                                .add(CreateAamaLakshana(
-                                                    aamaLakshanaData:
-                                                        aamaLakshanReq));
+                                                .add(CreateSnehJeeryamanLakshana(
+                                                    SnehJeeryamanLakshanaData:
+                                                        snehajeeryamanaLakshanaReq));
                                           },
                                           child: const Row(
                                             mainAxisAlignment:
