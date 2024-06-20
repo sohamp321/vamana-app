@@ -34,8 +34,7 @@ enum yogaLakshana {
 
 class _YogaLakshanaPageState extends State<YogaLakshanaPage> {
   void getAYogaLakshana() async {
-    BlocProvider.of<YogaLakshanaBloc>(context)
-        .add(GetYogaLakshana(dayNumber: selectedYogaLakshana.yoga));
+    BlocProvider.of<YogaLakshanaBloc>(context).add(GetYogaLakshana());
   }
 
   @override
@@ -192,33 +191,26 @@ class _YogaLakshanaPageState extends State<YogaLakshanaPage> {
               fit: BoxFit.cover,
             ),
             BlocListener<YogaLakshanaBloc, YogaLakshanaState>(
-              // ! Change This
               listener: (context, state) {
                 if (state is YogaLakshanaLoaded) {
                   if (state.YogaLakshanaDataRec != null) {
-                    if (state.selectedLakshana == 'samyaka') {
-                      setState(() {
-                        state.YogaLakshanaDataRec!.forEach((key, value) {
-                          samayakYogaLakshanaData[key]["isSelected"] = value;
-                        });
+                    setState(() {
+                      state.YogaLakshanaDataRec!["samyaka"]
+                          .forEach((key, value) {
+                        samayakYogaLakshanaData[key]["isSelected"] = value;
                       });
-                    }
-                  } else if (state.YogaLakshanaDataRec != null) {
-                    if (state.selectedLakshana == 'ayoga') {
-                      setState(() {
-                        state.YogaLakshanaDataRec!.forEach((key, value) {
-                          ayogaLakshanaData[key]["isSelected"] = value;
-                        });
+                    });
+                    setState(() {
+                      state.YogaLakshanaDataRec!["ayoga"].forEach((key, value) {
+                        ayogaLakshanaData[key]["isSelected"] = value;
                       });
-                    }
-                  } else if (state.YogaLakshanaDataRec != null) {
-                    if (state.selectedLakshana == 'atiyoga') {
-                      setState(() {
-                        state.YogaLakshanaDataRec!.forEach((key, value) {
-                          atiyogaLakshanaData[key]["isSelected"] = value;
-                        });
+                    });
+                    setState(() {
+                      state.YogaLakshanaDataRec!["atiyoga"]
+                          .forEach((key, value) {
+                        atiyogaLakshanaData[key]["isSelected"] = value;
                       });
-                    }
+                    });
                   }
                 }
               },
@@ -286,12 +278,6 @@ class _YogaLakshanaPageState extends State<YogaLakshanaPage> {
                                     setState(() {
                                       selectedYogaLakshana = newSelection.first;
                                       // Get Request of the day 1 data from server and update
-                                      samayakYogaLakshanaData
-                                          .forEach((key, value) {
-                                        value["isSelected"] = null;
-                                      });
-
-                                      getAYogaLakshana();
                                     });
                                   },
                                 ),
@@ -483,27 +469,25 @@ class _YogaLakshanaPageState extends State<YogaLakshanaPage> {
                                             Map<String, dynamic>
                                                 aamaLakshanReq = {
                                               "assessmentName": "YogaLakshana",
-                                              "day": selectedYogaLakshana.yoga,
+                                              "day": "1",
                                               "id": assessmentID,
                                               "data": {
-                                                "samyaka": {
-                                                  samayakYogaLakshanaData.map(
-                                                      (key, value) => MapEntry(
-                                                          key,
-                                                          value["isSelected"]))
-                                                },
-                                                "ayoga": {
-                                                  ayogaLakshanaData.map(
-                                                      (key, value) => MapEntry(
-                                                          key,
-                                                          value["isSelected"]))
-                                                },
-                                                "atiyoga": {
-                                                  atiyogaLakshanaData.map(
-                                                      (key, value) => MapEntry(
-                                                          key,
-                                                          value["isSelected"]))
-                                                }
+                                                "samyaka":
+                                                    samayakYogaLakshanaData.map(
+                                                        (key, value) => MapEntry(
+                                                            key,
+                                                            value[
+                                                                "isSelected"])),
+                                                "ayoga": ayogaLakshanaData.map(
+                                                    (key, value) => MapEntry(
+                                                        key,
+                                                        value["isSelected"])),
+                                                "atiyoga": atiyogaLakshanaData
+                                                    .map((key, value) =>
+                                                        MapEntry(
+                                                            key,
+                                                            value[
+                                                                "isSelected"]))
                                               }
                                             };
                                             dev.log(state.toString());

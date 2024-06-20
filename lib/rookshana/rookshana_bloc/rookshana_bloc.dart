@@ -3,21 +3,22 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/new_assessment/new_assessment_bloc/new_assessment_state.dart';
 import "dart:developer" as dev;
-import "aama_lakshan_state.dart";
-import 'aama_lakshana_event.dart';
+import "rookshana_state.dart";
+import 'rookshana_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
-  AamaLakshanaBloc() : super(AamaLakshanaInitial()) {
-    on<CreateAamaLakshana>(_createAamaLakshana);
-    on<GetAamaLakshana>(_getAamaLakshana);
-    on<Day0AamaLakshana>(_firstPost);
+class RookshanaBloc
+    extends Bloc<RookshanaEvent, RookshanaState> {
+  RookshanaBloc() : super(RookshanaInitial()) {
+    on<CreateRookshana>(_createRookshana);
+    on<GetRookshana>(_getRookshana);
+    on<Day0Rookshana>(_firstPost);
   }
 
   void _firstPost(
-      Day0AamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(CreatingAamaLakshana());
+      Day0Rookshana event, Emitter<RookshanaState> emit) async {
+    emit(CreatingRookshana());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
@@ -29,8 +30,8 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
 
         dev.log("Sending request to : $url");
 
-        Map<String, dynamic> aamaLakshanReq = {
-          "assessmentName": "aamaLakshana",
+        Map<String, dynamic> RookshanaReq = {
+          "assessmentName": "Rookshana",
           "day": "0",
           "id": assessmentID,
           "data": {}
@@ -42,29 +43,30 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: jsonEncode(aamaLakshanReq),
+          body: jsonEncode(RookshanaReq),
         );
 
         if (response.statusCode == 200) {
-          emit(AamaLakshanaInitial());
+          emit(RookshanaInitial());
         }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(RookshanaError(error: e.toString()));
       }
     } else {
-      emit(AamaLakshanaError(
+      emit(RookshanaError(
           error: "User not logged in/ Assessment ID Invalid"));
     }
   }
 
-  void _createAamaLakshana(
-      CreateAamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(CreatingAamaLakshana());
+  void _createRookshana(
+      CreateRookshana event, Emitter<RookshanaState> emit) async {
+    emit(CreatingRookshana());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Creating AamaLakshana: ${json.encode(event.aamaLakshanaData)}");
+    dev.log(
+        "Creating Rookshana: ${json.encode(event.RookshanaData)}");
 
     if (userToken != null) {
       try {
@@ -77,32 +79,32 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: jsonEncode(event.aamaLakshanaData),
+          body: jsonEncode(event.RookshanaData),
         );
 
         if (response.statusCode == 200) {
-          dev.log("Create AamaLakshana Response: ${response.body}");
+          dev.log("Create Rookshana Response: ${response.body}");
 
-          emit(AamaLakshanaCreated());
+          emit(RookshanaCreated());
         }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(RookshanaError(error: e.toString()));
       }
     } else {
-      emit(AamaLakshanaError(error: "User not logged in"));
+      emit(RookshanaError(error: "User not logged in"));
     }
   }
 
-  void _getAamaLakshana(
-      GetAamaLakshana event, Emitter<AamaLakshanaState> emit) async {
-    emit(AamaLakshanaLoading());
+  void _getRookshana(
+      GetRookshana event, Emitter<RookshanaState> emit) async {
+    emit(RookshanaLoading());
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? assessmentID = prefs.getString('assessmentID');
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Getting AamaLakshana assessment ID: $assessmentID");
-    dev.log("Getting AamaLakshana user token: $userToken");
+    dev.log("Getting Rookshana assessment ID: $assessmentID");
+    dev.log("Getting Rookshana user token: $userToken");
 
     if (assessmentID != null && userToken != null) {
       try {
@@ -110,7 +112,7 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
 
         var fetchBody = {
           "id": assessmentID,
-          "assessmentName": "aamaLakshana",
+          "assessmentName": "Rookshana",
           "day": event.dayNumber
         };
         var _fetchBody = jsonEncode(fetchBody);
@@ -127,21 +129,21 @@ class AamaLakshanaBloc extends Bloc<AamaLakshanaEvent, AamaLakshanaState> {
           body: _fetchBody,
         );
         if (response.statusCode == 200) {
-          dev.log("AamaLakshana Response: ${response.body}");
+          dev.log("Rookshana Response: ${response.body}");
           if (response.body == "") {
-            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: null));
+            emit(RookshanaLoaded(RookshanaDataRec: null));
           } else {
-            var data = jsonDecode(response.body);
-            emit(AamaLakshanaLoaded(aamaLakshanaDataRec: data["data"]));
+            Map<String, dynamic> data = jsonDecode(response.body);
+            emit(RookshanaLoaded(RookshanaDataRec: data["data"]));
           }
         }
         // } else {
-        //   emit(AamaLakshanaError(
+        //   emit(RookshanaError(
         //       error:
         //           "Statude Code: ${response.statusCode} with error ${response.body}"));
         // }
       } catch (e) {
-        emit(AamaLakshanaError(error: e.toString()));
+        emit(RookshanaError(error: e.toString()));
       }
     }
   }

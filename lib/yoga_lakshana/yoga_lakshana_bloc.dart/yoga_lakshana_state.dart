@@ -17,10 +17,9 @@ class YogaLakshanaLoading extends YogaLakshanaState {
 
 class YogaLakshanaLoaded extends YogaLakshanaState {
   final Map<String, dynamic>? YogaLakshanaDataRec;
-  final String selectedLakshana;
-  YogaLakshanaLoaded({required this.YogaLakshanaDataRec, required this.selectedLakshana});
+  YogaLakshanaLoaded({required this.YogaLakshanaDataRec});
   @override
-  List<Object?> get props => [YogaLakshanaDataRec, selectedLakshana];
+  List<Object?> get props => [YogaLakshanaDataRec];
 }
 
 class YogaLakshanaCreated extends YogaLakshanaState {

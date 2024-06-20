@@ -9,84 +9,131 @@ import 'dart:convert';
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'package:vamana_app/dashboard/dashboard_page.dart';
-import 'aama_lakshana_bloc/aama_lakshana_bloc.dart';
+import 'rookshana_bloc/rookshana_bloc.dart';
 import 'package:vamana_app/login/login_page.dart';
 import "package:auto_size_text/auto_size_text.dart";
-import 'aama_lakshana_bloc/aama_lakshana_event.dart';
-import 'aama_lakshana_bloc/aama_lakshan_state.dart';
+import 'rookshana_bloc/rookshana_event.dart';
+import 'rookshana_bloc/rookshana_state.dart';
 
-class AamaLakshanaPage extends StatefulWidget {
-  const AamaLakshanaPage({super.key});
+class RookshanaPage extends StatefulWidget {
+  const RookshanaPage({super.key});
 
   @override
-  State<AamaLakshanaPage> createState() => _AamaLakshanaPageState();
+  State<RookshanaPage> createState() => _RookshanaPageState();
 }
 
 enum Days {
+  day0(dayNumber: "0"),
   day1(dayNumber: "1"),
   day2(dayNumber: "2"),
   day3(dayNumber: "3"),
   day4(dayNumber: "4"),
   day5(dayNumber: "5"),
   day6(dayNumber: "6"),
-  day7(dayNumber: "7");
+  day7(dayNumber: "7"),
+  day8(dayNumber: "8");
 
   final String dayNumber;
   const Days({required this.dayNumber});
 }
 
-class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
-  void getAaamaLakshana() async {
-    BlocProvider.of<AamaLakshanaBloc>(context)
-        .add(GetAamaLakshana(dayNumber: selectedDay.dayNumber));
+class _RookshanaPageState extends State<RookshanaPage> {
+  void getARookshana() async {
+    BlocProvider.of<RookshanaBloc>(context)
+        .add(GetRookshana(dayNumber: selectedDay.dayNumber));
   }
 
   @override
   void initState() {
-    BlocProvider.of<AamaLakshanaBloc>(context).add(Day0AamaLakshana());
-    BlocProvider.of<AamaLakshanaBloc>(context).stream.listen((state) {
+    BlocProvider.of<RookshanaBloc>(context).add(Day0Rookshana());
+    BlocProvider.of<RookshanaBloc>(context).stream.listen((state) {
       dev.log('Current state: $state');
     });
-    getAaamaLakshana();
+    getARookshana();
     super.initState();
   }
 
-  Map<String, dynamic> aamaLakshanData = {
-    "aruchi": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
-      "isSelected": null as bool?
-    },
-    "apakti": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
-      "isSelected": null as bool?
-    },
-    "nishteeva": {
+  Map<String, dynamic> giSymptoms = {
+    "vaataVisarga": {
       "label":
-          "Nishtheeva-Do you have urge for repetitive spitting/ excessive salivation?",
+          "Vaata Visarga (Free & Satisfactory Passage or Movement of Flatus / Gas )",
       "isSelected": null as bool?
     },
-    "anilaMudata": {
+    "mutraVisarga": {
       "label":
-          "Do you have any bothersome feeling of improper  passing of Flatus / stool?",
+          "Mutra visarga (Free & Satisfactory Passage or Movement of Urine)",
       "isSelected": null as bool?
     },
-    "malaSanga": {
+    "purishaVisarga": {
       "label":
-          "Mala sanga- Do you experience decreased sweating ? micturition or incomplete evacuation ? (already covered in srotodhalakshan part)",
+          "Purisha visarga (Free & Satisfactory Passage or Movement of Faces / Bowel Movements)",
+      "isSelected": null as bool?
+    }
+  };
+
+  Map<String, dynamic> physicalSymptoms = {
+    "kanthaShuddhi": {
+      "label": "Kantha Shuddhi(Clear Throat)",
       "isSelected": null as bool?
     },
-    "gaurav": {
+    "udgaraShuddhi": {
       "label":
-          "Gaurav- Do you ever experience unusual feeling of heaviness in the body?",
+          " Udgara Shuddhi(Clear Belching – Without Odour / Taste/ Other sensations )",
+      "isSelected": null as bool?
+    },
+    "aasyaShuddhi": {
+      "label": "Aasya Shuddhi(Clear Oral Cavity – Natural Feeling)",
+      "isSelected": null as bool?
+    },
+    "kshut": {
+      "label": "Kshut (Regular Appetite & Hunger)",
+      "isSelected": null as bool?
+    },
+    "trishna": {
+      "label": "Trishna (Regular Thirst)",
+      "isSelected": null as bool?
+    },
+    "ruchi": {
+      "label": "Ruchi (Relishing Consumed Food)",
+      "isSelected": null as bool?
+    }
+  };
+
+  Map<String, dynamic> functionalSymptoms = {
+    "hridhyaShuddhi": {
+      "label": "Hridhya Shuddhi (Calmness of Mind)",
+      "isSelected": null as bool?
+    },
+    "tandraNasha": {
+      "label": " Tandra Nasha(Feeling Non Drowsy)",
+      "isSelected": null as bool?
+    },
+    "klamaNasha": {
+      "label": "Klama Nasha (Feeling Energetic)",
+      "isSelected": null as bool?
+    },
+    "vimalendriyata": {
+      "label":
+          "Vimalendriyata with Manahprasada (Focussed Sensory Perception - Vision, Smell, Hearing, Touch)",
+      "isSelected": null as bool?
+    },
+    "trishna": {
+      "label": "Trishna (Regular Thirst)",
+      "isSelected": null as bool?
+    },
+    "gatraLaghava": {
+      "label": "Gatra Laghava(Physical , Weight)",
+      "isSelected": null as bool?
+    },
+    "vyadhiMardavam": {
+      "label": "Vyadhi Mardavam (Reduction in Symptoms of Disease)",
       "isSelected": null as bool?
     }
   };
 
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  bool? doseSelected = null;
-
-  Days selectedDay = Days.day1;
+  Days selectedDay = Days.day0;
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -119,26 +166,28 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
               height: screenHeight,
               fit: BoxFit.cover,
             ),
-            BlocListener<AamaLakshanaBloc, AamaLakshanaState>(
+            BlocListener<RookshanaBloc, RookshanaState>(
               listener: (context, state) {
-                if (state is AamaLakshanaLoaded) {
-                  if (state.aamaLakshanaDataRec != null) {
+                if (state is RookshanaLoaded) {
+                  if (state.RookshanaDataRec != null) {
                     setState(() {
-                      selectedDate = state.aamaLakshanaDataRec!["date"];
-                    });
-
-                    state.aamaLakshanaDataRec!.forEach((key, value) {
-                      if (key == "date") {
-                        selectedDate = value;
-                      } else if (key == "dose") {
-                        if (value == "3") {
-                          doseSelected = true;
-                        } else {
-                          doseSelected = false;
+                      state.RookshanaDataRec!.forEach((key, value) {
+                        if (key == "date") {
+                          selectedDate = value;
+                        } else if (key == "giSymptoms") {
+                          value.forEach((key1, value1) {
+                            giSymptoms[key1]["isSelected"] = value1;
+                          });
+                        } else if (key == "physicalSymptoms") {
+                          value.forEach((key2, value2) {
+                            physicalSymptoms[key2]["isSelected"] = value2;
+                          });
+                        } else if (key == "functional") {
+                          value.forEach((key3, value3) {
+                            functionalSymptoms[key3]["isSelected"] = value3;
+                          });
                         }
-                      } else {
-                        aamaLakshanData[key]["isSelected"] = value;
-                      }
+                      });
                     });
                   }
                 }
@@ -151,7 +200,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                       padding: EdgeInsets.all(8.0),
                       child: Center(
                         child: AutoSizeText(
-                          "Aama Lakshana Assessment",
+                          "Rookshana",
                           minFontSize: 20,
                           style: TextStyle(
                               color: Color(0xff15400D),
@@ -169,28 +218,11 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                         height: screenHeight * 0.75,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: screenWidth * 0.025,
-                                  right: screenWidth * 0.025,
-                                  top: 8.0,
-                                  bottom: 8.0),
-                              child: const Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  "Deepana Pachana Yog",
-                                  minFontSize: 15,
-                                  style: TextStyle(
-                                    color: Color(0xff15400d),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Padding(
                                 padding: EdgeInsets.only(
+                                    top: 8.0,
                                     left: screenWidth * 0.025,
                                     right: screenWidth * 0.025,
                                     bottom: 8.0),
@@ -203,6 +235,10 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                         const Color(0xff718355),
                                   ),
                                   segments: const <ButtonSegment<Days>>[
+                                    ButtonSegment<Days>(
+                                      value: Days.day0,
+                                      label: Text('Day 0'),
+                                    ),
                                     ButtonSegment<Days>(
                                       value: Days.day1,
                                       label: Text('Day 1'),
@@ -230,6 +266,10 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                     ButtonSegment<Days>(
                                       value: Days.day7,
                                       label: Text('Day 7'),
+                                    ),
+                                    ButtonSegment<Days>(
+                                      value: Days.day8,
+                                      label: Text('Day 8'),
                                     )
                                   ],
                                   selected: <Days>{selectedDay},
@@ -237,15 +277,19 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                     setState(() {
                                       selectedDay = newSelection.first;
                                       // Get Request of the day 1 data from server and update
-                                      aamaLakshanData.forEach((key, value) {
+                                      giSymptoms.forEach((key, value) {
                                         value["isSelected"] = null;
                                       });
-                                      doseSelected = null;
+                                      physicalSymptoms.forEach((key, value) {
+                                        value["isSelected"] = null;
+                                      });
+                                      functionalSymptoms.forEach((key, value) {
+                                        value["isSelected"] = null;
+                                      });
                                       selectedDate = DateFormat("dd-MM-yyyy")
                                           .format(DateTime.now());
-
-                                      getAaamaLakshana();
                                     });
+                                    getARookshana();
                                   },
                                 ),
                               ),
@@ -257,10 +301,9 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                               decoration: BoxDecoration(
                                   color: const Color(0xffb5c99a),
                                   borderRadius: BorderRadius.circular(20)),
-                              child: BlocBuilder<AamaLakshanaBloc,
-                                  AamaLakshanaState>(
+                              child: BlocBuilder<RookshanaBloc, RookshanaState>(
                                 builder: (context, state) {
-                                  if (state is AamaLakshanaLoading) {
+                                  if (state is RookshanaLoading) {
                                     return const Center(
                                         child: CircularProgressIndicator
                                             .adaptive());
@@ -329,95 +372,41 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                               ]),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 2.0, bottom: 2.0),
-                                            child: SizedBox(
-                                              height: screenHeight * 0.05,
-                                              child: Row(children: [
-                                                Container(
-                                                  height: screenHeight * 0.5,
-                                                  width: screenWidth * 0.595,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xff97a97c),
-                                                      border: Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400D)))),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    "Dose",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      doseSelected = true;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.14,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: doseSelected ==
-                                                                true
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.5)
-                                                            : const Color(
-                                                                0xffe9f5db),
-                                                        border: const Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400d)),
-                                                        ),
-                                                      ),
-                                                      child: const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Center(
-                                                          child: AutoSizeText(
-                                                              "3gm 2xday"),
-                                                        ),
-                                                      )),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      doseSelected = false;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.14,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: doseSelected ==
-                                                                false
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.5)
-                                                            : const Color(
-                                                                0xffe9f5db),
-                                                      ),
-                                                      child: const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Center(
-                                                          child: AutoSizeText(
-                                                              "5gm 2xday"),
-                                                        ),
-                                                      )),
-                                                ),
-                                              ]),
-                                            ),
+                                          const AutoSizeText(
+                                            "GI Symptoms",
+                                            minFontSize: 15,
+                                            style: TextStyle(
+                                                color: Color(0xff15400D),
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          ...aamaLakshanData.values
+                                          ...giSymptoms.values.map((lakshan) {
+                                            return ComplaintsRow(
+                                                screenWidth: screenWidth,
+                                                screenHeight: screenHeight,
+                                                label: lakshan["label"],
+                                                isSelected:
+                                                    lakshan["isSelected"],
+                                                onCheckPressed: () {
+                                                  setState(() {
+                                                    lakshan["isSelected"] =
+                                                        true;
+                                                  });
+                                                },
+                                                onCrossPressed: () {
+                                                  setState(() {
+                                                    lakshan["isSelected"] =
+                                                        false;
+                                                  });
+                                                });
+                                          }),
+                                          const AutoSizeText(
+                                            "Objective / Physical Symptoms",
+                                            minFontSize: 15,
+                                            style: TextStyle(
+                                                color: Color(0xff15400D),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          ...physicalSymptoms.values
                                               .map((lakshan) {
                                             return ComplaintsRow(
                                                 screenWidth: screenWidth,
@@ -437,7 +426,33 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                                         false;
                                                   });
                                                 });
-                                          })
+                                          }),
+                                          const AutoSizeText(
+                                            "Functional (Involving-Manah)",
+                                            minFontSize: 15,
+                                            style: TextStyle(
+                                                color: Color(0xff15400D),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          ...functionalSymptoms.values.map(
+                                              (lakshan) => ComplaintsRow(
+                                                  screenWidth: screenWidth,
+                                                  screenHeight: screenHeight,
+                                                  label: lakshan["label"],
+                                                  isSelected:
+                                                      lakshan["isSelected"],
+                                                  onCheckPressed: () {
+                                                    setState(() {
+                                                      lakshan["isSelected"] =
+                                                          true;
+                                                    });
+                                                  },
+                                                  onCrossPressed: () {
+                                                    setState(() {
+                                                      lakshan["isSelected"] =
+                                                          false;
+                                                    });
+                                                  }))
                                         ]),
                                       ),
                                     ),
@@ -483,10 +498,9 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                         ],
                                       )),
                                   const Spacer(),
-                                  BlocConsumer<AamaLakshanaBloc,
-                                      AamaLakshanaState>(
+                                  BlocConsumer<RookshanaBloc, RookshanaState>(
                                     listener: (context, state) {
-                                      if (state is AamaLakshanaError) {
+                                      if (state is RookshanaError) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                                 content: Text(
@@ -494,7 +508,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                       }
                                     },
                                     builder: (context, state) {
-                                      if (state is CreatingAamaLakshana) {
+                                      if (state is CreatingRookshana) {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
@@ -530,28 +544,38 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                             dev.log(assessmentID ??
                                                 "Does not exist");
 
-                                            Map<String, dynamic>
-                                                aamaLakshanReq = {
-                                              "assessmentName": "aamaLakshana",
+                                            Map<String, dynamic> RookshanaReq =
+                                                {
+                                              "assessmentName": "Rookshana",
                                               "day": selectedDay.dayNumber,
                                               "id": assessmentID,
                                               "data": {
                                                 "date": selectedDate,
-                                                "dose": doseSelected == true
-                                                    ? "3"
-                                                    : "5",
-                                                ...aamaLakshanData.map(
+                                                "giSymptoms": giSymptoms.map(
                                                     (key, value) => MapEntry(
                                                         key,
-                                                        value["isSelected"]))
+                                                        value["isSelected"])),
+                                                "physicalSymptoms":
+                                                    physicalSymptoms.map((key,
+                                                            value) =>
+                                                        MapEntry(
+                                                            key,
+                                                            value[
+                                                                "isSelected"])),
+                                                "functional": functionalSymptoms
+                                                    .map((key, value) =>
+                                                        MapEntry(
+                                                            key,
+                                                            value[
+                                                                "isSelected"]))
                                               }
                                             };
                                             dev.log(state.toString());
-                                            BlocProvider.of<AamaLakshanaBloc>(
+                                            BlocProvider.of<RookshanaBloc>(
                                                     context)
-                                                .add(CreateAamaLakshana(
-                                                    aamaLakshanaData:
-                                                        aamaLakshanReq));
+                                                .add(CreateRookshana(
+                                                    RookshanaData:
+                                                        RookshanaReq));
                                           },
                                           child: const Row(
                                             mainAxisAlignment:

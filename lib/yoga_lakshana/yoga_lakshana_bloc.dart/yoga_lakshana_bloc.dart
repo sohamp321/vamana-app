@@ -113,7 +113,7 @@ class YogaLakshanaBloc extends Bloc<YogaLakshanaEvent, YogaLakshanaState> {
         var fetchBody = {
           "id": assessmentID,
           "assessmentName": "YogaLakshana",
-          "day": event.dayNumber
+          "day": "1"
         };
         var _fetchBody = jsonEncode(fetchBody);
 
@@ -132,12 +132,12 @@ class YogaLakshanaBloc extends Bloc<YogaLakshanaEvent, YogaLakshanaState> {
           dev.log("YogaLakshana Response: ${response.body}");
           if (response.body == "") {
             emit(YogaLakshanaLoaded(
-                YogaLakshanaDataRec: null, selectedLakshana: event.dayNumber));
+                YogaLakshanaDataRec: null));
           } else {
             var data = jsonDecode(response.body);
             emit(YogaLakshanaLoaded(
                 YogaLakshanaDataRec: data["data"],
-                selectedLakshana: event.dayNumber));
+                ));
           }
         }
         // } else {

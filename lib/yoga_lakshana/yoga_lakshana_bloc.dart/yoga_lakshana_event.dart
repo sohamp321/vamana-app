@@ -15,8 +15,7 @@ class CreateYogaLakshana extends YogaLakshanaEvent {
 class Day0YogaLakshana extends YogaLakshanaEvent {}
 
 class GetYogaLakshana extends YogaLakshanaEvent {
-  String dayNumber;
-  GetYogaLakshana({required this.dayNumber});
+
   @override
-  List<Object> get props => [dayNumber];
+  List<Object> get props => [];
 }
