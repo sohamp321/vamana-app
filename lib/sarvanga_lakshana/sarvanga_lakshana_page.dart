@@ -81,6 +81,99 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
       "isSelected": null as bool?
     }
   };
+  Map<String, dynamic> sarvangAbhyangaData = {
+  "oil": {
+    "label": "Oil",
+    "value": null as String?
+  },
+  "date": {
+    "label": "Date",
+    "value": null as DateTime?
+  },
+  "duration": {
+    "label": "Duration",
+    "value": null as String?
+  },
+  "observation": {
+    "label": "Observation",
+    "value": null as String?
+  },
+  "shramaha": {
+    "label": "Shramaha (Feeling Relaxed)",
+    "isSelected": null as bool?
+  },
+  "sutvak": {
+    "label": "Sutvak (Improved Softness of Skin)",
+    "isSelected": null as bool?
+  },
+  "swapna": {
+    "label": "Swapna (Having Improved Sleep)",
+    "isSelected": null as bool?
+  }
+};
+Map<String, dynamic> sarvangaSwedanaData = {
+  "date": {
+    "label": "Date",
+    "value": null as DateTime?
+  },
+  "duration": {
+    "label": "Duration - 5 to 10 minutes",
+    "value": null as String?
+  },
+  "observation": {
+    "label": "Observation (sign and Symptoms)",
+    "value": null as String?
+  },
+  "shitaUparama": {
+    "label": "Shita-uparama (Experiencing warmth in the body)",
+    "isSelected": null as bool?
+  },
+  "sanjaateSwede": {
+    "label": "Sanjaate swede (Induced sweating)",
+    "isSelected": null as bool?
+  },
+  "mardavam": {
+    "label": "Mardavam (Feeling of softness in body)",
+    "isSelected": null as bool?
+  },
+  "gauravNigraha": {
+    "label": "Gaurav-nigraha (Relief in heaviness of body)",
+    "isSelected": null as bool?
+  },
+  "cheshtayetAashu": {
+    "label": "Cheshtayet aashu (Feeling more active)",
+    "isSelected": null as bool?
+  },
+  "shulaUparama": {
+    "label": "Shula-uparama (Relief in body ache if present)",
+    "isSelected": null as bool?
+  },
+  "stambhaNigraha": {
+    "label": "Stambha-nigraha (Relief in stiffness if present)",
+    "isSelected": null as bool?
+  },
+  "bhaktaShradha": {
+    "label": "Bhakta-shradha (Increased appetite)",
+    "isSelected": null as bool?
+  },
+  "tandraNidraHani": {
+    "label": "Tandra-nidra hani (Decreased or loss in the intensity of somnolence/feeling sleepy)",
+    "isSelected": null as bool?
+  },
+  "strotasaamNirmalatvam": {
+    "label": "Strotasaam nirmalatvam (Clarity of external channels)",
+    "isSelected": null as bool?
+  },
+  "anyOtherObservation": {
+    "label": "Any other observation",
+    "value": null as String?
+  },
+  "aahara": {
+    "label": "Aahara (Diet Taken)",
+    "value": null as String?
+  }
+};
+
 
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
@@ -130,13 +223,8 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
                     state.SarvangaLakshanaDataRec!.forEach((key, value) {
                       if (key == "date") {
                         selectedDate = value;
-                      } else if (key == "dose") {
-                        if (value == "3") {
-                          doseSelected = true;
-                        } else {
-                          doseSelected = false;
-                        }
-                      } else {
+                      } 
+                      else {
                         sarvangaLakshanaData[key]["isSelected"] = value;
                       }
                     });
@@ -151,7 +239,7 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
                       padding: EdgeInsets.all(8.0),
                       child: Center(
                         child: AutoSizeText(
-                          "Aama Lakshana Assessment",
+                          "Sarvanga Lakshana Assessment",
                           minFontSize: 20,
                           style: TextStyle(
                               color: Color(0xff15400D),
@@ -417,7 +505,7 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
                                               ]),
                                             ),
                                           ),
-                                          ...sarvangaLakshanaData.values
+                                          ...sarvangaSwedanaData.values
                                               .map((lakshan) {
                                             return ComplaintsRow(
                                                 screenWidth: screenWidth,
@@ -437,11 +525,13 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
                                                         false;
                                                   });
                                                 });
+                                                
                                           })
                                         ]),
                                       ),
                                     ),
                                   );
+                                  
                                 },
                               ),
                             )),
