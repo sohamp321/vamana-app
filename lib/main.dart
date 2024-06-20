@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is UserVerified) {
-              return RookshanaPage();
+              return SnehpanaPage();
             } else if (state is CheckingUser) {
               return const CircularProgressIndicator.adaptive();
             } else {
