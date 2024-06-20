@@ -17,7 +17,6 @@ import 'package:vamana_app/yoga_lakshana/yoga_lakshana_page.dart';
 import 'package:vamana_app/sarvanga_lakshana/sarvanga_lakshana_bloc/sarvanga_lakshana_bloc.dart';
 import 'package:vamana_app/sarvanga_lakshana/sarvanga_lakshana_page.dart';
 
-
 import 'dashboard/dashboard_bloc/dashboard_bloc.dart';
 
 void main() async {
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => YogaLakshanaBloc()),
         BlocProvider(create: (_) => SnehJeeryamanLakshanaBloc()),
         BlocProvider(create: (_) => SarvangaLakshanaBloc()),
-      ],  
+      ],
       child: MaterialApp(
         title: 'Vamana App',
         theme: ThemeData(
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is UserVerified) {
-              return SarvangaLakshanaPage();
+              return YogaLakshanaPage();
             } else if (state is CheckingUser) {
               return const CircularProgressIndicator.adaptive();
             } else {
@@ -69,6 +68,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-

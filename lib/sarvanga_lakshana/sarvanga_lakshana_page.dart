@@ -51,133 +51,71 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
     super.initState();
   }
 
-  Map<String, dynamic> sarvangaLakshanaData = {
-    "aruchi": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
+  Map<String, dynamic> sarvangAbhyangaData = {
+    "shramaha": {
+      "label": "Shramaha (Feeling Relaxed)",
       "isSelected": null as bool?
     },
-    "apakti": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
+    "sutvak": {
+      "label": "Sutvak (Improved Softness of Skin)",
       "isSelected": null as bool?
     },
-    "nishteeva": {
-      "label":
-          "Nishtheeva-Do you have urge for repetitive spitting/ excessive salivation?",
-      "isSelected": null as bool?
-    },
-    "anilaMudata": {
-      "label":
-          "Do you have any bothersome feeling of improper  passing of Flatus / stool?",
-      "isSelected": null as bool?
-    },
-    "malaSanga": {
-      "label":
-          "Mala sanga- Do you experience decreased sweating ? micturition or incomplete evacuation ? (already covered in srotodhalakshan part)",
-      "isSelected": null as bool?
-    },
-    "gaurav": {
-      "label":
-          "Gaurav- Do you ever experience unusual feeling of heaviness in the body?",
+    "swapna": {
+      "label": "Swapna (Having Improved Sleep)",
       "isSelected": null as bool?
     }
   };
-  Map<String, dynamic> sarvangAbhyangaData = {
-  "oil": {
-    "label": "Oil",
-    "value": null as String?
-  },
-  "date": {
-    "label": "Date",
-    "value": null as DateTime?
-  },
-  "duration": {
-    "label": "Duration",
-    "value": null as String?
-  },
-  "observation": {
-    "label": "Observation",
-    "value": null as String?
-  },
-  "shramaha": {
-    "label": "Shramaha (Feeling Relaxed)",
-    "isSelected": null as bool?
-  },
-  "sutvak": {
-    "label": "Sutvak (Improved Softness of Skin)",
-    "isSelected": null as bool?
-  },
-  "swapna": {
-    "label": "Swapna (Having Improved Sleep)",
-    "isSelected": null as bool?
-  }
-};
-Map<String, dynamic> sarvangaSwedanaData = {
-  "date": {
-    "label": "Date",
-    "value": null as DateTime?
-  },
-  "duration": {
-    "label": "Duration - 5 to 10 minutes",
-    "value": null as String?
-  },
-  "observation": {
-    "label": "Observation (sign and Symptoms)",
-    "value": null as String?
-  },
-  "shitaUparama": {
-    "label": "Shita-uparama (Experiencing warmth in the body)",
-    "isSelected": null as bool?
-  },
-  "sanjaateSwede": {
-    "label": "Sanjaate swede (Induced sweating)",
-    "isSelected": null as bool?
-  },
-  "mardavam": {
-    "label": "Mardavam (Feeling of softness in body)",
-    "isSelected": null as bool?
-  },
-  "gauravNigraha": {
-    "label": "Gaurav-nigraha (Relief in heaviness of body)",
-    "isSelected": null as bool?
-  },
-  "cheshtayetAashu": {
-    "label": "Cheshtayet aashu (Feeling more active)",
-    "isSelected": null as bool?
-  },
-  "shulaUparama": {
-    "label": "Shula-uparama (Relief in body ache if present)",
-    "isSelected": null as bool?
-  },
-  "stambhaNigraha": {
-    "label": "Stambha-nigraha (Relief in stiffness if present)",
-    "isSelected": null as bool?
-  },
-  "bhaktaShradha": {
-    "label": "Bhakta-shradha (Increased appetite)",
-    "isSelected": null as bool?
-  },
-  "tandraNidraHani": {
-    "label": "Tandra-nidra hani (Decreased or loss in the intensity of somnolence/feeling sleepy)",
-    "isSelected": null as bool?
-  },
-  "strotasaamNirmalatvam": {
-    "label": "Strotasaam nirmalatvam (Clarity of external channels)",
-    "isSelected": null as bool?
-  },
-  "anyOtherObservation": {
-    "label": "Any other observation",
-    "value": null as String?
-  },
-  "aahara": {
-    "label": "Aahara (Diet Taken)",
-    "value": null as String?
-  }
-};
 
+  Map<String, dynamic> sarvangaSwedanaData = {
+    "shitaUparama": {
+      "label": "Shita-uparama (Experiencing warmth in the body)",
+      "isSelected": null as bool?
+    },
+    "sanjaateSwede": {
+      "label": "Sanjaate swede (Induced sweating)",
+      "isSelected": null as bool?
+    },
+    "mardavam": {
+      "label": "Mardavam (Feeling of softness in body)",
+      "isSelected": null as bool?
+    },
+    "gauravNigraha": {
+      "label": "Gaurav-nigraha (Relief in heaviness of body)",
+      "isSelected": null as bool?
+    },
+    "cheshtayetAashu": {
+      "label": "Cheshtayet aashu (Feeling more active)",
+      "isSelected": null as bool?
+    },
+    "shulaUparama": {
+      "label": "Shula-uparama (Relief in body ache if present)",
+      "isSelected": null as bool?
+    },
+    "stambhaNigraha": {
+      "label": "Stambha-nigraha (Relief in stiffness if present)",
+      "isSelected": null as bool?
+    },
+    "bhaktaShradha": {
+      "label": "Bhakta-shradha (Increased appetite)",
+      "isSelected": null as bool?
+    },
+    "tandraNidraHani": {
+      "label":
+          "Tandra-nidra hani (Decreased or loss in the intensity of somnolence/feeling sleepy)",
+      "isSelected": null as bool?
+    },
+    "strotasaamNirmalatvam": {
+      "label": "Strotasaam nirmalatvam (Clarity of external channels)",
+      "isSelected": null as bool?
+    },
+  };
 
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  bool? doseSelected = null;
+  final TextEditingController abhyangaDuration = TextEditingController();
+  final TextEditingController swedanaDuration = TextEditingController();
+  final TextEditingController otherObservation = TextEditingController();
+  final TextEditingController aahara = TextEditingController();
 
   Days selectedDay = Days.day1;
   @override
@@ -217,16 +155,31 @@ Map<String, dynamic> sarvangaSwedanaData = {
                 if (state is SarvangaLakshanaLoaded) {
                   if (state.SarvangaLakshanaDataRec != null) {
                     setState(() {
-                      selectedDate = state.SarvangaLakshanaDataRec!["date"];
-                    });
-
-                    state.SarvangaLakshanaDataRec!.forEach((key, value) {
-                      if (key == "date") {
-                        selectedDate = value;
-                      } 
-                      else {
-                        sarvangaLakshanaData[key]["isSelected"] = value;
-                      }
+                      state.SarvangaLakshanaDataRec!.forEach((key, value) {
+                        if (key == "date") {
+                          selectedDate = value;
+                        } else if (key == "otherObservations") {
+                          otherObservation.text = value;
+                        } else if (key == "ahara") {
+                          aahara.text = value;
+                        } else if (key == "sarvangaAbhyanga") {
+                          value.forEach((key1, value1) {
+                            if (key1 == "duration") {
+                              abhyangaDuration.text = value1;
+                            } else {
+                              sarvangAbhyangaData[key1]["isSelected"] = value1;
+                            }
+                          });
+                        } else if (key == "sarvangaSwedana") {
+                          value.forEach((key2, value2) {
+                            if (key2 == "duration") {
+                              swedanaDuration.text = value2;
+                            } else {
+                              sarvangaSwedanaData[key2]["isSelected"] = value2;
+                            }
+                          });
+                        }
+                      });
                     });
                   }
                 }
@@ -257,28 +210,11 @@ Map<String, dynamic> sarvangaSwedanaData = {
                         height: screenHeight * 0.75,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: screenWidth * 0.025,
-                                  right: screenWidth * 0.025,
-                                  top: 8.0,
-                                  bottom: 8.0),
-                              child: const Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  "Deepana Pachana Yog",
-                                  minFontSize: 15,
-                                  style: TextStyle(
-                                    color: Color(0xff15400d),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Padding(
                                 padding: EdgeInsets.only(
+                                    top: 8.0,
                                     left: screenWidth * 0.025,
                                     right: screenWidth * 0.025,
                                     bottom: 8.0),
@@ -325,15 +261,20 @@ Map<String, dynamic> sarvangaSwedanaData = {
                                     setState(() {
                                       selectedDay = newSelection.first;
                                       // Get Request of the day 1 data from server and update
-                                      sarvangaLakshanaData.forEach((key, value) {
+                                      sarvangaSwedanaData.forEach((key, value) {
                                         value["isSelected"] = null;
                                       });
-                                      doseSelected = null;
+                                      sarvangAbhyangaData.forEach((key, value) {
+                                        value["isSelected"] = null;
+                                      });
                                       selectedDate = DateFormat("dd-MM-yyyy")
                                           .format(DateTime.now());
-
-                                      getASarvangaLakshana();
+                                      abhyangaDuration.clear();
+                                      swedanaDuration.clear();
+                                      otherObservation.clear();
+                                      aahara.clear();
                                     });
+                                    getASarvangaLakshana();
                                   },
                                 ),
                               ),
@@ -417,93 +358,55 @@ Map<String, dynamic> sarvangaSwedanaData = {
                                               ]),
                                             ),
                                           ),
+                                          const AutoSizeText(
+                                            "Sarvanga Abhyanga Oil",
+                                            minFontSize: 15,
+                                            style: TextStyle(
+                                                color: Color(0xff15400D),
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 2.0, bottom: 2.0),
-                                            child: SizedBox(
-                                              height: screenHeight * 0.05,
-                                              child: Row(children: [
-                                                Container(
-                                                  height: screenHeight * 0.5,
-                                                  width: screenWidth * 0.595,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xff97a97c),
-                                                      border: Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400D)))),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    "Dose",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      doseSelected = true;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.14,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: doseSelected ==
-                                                                true
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.5)
-                                                            : const Color(
-                                                                0xffe9f5db),
-                                                        border: const Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400d)),
-                                                        ),
-                                                      ),
-                                                      child: const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Center(
-                                                          child: AutoSizeText(
-                                                              "3gm 2xday"),
-                                                        ),
-                                                      )),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      doseSelected = false;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                      width: screenWidth * 0.14,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: doseSelected ==
-                                                                false
-                                                            ? Colors.green
-                                                                .withOpacity(
-                                                                    0.5)
-                                                            : const Color(
-                                                                0xffe9f5db),
-                                                      ),
-                                                      child: const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10.0),
-                                                        child: Center(
-                                                          child: AutoSizeText(
-                                                              "5gm 2xday"),
-                                                        ),
-                                                      )),
-                                                ),
-                                              ]),
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextField(
+                                              controller: abhyangaDuration,
+                                              decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  label: Text("Duration")),
                                             ),
+                                          ),
+                                          ...sarvangAbhyangaData.values
+                                              .map((lakshan) {
+                                            return ComplaintsRow(
+                                                screenWidth: screenWidth,
+                                                screenHeight: screenHeight,
+                                                label: lakshan["label"],
+                                                isSelected:
+                                                    lakshan["isSelected"],
+                                                onCheckPressed: () {
+                                                  setState(() {
+                                                    lakshan["isSelected"] =
+                                                        true;
+                                                  });
+                                                },
+                                                onCrossPressed: () {
+                                                  setState(() {
+                                                    lakshan["isSelected"] =
+                                                        false;
+                                                  });
+                                                });
+                                          }),
+                                          const AutoSizeText(
+                                            "Sarvanga Swedana with",
+                                            minFontSize: 15,
+                                            style: TextStyle(
+                                                color: Color(0xff15400D),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          TextField(
+                                            controller: swedanaDuration,
+                                            decoration: const InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                label: Text("Duration")),
                                           ),
                                           ...sarvangaSwedanaData.values
                                               .map((lakshan) {
@@ -525,13 +428,31 @@ Map<String, dynamic> sarvangaSwedanaData = {
                                                         false;
                                                   });
                                                 });
-                                                
-                                          })
+                                          }),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextField(
+                                              controller: otherObservation,
+                                              decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  label: Text(
+                                                      "Any Other Observation")),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextField(
+                                              controller: aahara,
+                                              decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  label: Text(
+                                                      "Aahara (Diet Taken)")),
+                                            ),
+                                          ),
                                         ]),
                                       ),
                                     ),
                                   );
-                                  
                                 },
                               ),
                             )),
@@ -622,22 +543,36 @@ Map<String, dynamic> sarvangaSwedanaData = {
 
                                             Map<String, dynamic>
                                                 sarvangaLakshanaReq = {
-                                              "assessmentName": "SarvangaLakshana",
+                                              "assessmentName":
+                                                  "SarvangaLakshana",
                                               "day": selectedDay.dayNumber,
                                               "id": assessmentID,
                                               "data": {
                                                 "date": selectedDate,
-                                                "dose": doseSelected == true
-                                                    ? "3"
-                                                    : "5",
-                                                ...sarvangaLakshanaData.map(
-                                                    (key, value) => MapEntry(
-                                                        key,
-                                                        value["isSelected"]))
+                                                "sarvangaAbhyanga": {
+                                                  "duration":
+                                                      abhyangaDuration.text,
+                                                  ...sarvangAbhyangaData.map(
+                                                      (key, value) => MapEntry(
+                                                          key,
+                                                          value["isSelected"]))
+                                                },
+                                                "sarvangaSwedana": {
+                                                  "duration":
+                                                      abhyangaDuration.text,
+                                                  ...sarvangaSwedanaData.map(
+                                                      (key, value) => MapEntry(
+                                                          key,
+                                                          value["isSelected"])),
+                                                },
+                                                "otherObservations":
+                                                    otherObservation.text,
+                                                "ahara": aahara.text
                                               }
                                             };
                                             dev.log(state.toString());
-                                            BlocProvider.of<SarvangaLakshanaBloc>(
+                                            BlocProvider.of<
+                                                        SarvangaLakshanaBloc>(
                                                     context)
                                                 .add(CreateSarvangaLakshana(
                                                     SarvangaLakshanaData:

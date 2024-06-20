@@ -485,24 +485,26 @@ class _YogaLakshanaPageState extends State<YogaLakshanaPage> {
                                               "assessmentName": "YogaLakshana",
                                               "day": selectedYogaLakshana.yoga,
                                               "id": assessmentID,
-                                              "data": selectedYogaLakshana ==
-                                                      yogaLakshana.samyak
-                                                  ? samayakYogaLakshanaData.map(
+                                              "data": {
+                                                "samyaka": {
+                                                  samayakYogaLakshanaData.map(
                                                       (key, value) => MapEntry(
                                                           key,
                                                           value["isSelected"]))
-                                                  : selectedYogaLakshana ==
-                                                          yogaLakshana.ayoga
-                                                      ? ayogaLakshanaData.map(
-                                                          (key, value) => MapEntry(
-                                                              key,
-                                                              value[
-                                                                  "isSelected"]))
-                                                      : atiyogaLakshanaData.map(
-                                                          (key, value) => MapEntry(
-                                                              key,
-                                                              value[
-                                                                  "isSelected"]))
+                                                },
+                                                "ayoga": {
+                                                  ayogaLakshanaData.map(
+                                                      (key, value) => MapEntry(
+                                                          key,
+                                                          value["isSelected"]))
+                                                },
+                                                "atiyoga": {
+                                                  atiyogaLakshanaData.map(
+                                                      (key, value) => MapEntry(
+                                                          key,
+                                                          value["isSelected"]))
+                                                }
+                                              }
                                             };
                                             dev.log(state.toString());
                                             BlocProvider.of<YogaLakshanaBloc>(

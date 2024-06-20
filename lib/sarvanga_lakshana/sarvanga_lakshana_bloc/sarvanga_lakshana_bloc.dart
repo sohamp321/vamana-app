@@ -8,7 +8,8 @@ import 'sarvanga_lakshana_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-class SarvangaLakshanaBloc extends Bloc<SarvangaLakshanaEvent, SarvangaLakshanaState> {
+class SarvangaLakshanaBloc
+    extends Bloc<SarvangaLakshanaEvent, SarvangaLakshanaState> {
   SarvangaLakshanaBloc() : super(SarvangaLakshanaInitial()) {
     on<CreateSarvangaLakshana>(_createSarvangaLakshana);
     on<GetSarvangaLakshana>(_getSarvangaLakshana);
@@ -64,7 +65,8 @@ class SarvangaLakshanaBloc extends Bloc<SarvangaLakshanaEvent, SarvangaLakshanaS
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userToken = prefs.getString('userToken');
 
-    dev.log("Creating SarvangaLakshana: ${json.encode(event.SarvangaLakshanaData)}");
+    dev.log(
+        "Creating SarvangaLakshana: ${json.encode(event.SarvangaLakshanaData)}");
 
     if (userToken != null) {
       try {
@@ -131,7 +133,7 @@ class SarvangaLakshanaBloc extends Bloc<SarvangaLakshanaEvent, SarvangaLakshanaS
           if (response.body == "") {
             emit(SarvangaLakshanaLoaded(SarvangaLakshanaDataRec: null));
           } else {
-            var data = jsonDecode(response.body);
+            Map<String, dynamic> data = jsonDecode(response.body);
             emit(SarvangaLakshanaLoaded(SarvangaLakshanaDataRec: data["data"]));
           }
         }
