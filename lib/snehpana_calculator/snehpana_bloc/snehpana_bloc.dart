@@ -3,8 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/new_assessment/new_assessment_bloc/new_assessment_state.dart';
 import "dart:developer" as dev;
-import "aama_lakshan_state.dart";
-import 'aama_lakshana_event.dart';
+import "snehpana_state.dart";
+import '../snehpana_bloc/snehpana_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 

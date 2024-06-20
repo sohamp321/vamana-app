@@ -16,8 +16,10 @@ import 'package:vamana_app/yoga_lakshana/yoga_lakshana_bloc.dart/yoga_lakshana_b
 import 'package:vamana_app/yoga_lakshana/yoga_lakshana_page.dart';
 import 'package:vamana_app/sarvanga_lakshana/sarvanga_lakshana_bloc/sarvanga_lakshana_bloc.dart';
 import 'package:vamana_app/sarvanga_lakshana/sarvanga_lakshana_page.dart';
+import 'package:vamana_app/snehpana_calculator/snehpana_page.dart';
 
 import 'dashboard/dashboard_bloc/dashboard_bloc.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is UserVerified) {
-              return YogaLakshanaPage();
+              return SnehpanaPage();
             } else if (state is CheckingUser) {
               return const CircularProgressIndicator.adaptive();
             } else {
