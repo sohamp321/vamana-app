@@ -82,6 +82,7 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
               height: screenHeight,
               fit: BoxFit.cover,
             ),
+            
             Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -170,44 +171,51 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
                               ),
                             ),
                           
-                            Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: TextField(
-                                      controller: _doseController,
-                                      decoration: InputDecoration(
-                                        labelText: 'Enter dose in ml',
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: TextField(
-                                      controller: _digestiveHoursController,
-                                      decoration: InputDecoration(
-                                        labelText: 'Enter digestive hours',
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      double dose = double.parse(_doseController.text);
-                                      double digestiveHours = double.parse(_digestiveHoursController.text);
-                                      setState(() {
-                                        _calculatedDose = calculateSnehpanaDose(selectedDay,dose, digestiveHours);
-                                      });
-                                    },
-                                    child: Text('Calculate'),
-                                  ),
-                                  if (_calculatedDose != null)
+                              Container(
+                                height: screenHeight * 0.5,
+                                width: screenWidth * 0.9,
+                                child: Column(
+                                  children: <Widget>[
                                     Padding(
                                       padding: EdgeInsets.all(8.0),
-                                      child: Text('Calculated Dose: ${_calculatedDose!.toStringAsFixed(2)} ml'),
+                                      child: TextField(
+                                        controller: _doseController,
+                                        decoration: InputDecoration(
+                                          labelText: 'Enter dose in ml',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                      ),
                                     ),
-                                  
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: TextField(
+                                        controller: _digestiveHoursController,
+                                        decoration: InputDecoration(
+                                          labelText: 'Enter digestive hours',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        double dose = double.parse(_doseController.text);
+                                        double digestiveHours = double.parse(_digestiveHoursController.text);
+                                        setState(() {
+                                          _calculatedDose = calculateSnehpanaDose(selectedDay, dose, digestiveHours);
+                                        });
+                                      },
+                                      child: Text('Calculate'),
+                                    ),
+                                    if (_calculatedDose != null)
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text('Calculated Dose: ${_calculatedDose!.toStringAsFixed(2)} ml'),
+                                      ),
+                                  ],
+                                ),
+                              ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 16.0,
@@ -245,7 +253,7 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
                                           )
                                         ],
                                       )),
-                                  const Spacer(),
+                      
                                   
                                   
                                           
