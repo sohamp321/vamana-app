@@ -8,6 +8,7 @@ import "dart:developer" as dev;
 import 'dart:convert';
 import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
+import 'package:vamana_app/components/widgets.dart';
 import 'package:vamana_app/dashboard/dashboard_page.dart';
 import 'aama_lakshana_bloc/aama_lakshana_bloc.dart';
 import 'package:vamana_app/login/login_page.dart';
@@ -94,23 +95,8 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.clear();
-
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                      (route) => false);
-                },
-                icon: const Icon(Icons.logout_rounded))
-          ],
-        ),
+        appBar: VamanaAppBar(),
+        drawer: VamanaDrawer(),
         body: Stack(
           children: [
             Image.asset(

@@ -35,6 +35,6 @@ class RookshanaError extends RookshanaState {
 }
 
 class CreatingRookshana extends RookshanaState {
-   @override
+  @override
   List<Object> get props => [];
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/aama_lakshana/aama_lakshana_bloc/aama_lakshana_bloc.dart';
+import 'package:vamana_app/components/widgets.dart';
 import 'package:vamana_app/login/login_page.dart';
 import 'package:vamana_app/new_assessment/new_assessment_page.dart';
 import '../aama_lakshana/aama_lakshana_page.dart';
@@ -40,23 +41,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                prefs.clear();
-
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                    (route) => false);
-              },
-              icon: const Icon(Icons.logout_rounded))
-        ],
-      ),
+      appBar: VamanaAppBar(),
+      drawer: VamanaDrawer(),
       body: BlocProvider(
         create: (context) => DashBoardBloc()..add(GetDashBoardData()),
         child: Stack(

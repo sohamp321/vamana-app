@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import "package:carousel_slider/carousel_slider.dart";
 import "package:intl/intl.dart";
 import "package:vamana_app/aama_lakshana/aama_lakshana_page.dart";
+import "package:vamana_app/components/widgets.dart";
 import "new_assessment_bloc/new_assessment_bloc.dart";
 import "new_assessment_bloc/new_assessment_event.dart";
 import "new_assessment_bloc/new_assessment_state.dart";
@@ -158,9 +159,8 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-        ),
+        appBar: VamanaAppBar(),
+        drawer: VamanaDrawer(),
         body: Stack(children: [
           Image.asset(
             "assets/images/bg1.jpg",

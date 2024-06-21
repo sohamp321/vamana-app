@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:shared_preferences/shared_preferences.dart";
+import 'package:vamana_app/components/widgets.dart';
 import 'package:vamana_app/dashboard/dashboard_page.dart';
 import 'package:vamana_app/login/login_page.dart';
 import "package:auto_size_text/auto_size_text.dart";
@@ -41,23 +42,8 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.clear();
-
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                      (route) => false);
-                },
-                icon: const Icon(Icons.logout_rounded))
-          ],
-        ),
+        appBar: const VamanaAppBar(),
+        drawer: const VamanaDrawer(),
         body: Stack(
           children: [
             Image.asset(
