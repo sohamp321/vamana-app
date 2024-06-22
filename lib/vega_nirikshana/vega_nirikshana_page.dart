@@ -514,37 +514,9 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                     top: 8.0,
                                     bottom: 8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    const Color(0xff0f6f03))),
-                                        onPressed: () {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DashBoardPage()));
-                                        },
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.arrow_back_rounded,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              "Back",
-                                              style:
-                                                  TextStyle(color: Colors.white),
-                                            )
-                                          ],
-                                        )),
-                                    const Spacer(),
+
                                     BlocConsumer<VegaNirikshanaBloc,
                                         VegaNirikshanaState>(
                                       listener: (context, state) {
@@ -616,22 +588,16 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                       VegaNirikshanaData:
                                                           aamaLakshanReq));
                                             },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                AutoSizeText(
-                                                  "Next",
+                                            child: SizedBox(
+                                              height: 50,
+                                              width: 80,
+                                              child: Center(
+                                                child: AutoSizeText(
+                                                  "Submit",
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_rounded,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
+                                              ),
                                             ));
                                       },
                                     ),

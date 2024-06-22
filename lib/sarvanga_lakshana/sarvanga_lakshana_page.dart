@@ -170,433 +170,404 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
                   }
                 }
               },
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: AutoSizeText(
-                          "Sarvanga Lakshana Assessment",
-                          minFontSize: 20,
-                          style: TextStyle(
-                              color: Color(0xff15400D),
-                              fontWeight: FontWeight.w900),
+              child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: screenHeight*0.195,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: AutoSizeText(
+                            "Sarvanga Lakshana Assessment",
+                            minFontSize: 20,
+                            style: TextStyle(
+                                color: Color(0xff15400D),
+                                fontWeight: FontWeight.w900),
+                          ),
                         ),
                       ),
-                    ),
-                    SingleChildScrollView(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xffcfe1b9),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        width: screenWidth * 0.95,
-                        height: screenHeight * 0.75,
-                        child: Column(
-                          children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 8.0,
-                                    left: screenWidth * 0.025,
-                                    right: screenWidth * 0.025,
-                                    bottom: 8.0),
-                                child: SegmentedButton<Days>(
-                                  style: SegmentedButton.styleFrom(
-                                    backgroundColor: const Color(0xffe9f5db),
-                                    foregroundColor: const Color(0xff15400d),
-                                    selectedForegroundColor: Colors.white,
-                                    selectedBackgroundColor:
-                                        const Color(0xff718355),
+                      SingleChildScrollView(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xffcfe1b9),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: screenWidth * 0.95,
+                          height: screenHeight * 0.75,
+                          child: Column(
+                            children: [
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 8.0,
+                                      left: screenWidth * 0.025,
+                                      right: screenWidth * 0.025,
+                                      bottom: 8.0),
+                                  child: SegmentedButton<Days>(
+                                    style: SegmentedButton.styleFrom(
+                                      backgroundColor: const Color(0xffe9f5db),
+                                      foregroundColor: const Color(0xff15400d),
+                                      selectedForegroundColor: Colors.white,
+                                      selectedBackgroundColor:
+                                          const Color(0xff718355),
+                                    ),
+                                    segments: const <ButtonSegment<Days>>[
+                                      ButtonSegment<Days>(
+                                        value: Days.day1,
+                                        label: Text('Day 1'),
+                                      ),
+                                      ButtonSegment<Days>(
+                                        value: Days.day2,
+                                        label: Text('Day 2'),
+                                      ),
+                                      ButtonSegment<Days>(
+                                        value: Days.day3,
+                                        label: Text('Day 3'),
+                                      ),
+                                      ButtonSegment<Days>(
+                                        value: Days.day4,
+                                        label: Text('Day 4'),
+                                      ),
+                                      ButtonSegment<Days>(
+                                        value: Days.day5,
+                                        label: Text('Day 5'),
+                                      ),
+                                      ButtonSegment<Days>(
+                                        value: Days.day6,
+                                        label: Text('Day 6'),
+                                      ),
+                                      ButtonSegment<Days>(
+                                        value: Days.day7,
+                                        label: Text('Day 7'),
+                                      )
+                                    ],
+                                    selected: <Days>{selectedDay},
+                                    onSelectionChanged: (Set<Days> newSelection) {
+                                      setState(() {
+                                        selectedDay = newSelection.first;
+                                        // Get Request of the day 1 data from server and update
+                                        sarvangaSwedanaData.forEach((key, value) {
+                                          value["isSelected"] = null;
+                                        });
+                                        sarvangAbhyangaData.forEach((key, value) {
+                                          value["isSelected"] = null;
+                                        });
+                                        selectedDate = DateFormat("dd-MM-yyyy")
+                                            .format(DateTime.now());
+                                        abhyangaDuration.clear();
+                                        swedanaDuration.clear();
+                                        otherObservation.clear();
+                                        aahara.clear();
+                                      });
+                                      getASarvangaLakshana();
+                                    },
                                   ),
-                                  segments: const <ButtonSegment<Days>>[
-                                    ButtonSegment<Days>(
-                                      value: Days.day1,
-                                      label: Text('Day 1'),
-                                    ),
-                                    ButtonSegment<Days>(
-                                      value: Days.day2,
-                                      label: Text('Day 2'),
-                                    ),
-                                    ButtonSegment<Days>(
-                                      value: Days.day3,
-                                      label: Text('Day 3'),
-                                    ),
-                                    ButtonSegment<Days>(
-                                      value: Days.day4,
-                                      label: Text('Day 4'),
-                                    ),
-                                    ButtonSegment<Days>(
-                                      value: Days.day5,
-                                      label: Text('Day 5'),
-                                    ),
-                                    ButtonSegment<Days>(
-                                      value: Days.day6,
-                                      label: Text('Day 6'),
-                                    ),
-                                    ButtonSegment<Days>(
-                                      value: Days.day7,
-                                      label: Text('Day 7'),
-                                    )
-                                  ],
-                                  selected: <Days>{selectedDay},
-                                  onSelectionChanged: (Set<Days> newSelection) {
-                                    setState(() {
-                                      selectedDay = newSelection.first;
-                                      // Get Request of the day 1 data from server and update
-                                      sarvangaSwedanaData.forEach((key, value) {
-                                        value["isSelected"] = null;
-                                      });
-                                      sarvangAbhyangaData.forEach((key, value) {
-                                        value["isSelected"] = null;
-                                      });
-                                      selectedDate = DateFormat("dd-MM-yyyy")
-                                          .format(DateTime.now());
-                                      abhyangaDuration.clear();
-                                      swedanaDuration.clear();
-                                      otherObservation.clear();
-                                      aahara.clear();
-                                    });
-                                    getASarvangaLakshana();
-                                  },
                                 ),
                               ),
-                            ),
-                            SingleChildScrollView(
-                                child: Container(
-                              height: screenHeight * 0.5,
-                              width: screenWidth * 0.9,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffb5c99a),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: BlocBuilder<SarvangaLakshanaBloc,
-                                  SarvangaLakshanaState>(
-                                builder: (context, state) {
-                                  if (state is SarvangaLakshanaLoading) {
-                                    return const Center(
-                                        child: CircularProgressIndicator
-                                            .adaptive());
-                                  }
-                                  return SingleChildScrollView(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(20)),
-                                        child: Column(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 2.0, bottom: 2.0),
-                                            child: SizedBox(
-                                              height: screenHeight * 0.05,
-                                              child: Row(children: [
-                                                Container(
-                                                  height: screenHeight * 0.5,
-                                                  width: screenWidth * 0.595,
-                                                  decoration: const BoxDecoration(
-                                                      color: Color(0xff97a97c),
-                                                      border: Border(
-                                                          right: BorderSide(
-                                                              color: Color(
-                                                                  0xff15400D)))),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    "Date",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () async {
-                                                    final DateTime? picked =
-                                                        await showDatePicker(
-                                                      context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
-                                                      firstDate: DateTime(1900),
-                                                      lastDate: DateTime(2100),
-                                                    );
-                                                    if (picked != null &&
-                                                        picked !=
-                                                            DateTime.now()) {
-                                                      setState(() {
-                                                        selectedDate =
-                                                            DateFormat(
-                                                                    'dd-MM-yyyy')
-                                                                .format(picked);
-                                                      });
-                                                    }
+                              SingleChildScrollView(
+                                  child: Container(
+                                height: screenHeight * 0.5,
+                                width: screenWidth * 0.9,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffb5c99a),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: BlocBuilder<SarvangaLakshanaBloc,
+                                    SarvangaLakshanaState>(
+                                  builder: (context, state) {
+                                    if (state is SarvangaLakshanaLoading) {
+                                      return const Center(
+                                          child: CircularProgressIndicator
+                                              .adaptive());
+                                    }
+                                    return SingleChildScrollView(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(20)),
+                                          child: Column(children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 2.0, bottom: 2.0),
+                                              child: SizedBox(
+                                                height: screenHeight * 0.05,
+                                                child: Row(children: [
+                                                  Container(
+                                                    height: screenHeight * 0.5,
+                                                    width: screenWidth * 0.595,
+                                                    decoration: const BoxDecoration(
+                                                        color: Color(0xff97a97c),
+                                                        border: Border(
+                                                            right: BorderSide(
+                                                                color: Color(
+                                                                    0xff15400D)))),
+                                                    child: const Center(
+                                                        child: Text(
+                                                      "Date",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    )),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      final DateTime? picked =
+                                                          await showDatePicker(
+                                                        context: context,
+                                                        initialDate:
+                                                            DateTime.now(),
+                                                        firstDate: DateTime(1900),
+                                                        lastDate: DateTime(2100),
+                                                      );
+                                                      if (picked != null &&
+                                                          picked !=
+                                                              DateTime.now()) {
+                                                        setState(() {
+                                                          selectedDate =
+                                                              DateFormat(
+                                                                      'dd-MM-yyyy')
+                                                                  .format(picked);
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                        width: screenWidth * 0.28,
+                                                        height:
+                                                            screenHeight * 0.05,
+                                                        color: const Color(
+                                                            0xffe9f5db),
+                                                        child: Center(
+                                                          child:
+                                                              Text(selectedDate),
+                                                        )),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            const AutoSizeText(
+                                              "Sarvanga Abhyanga Oil",
+                                              minFontSize: 15,
+                                              style: TextStyle(
+                                                  color: Color(0xff15400D),
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                controller: abhyangaDuration,
+                                                decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    label: Text("Duration")),
+                                              ),
+                                            ),
+                                            ...sarvangAbhyangaData.values
+                                                .map((lakshan) {
+                                              return ComplaintsRow(
+                                                  screenWidth: screenWidth,
+                                                  screenHeight: screenHeight,
+                                                  label: lakshan["label"],
+                                                  isSelected:
+                                                      lakshan["isSelected"],
+                                                  onCheckPressed: () {
+                                                    setState(() {
+                                                      lakshan["isSelected"] =
+                                                          true;
+                                                    });
                                                   },
-                                                  child: Container(
-                                                      width: screenWidth * 0.28,
-                                                      height:
-                                                          screenHeight * 0.05,
-                                                      color: const Color(
-                                                          0xffe9f5db),
-                                                      child: Center(
-                                                        child:
-                                                            Text(selectedDate),
-                                                      )),
-                                                )
-                                              ]),
-                                            ),
-                                          ),
-                                          const AutoSizeText(
-                                            "Sarvanga Abhyanga Oil",
-                                            minFontSize: 15,
-                                            style: TextStyle(
-                                                color: Color(0xff15400D),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextField(
-                                              controller: abhyangaDuration,
-                                              decoration: const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  label: Text("Duration")),
-                                            ),
-                                          ),
-                                          ...sarvangAbhyangaData.values
-                                              .map((lakshan) {
-                                            return ComplaintsRow(
-                                                screenWidth: screenWidth,
-                                                screenHeight: screenHeight,
-                                                label: lakshan["label"],
-                                                isSelected:
-                                                    lakshan["isSelected"],
-                                                onCheckPressed: () {
-                                                  setState(() {
-                                                    lakshan["isSelected"] =
-                                                        true;
+                                                  onCrossPressed: () {
+                                                    setState(() {
+                                                      lakshan["isSelected"] =
+                                                          false;
+                                                    });
                                                   });
-                                                },
-                                                onCrossPressed: () {
-                                                  setState(() {
-                                                    lakshan["isSelected"] =
-                                                        false;
-                                                  });
-                                                });
-                                          }),
-                                          const AutoSizeText(
-                                            "Sarvanga Swedana with",
-                                            minFontSize: 15,
-                                            style: TextStyle(
-                                                color: Color(0xff15400D),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextField(
-                                              controller: swedanaDuration,
-                                              decoration: const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  label: Text("Duration")),
+                                            }),
+                                            const AutoSizeText(
+                                              "Sarvanga Swedana with",
+                                              minFontSize: 15,
+                                              style: TextStyle(
+                                                  color: Color(0xff15400D),
+                                                  fontWeight: FontWeight.bold),
                                             ),
-                                          ),
-                                          ...sarvangaSwedanaData.values
-                                              .map((lakshan) {
-                                            return ComplaintsRow(
-                                                screenWidth: screenWidth,
-                                                screenHeight: screenHeight,
-                                                label: lakshan["label"],
-                                                isSelected:
-                                                    lakshan["isSelected"],
-                                                onCheckPressed: () {
-                                                  setState(() {
-                                                    lakshan["isSelected"] =
-                                                        true;
-                                                  });
-                                                },
-                                                onCrossPressed: () {
-                                                  setState(() {
-                                                    lakshan["isSelected"] =
-                                                        false;
-                                                  });
-                                                });
-                                          }),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextField(
-                                              controller: otherObservation,
-                                              decoration: const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  label: Text(
-                                                      "Any Other Observation")),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                controller: swedanaDuration,
+                                                decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    label: Text("Duration")),
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: TextField(
-                                              controller: aahara,
-                                              decoration: const InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  label: Text(
-                                                      "Aahara (Diet Taken)")),
+                                            ...sarvangaSwedanaData.values
+                                                .map((lakshan) {
+                                              return ComplaintsRow(
+                                                  screenWidth: screenWidth,
+                                                  screenHeight: screenHeight,
+                                                  label: lakshan["label"],
+                                                  isSelected:
+                                                      lakshan["isSelected"],
+                                                  onCheckPressed: () {
+                                                    setState(() {
+                                                      lakshan["isSelected"] =
+                                                          true;
+                                                    });
+                                                  },
+                                                  onCrossPressed: () {
+                                                    setState(() {
+                                                      lakshan["isSelected"] =
+                                                          false;
+                                                    });
+                                                  });
+                                            }),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                controller: otherObservation,
+                                                decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    label: Text(
+                                                        "Any Other Observation")),
+                                              ),
                                             ),
-                                          ),
-                                        ]),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                controller: aahara,
+                                                decoration: const InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    label: Text(
+                                                        "Aahara (Diet Taken)")),
+                                              ),
+                                            ),
+                                          ]),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16.0,
-                                  right: 16.0,
-                                  top: 8.0,
-                                  bottom: 8.0),
-                              child: Row(
-                                children: [
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  const Color(0xff0f6f03))),
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DashBoardPage()));
+                                    );
+                                  },
+                                ),
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 16.0,
+                                    right: 16.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+
+                                    BlocConsumer<SarvangaLakshanaBloc,
+                                        SarvangaLakshanaState>(
+                                      listener: (context, state) {
+                                        if (state is SarvangaLakshanaError) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "Error Occured: ${state.error}")));
+                                        }
                                       },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.arrow_back_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Back",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      )),
-                                  const Spacer(),
-                                  BlocConsumer<SarvangaLakshanaBloc,
-                                      SarvangaLakshanaState>(
-                                    listener: (context, state) {
-                                      if (state is SarvangaLakshanaError) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    "Error Occured: ${state.error}")));
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      if (state is CreatingSarvangaLakshana) {
+                                      builder: (context, state) {
+                                        if (state is CreatingSarvangaLakshana) {
+                                          return ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty
+                                                          .all<Color>(const Color(
+                                                              0xff0f6f03))),
+                                              onPressed: () => null,
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Center(
+                                                  child: CircularProgressIndicator
+                                                      .adaptive(
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  Colors.white)),
+                                                ),
+                                              ));
+                                        }
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty
-                                                        .all<Color>(const Color(
-                                                            0xff0f6f03))),
-                                            onPressed: () => null,
-                                            child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
+                                                    MaterialStateProperty.all<
+                                                            Color>(
+                                                        const Color(0xff0f6f03))),
+                                            onPressed: () async {
+                                              final SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              String? assessmentID =
+                                                  prefs.getString("assessmentID");
+                
+                                              dev.log(assessmentID ??
+                                                  "Does not exist");
+                
+                                              Map<String, dynamic>
+                                                  sarvangaLakshanaReq = {
+                                                "assessmentName":
+                                                    "SarvangaLakshana",
+                                                "day": selectedDay.dayNumber,
+                                                "id": assessmentID,
+                                                "data": {
+                                                  "date": selectedDate,
+                                                  "sarvangaAbhyanga": {
+                                                    "duration":
+                                                        abhyangaDuration.text,
+                                                    ...sarvangAbhyangaData.map(
+                                                        (key, value) => MapEntry(
+                                                            key,
+                                                            value["isSelected"]))
+                                                  },
+                                                  "sarvangaSwedana": {
+                                                    "duration":
+                                                        abhyangaDuration.text,
+                                                    ...sarvangaSwedanaData.map(
+                                                        (key, value) => MapEntry(
+                                                            key,
+                                                            value["isSelected"])),
+                                                  },
+                                                  "otherObservations":
+                                                      otherObservation.text,
+                                                  "ahara": aahara.text
+                                                }
+                                              };
+                                              dev.log(state.toString());
+                                              BlocProvider.of<
+                                                          SarvangaLakshanaBloc>(
+                                                      context)
+                                                  .add(CreateSarvangaLakshana(
+                                                      SarvangaLakshanaData:
+                                                          sarvangaLakshanaReq));
+                                            },
+                                            child: SizedBox(
+                                              width: 80,
+                                              height: 50,
                                               child: Center(
-                                                child: CircularProgressIndicator
-                                                    .adaptive(
-                                                        valueColor:
-                                                            AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                                Colors.white)),
+                                                child: AutoSizeText(
+                                                  "Submit",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
                                               ),
                                             ));
-                                      }
-                                      return ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      const Color(0xff0f6f03))),
-                                          onPressed: () async {
-                                            final SharedPreferences prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            String? assessmentID =
-                                                prefs.getString("assessmentID");
-
-                                            dev.log(assessmentID ??
-                                                "Does not exist");
-
-                                            Map<String, dynamic>
-                                                sarvangaLakshanaReq = {
-                                              "assessmentName":
-                                                  "SarvangaLakshana",
-                                              "day": selectedDay.dayNumber,
-                                              "id": assessmentID,
-                                              "data": {
-                                                "date": selectedDate,
-                                                "sarvangaAbhyanga": {
-                                                  "duration":
-                                                      abhyangaDuration.text,
-                                                  ...sarvangAbhyangaData.map(
-                                                      (key, value) => MapEntry(
-                                                          key,
-                                                          value["isSelected"]))
-                                                },
-                                                "sarvangaSwedana": {
-                                                  "duration":
-                                                      abhyangaDuration.text,
-                                                  ...sarvangaSwedanaData.map(
-                                                      (key, value) => MapEntry(
-                                                          key,
-                                                          value["isSelected"])),
-                                                },
-                                                "otherObservations":
-                                                    otherObservation.text,
-                                                "ahara": aahara.text
-                                              }
-                                            };
-                                            dev.log(state.toString());
-                                            BlocProvider.of<
-                                                        SarvangaLakshanaBloc>(
-                                                    context)
-                                                .add(CreateSarvangaLakshana(
-                                                    SarvangaLakshanaData:
-                                                        sarvangaLakshanaReq));
-                                          },
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              AutoSizeText(
-                                                "Next",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_rounded,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          ));
-                                    },
-                                  ),
-                                ],
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: screenHeight * 0.01,
-                    )
-                  ]),
+                      SizedBox(
+                        height: screenHeight * 0.01,
+                      )
+                    ]),
+              ),
             )
           ],
         ));

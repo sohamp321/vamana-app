@@ -186,7 +186,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
 
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
-              toCheck: "Snehpana",
+              toCheck: "Snehapana",
               label: "Snehpana",
               onPressed: () {
                 Navigator.push(context,

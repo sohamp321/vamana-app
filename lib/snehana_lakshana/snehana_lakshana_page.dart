@@ -62,7 +62,7 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
     },
     "agnideepthi": {
       "title":
-          "Agnideepthi(as per agni index = Test Dose / given dose * digestion hrs)",
+          "Agnideepthi \n (as per agni index = Test Dose / given dose * digestion hrs)",
       "label0": "Less (index >3)",
       "label1": "Medium (index =3)",
       "label2": "Good (index <3)",
@@ -206,6 +206,7 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                         width: screenWidth * 0.95,
                         height: screenHeight * 0.75,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
@@ -286,14 +287,21 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                                   return SingleChildScrollView(
                                       child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Column(children: [
+                                    child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
                                       ...snehanaLakshanaData.keys.map((key) {
-                                        return Column(children: [
-                                          AutoSizeText(
-                                            snehanaLakshanaData[key]["title"],
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xff15400d)),
+                                        return Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10.0),
+                                            child: AutoSizeText(
+                                              snehanaLakshanaData[key]["title"],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xff15400d)),
+                                            ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -374,37 +382,9 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                                   top: 8.0,
                                   bottom: 8.0),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  const Color(0xff0f6f03))),
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DashBoardPage()));
-                                      },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.arrow_back_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Back",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      )),
-                                  const Spacer(),
+
                                   BlocConsumer<SnehanaLakshanaBloc,
                                       SnehanaLakshanaState>(
                                     listener: (context, state) {
@@ -470,22 +450,16 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                                                     SnehanaLakshanaData:
                                                         aamaLakshanReq));
                                           },
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              AutoSizeText(
-                                                "Next",
+                                          child: SizedBox(
+                                            height: 50,
+                                            width: 80,
+                                            child: Center(
+                                              child: AutoSizeText(
+                                                "Submit",
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
-                                              Icon(
-                                                Icons.arrow_forward_rounded,
-                                                color: Colors.white,
-                                              ),
-                                            ],
+                                            ),
                                           ));
                                     },
                                   ),

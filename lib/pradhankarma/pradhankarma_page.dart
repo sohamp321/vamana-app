@@ -167,7 +167,7 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
                                 height: screenHeight * 0.5,
                                 width: screenWidth * 0.9,
                                 decoration: BoxDecoration(
-                                    color: const Color(0xffb5c99a),
+                                    // color: const Color(0xffb5c99a),
                                     borderRadius: BorderRadius.circular(20)),
                                 child: BlocBuilder<PradhanKarmaBloc,
                                     PradhanKarmaState>(
@@ -221,36 +221,8 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
                                     top: 8.0,
                                     bottom: 8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    const Color(0xff0f6f03))),
-                                        onPressed: () {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DashBoardPage()));
-                                        },
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.arrow_back_rounded,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              "Back",
-                                              style:
-                                                  TextStyle(color: Colors.white),
-                                            )
-                                          ],
-                                        )),
                                     const Spacer(),
                                     BlocConsumer<PradhanKarmaBloc,
                                         PradhanKarmaState>(
@@ -318,22 +290,16 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
                                                       PradhanKarmaData:
                                                           aamaLakshanReq));
                                             },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                AutoSizeText(
-                                                  "Next",
+                                            child: SizedBox(
+                                              width: 80,
+                                              height: 50,
+                                              child: Center(
+                                                child: AutoSizeText(
+                                                  "Submit",
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_rounded,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
+                                              ),
                                             ));
                                       },
                                     ),
