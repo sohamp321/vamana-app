@@ -135,432 +135,231 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
           Padding(
-            padding: const EdgeInsets.only(left:20.0),
+            padding: const EdgeInsets.only(left: 20.0),
             child: AutoSizeText(
               "Poorvakarma",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "AamaLakshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Aama Lakshana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => AamaLakshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Aama Lakshana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => AamaLakshanaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "Rookshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Rookshana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => RookshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Rookshana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => RookshanaPage())));
-                    },
-                  ),
-          ),
+
+          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "AamaLakshana", label: "Aama Lakshana", onPressed:() {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => AamaLakshanaPage())));
+          }),
+
+          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "Rookshana", label: "Rookshana", onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => RookshanaPage())));
+          }),
+
           Divider(
               color: Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
-          const Center(
+          Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: AutoSizeText(
               "Snehapana",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "SnehapanaCalculator"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Snehapana Calculator"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => SnehpanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Snehapana Calculator"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SnehpanaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "SnehanaLakshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Snehana Lakshana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => SnehanaLakshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Snehana Lakshana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SnehanaLakshanaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "Snehapana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Snehpana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => SnehapanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Snehpana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SnehapanaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "SnehJeeryamanLakshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Sneha Jeeryaman Lakshana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) =>
-                                    SnehJeeryamanLakshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Sneha Jeeryaman Lakshana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  SnehJeeryamanLakshanaPage())));
-                    },
-                  ),
-          ),
+          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "SnehapanaCalculator", label: "Snehapana Calculator", onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => SnehpanaPage())));
+          }),
+
+          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "SnehanaLakshana", label: "Snehana Lakshana", onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => SnehanaLakshanaPage())));
+          } ),
+
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "Snehpana",
+              label: "Snehpana",
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => SnehapanaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "SnehJeeryamanLakshana",
+              label: "Sneh Jeeryaman Lakshana",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => SnehJeeryamanLakshanaPage())));
+              }),
           Divider(
               color: Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
-          const Center(
+          Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: AutoSizeText(
               "Vishrama Kala",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "SarvangaLakshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Sarvanga Lakshana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) =>
-                                    SarvangaLakshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Sarvanga Lakshana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => SarvangaLakshanaPage())));
-                    },
-                  ),
-          ),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "SarvangaLakshana",
+              label: "Sarvanga Lakshana",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => SarvangaLakshanaPage())));
+              }),
           Divider(
               color: Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
-          const Center(
+          Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: AutoSizeText(
               "Pradhan Karma",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "PradhanKarma"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Pradhankarma"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => PradhanKarmaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Pradhankarma"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => PradhanKarmaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "VegaNirikshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Vega Nirikshana and Nirnaya"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => VegaNirikshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Vega Nirikshana and Nirnaya"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => VegaNirikshanaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "BloodPressure"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Blood Pressure"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => BloodPressurePage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Blood Pressure"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => BloodPressurePage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "YogaLakshana"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Yoga Lakshana"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => YogaLakshanaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Yoga Lakshana"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => YogaLakshanaPage())));
-                    },
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "ChatushPrakaraShuddhi"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Chatush Prakara Shuddhi"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) =>
-                                    ChatushprakaraShuddhiPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Chatush Prakara Shuddhi"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  ChatushprakaraShuddhiPage())));
-                    },
-                  ),
-          ),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "PradhanKarma",
+              label: "PradhanKarma",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => PradhanKarmaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "VegaNirikshana",
+              label: "Vega Nirikshana and Nirnaya",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => VegaNirikshanaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "BloodPressure",
+              label: "Blood Pressure",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => BloodPressurePage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "YogaLakshana",
+              label: "Yoga Lakshana",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => YogaLakshanaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "ChatushPrakaraShuddhi",
+              label: "Chatush Prakara Shuddhi",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => ChatushprakaraShuddhiPage())));
+              }),
           Divider(
               color: Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
-          const Center(
+          Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: AutoSizeText(
               "Paschat Karma",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "SamsarjanaKrama"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Samsarjana Krama"),
-                      onTap: () {},
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Samsarjana Krama"),
-                    onTap: () {},
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: widget.selectedPage == "PashchatKarma"
-                ? Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: ListTile(
-                      title: const Text("Pashchat Karma"),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => PashchatKarmaPage())));
-                      },
-                    ),
-                  )
-                : ListTile(
-                    title: const Text("Pashchat Karma"),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => PashchatKarmaPage())));
-                    },
-                  ),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "SamsarjanaKrama",
+              label: "Samsarjana Krama",
+              onPressed: () {}),
+          VamanaDrawerTile(
+            selectedPage: widget.selectedPage,
+            toCheck: "PashchatKarma",
+            label: "Pashchat Karma",
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => PashchatKarmaPage())));
+            },
           ),
         ],
       ),
+    );
+  }
+}
+
+class VamanaDrawerTile extends StatefulWidget {
+  String? selectedPage;
+  String toCheck;
+  String label;
+
+  VoidCallback onPressed;
+
+  VamanaDrawerTile(
+      {super.key,
+      required this.selectedPage,
+      required this.toCheck,
+      required this.label,
+      required this.onPressed});
+
+  @override
+  State<VamanaDrawerTile> createState() => _VamanaDrawerTileState();
+}
+
+class _VamanaDrawerTileState extends State<VamanaDrawerTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: widget.selectedPage == widget.toCheck
+          ? Container(
+              decoration: BoxDecoration(
+                  color: Color(0xffb5c99a),
+                  borderRadius: BorderRadius.circular(30)),
+              child: ListTile(
+                title: Text(widget.label),
+                onTap: widget.onPressed,
+              ),
+            )
+          : ListTile(
+              title: Text(widget.label),
+              onTap: widget.onPressed,
+            ),
     );
   }
 }
