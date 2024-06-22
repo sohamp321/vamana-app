@@ -70,7 +70,9 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(selectedPage: "Snehapana",),
+        drawer: VamanaDrawer(
+          selectedPage: "Snehapana",
+        ),
         body: Stack(
           children: [
             Image.asset(
@@ -175,8 +177,6 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                         snehapanaData.forEach((key, value) {
                                           value["value"].clear();
                                         });
-                                      
-
                                         getASnehapana();
                                       });
                                     },
@@ -215,9 +215,6 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                                   decoration: InputDecoration(
                                                       labelStyle:
                                                           const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
                                                               color: Color(
                                                                   0xff15400d)),
                                                       filled: true,
@@ -225,8 +222,8 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                                           Color(0xffe9f5db),
                                                       border:
                                                           OutlineInputBorder(),
-                                                      label:
-                                                          Text(value["label"])),
+                                                      label: Text(
+                                                          value["label"])),
                                                 ),
                                               );
                                             })
@@ -378,4 +375,3 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
         ));
   }
 }
-

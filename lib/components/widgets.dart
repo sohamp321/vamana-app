@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/aama_lakshana/aama_lakshana_page.dart';
 import 'package:vamana_app/blood_pressure/blood_pressure_page.dart';
@@ -67,10 +68,11 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xff97a97c),
-                borderRadius: BorderRadius.circular(20),),
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: const DrawerHeader(
                   margin: EdgeInsets.zero,
-                padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +130,12 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                     onTap: () {},
                   ),
           ),
-          const Center(
+          Divider(
+              color: Color(0xff15400d),
+              endIndent: MediaQuery.of(context).size.width * 0.05,
+              indent: MediaQuery.of(context).size.width * 0.05),
+          Padding(
+            padding: const EdgeInsets.only(left:20.0),
             child: AutoSizeText(
               "Poorvakarma",
               style: TextStyle(
@@ -189,6 +196,10 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                     },
                   ),
           ),
+          Divider(
+              color: Color(0xff15400d),
+              endIndent: MediaQuery.of(context).size.width * 0.05,
+              indent: MediaQuery.of(context).size.width * 0.05),
           const Center(
             child: AutoSizeText(
               "Snehapana",
@@ -306,6 +317,10 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                     },
                   ),
           ),
+          Divider(
+              color: Color(0xff15400d),
+              endIndent: MediaQuery.of(context).size.width * 0.05,
+              indent: MediaQuery.of(context).size.width * 0.05),
           const Center(
             child: AutoSizeText(
               "Vishrama Kala",
@@ -341,6 +356,10 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                     },
                   ),
           ),
+          Divider(
+              color: Color(0xff15400d),
+              endIndent: MediaQuery.of(context).size.width * 0.05,
+              indent: MediaQuery.of(context).size.width * 0.05),
           const Center(
             child: AutoSizeText(
               "Pradhan Karma",
@@ -384,20 +403,22 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                         borderRadius: BorderRadius.circular(30)),
                     child: ListTile(
                       title: const Text("Vega Nirikshana and Nirnaya"),
-                      onTap: () {Navigator.push(
+                      onTap: () {
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) =>
-                                    VegaNirikshanaPage())));},
+                                builder: ((context) => VegaNirikshanaPage())));
+                      },
                     ),
                   )
                 : ListTile(
                     title: const Text("Vega Nirikshana and Nirnaya"),
-                    onTap: () {Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) =>
-                                    VegaNirikshanaPage())));},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => VegaNirikshanaPage())));
+                    },
                   ),
           ),
           Padding(
@@ -483,6 +504,10 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                     },
                   ),
           ),
+          Divider(
+              color: Color(0xff15400d),
+              endIndent: MediaQuery.of(context).size.width * 0.05,
+              indent: MediaQuery.of(context).size.width * 0.05),
           const Center(
             child: AutoSizeText(
               "Paschat Karma",
