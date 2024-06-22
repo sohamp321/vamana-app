@@ -127,7 +127,7 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(),
+        drawer: VamanaDrawer(selectedPage: "SarvangaLakshana",),
         body: Stack(
           children: [
             Image.asset(
@@ -388,11 +388,14 @@ class _SarvangaLakshanaPageState extends State<SarvangaLakshanaPage> {
                                                 color: Color(0xff15400D),
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          TextField(
-                                            controller: swedanaDuration,
-                                            decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                label: Text("Duration")),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: TextField(
+                                              controller: swedanaDuration,
+                                              decoration: const InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  label: Text("Duration")),
+                                            ),
                                           ),
                                           ...sarvangaSwedanaData.values
                                               .map((lakshan) {

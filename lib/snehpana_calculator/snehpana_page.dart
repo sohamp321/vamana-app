@@ -43,7 +43,7 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: const VamanaAppBar(),
-        drawer: const VamanaDrawer(),
+        drawer: VamanaDrawer(selectedPage: "SnehapanaCalculator",),
         body: Stack(
           children: [
             Image.asset(

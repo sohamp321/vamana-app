@@ -167,7 +167,7 @@ class _YogaLakshanaPageState extends State<YogaLakshanaPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(),
+        drawer: VamanaDrawer(selectedPage: "YogaLakshana",),
         body: Stack(
           children: [
             Image.asset(

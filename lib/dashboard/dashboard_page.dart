@@ -42,7 +42,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: VamanaAppBar(),
-      drawer: VamanaDrawer(),
+      drawer: VamanaDrawer(selectedPage: "Dashboard",),
       body: BlocProvider(
         create: (context) => DashBoardBloc()..add(GetDashBoardData()),
         child: Stack(

@@ -10,18 +10,17 @@ import "package:shared_preferences/shared_preferences.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'package:vamana_app/components/widgets.dart';
 import 'package:vamana_app/dashboard/dashboard_page.dart';
-import 'sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_bloc.dart';
+import 'snehana_lakshana_bloc/snehana_lakshana_bloc.dart';
 import 'package:vamana_app/login/login_page.dart';
 import "package:auto_size_text/auto_size_text.dart";
-import 'sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_event.dart';
-import 'sneh_jeeryaman_lakshana_bloc/sneh_jeeryaman_lakshana_state.dart';
+import 'snehana_lakshana_bloc/snehana_lakshana_event.dart';
+import 'snehana_lakshana_bloc/snehana_lakshana_state.dart';
 
-class SnehJeeryamanLakshanaPage extends StatefulWidget {
-  const SnehJeeryamanLakshanaPage({super.key});
+class SnehanaLakshanaPage extends StatefulWidget {
+  const SnehanaLakshanaPage({super.key});
 
   @override
-  State<SnehJeeryamanLakshanaPage> createState() =>
-      _SnehJeeryamanLakshanaPageState();
+  State<SnehanaLakshanaPage> createState() => _SnehanaLakshanaPageState();
 }
 
 enum Days {
@@ -37,38 +36,119 @@ enum Days {
   const Days({required this.dayNumber});
 }
 
-class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
-  void getASnehJeeryamanLakshana() async {
-    BlocProvider.of<SnehJeeryamanLakshanaBloc>(context)
-        .add(GetSnehJeeryamanLakshana(dayNumber: selectedDay.dayNumber));
+class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
+  void getASnehanaLakshana() async {
+    BlocProvider.of<SnehanaLakshanaBloc>(context)
+        .add(GetSnehanaLakshana(dayNumber: selectedDay.dayNumber));
   }
 
   @override
   void initState() {
-    BlocProvider.of<SnehJeeryamanLakshanaBloc>(context)
-        .add(Day0SnehJeeryamanLakshana());
-    BlocProvider.of<SnehJeeryamanLakshanaBloc>(context).stream.listen((state) {
+    BlocProvider.of<SnehanaLakshanaBloc>(context).add(Day0SnehanaLakshana());
+    BlocProvider.of<SnehanaLakshanaBloc>(context).stream.listen((state) {
       dev.log('Current state: $state');
     });
-    getASnehJeeryamanLakshana();
+    getASnehanaLakshana();
     super.initState();
   }
 
-  Map<String, dynamic> snehajeeryamanaLakshanaData = {
-    "trishna": {
-      "label": "Trishna (Excessive thirst)",
-      "isSelected": null as bool?
+  Map<String, dynamic> snehanaLakshanaData = {
+    "vatanulomana": {
+      "title": "Vatanulomana",
+      "label0": "Less expulsion of adhovaya, faeces and urine",
+      "label1": "Incomplete expulsion of adhovayu, faeces and urine",
+      "label2": "Proper expulsion of adhovayu, urine and stool",
+      "isSelected": null as int?
     },
-    "daha": {"label": "Daha (Burning sensation)", "isSelected": null as bool?},
-    "bhrama": {"label": "Bhrama (Dizziness)", "isSelected": null as bool?},
-    "saad": {"label": "Saad (Nausea)", "isSelected": null as bool?},
-    "arati": {"label": "Arati (Dislike/aversion)", "isSelected": null as bool?},
-    "klama": {"label": "Klama (Fatigue)", "isSelected": null as bool?}
+    "agnideepthi": {
+      "title":
+          "Agnideepthi(as per agni index = Test Dose / given dose * digestion hrs)",
+      "label0": "Less (index >3)",
+      "label1": "Medium (index =3)",
+      "label2": "Good (index <3)",
+      "isSelected": null as int?
+    },
+    "snigdhaVarchas": {
+      "title": "Snigdha Varchas",
+      "label0": "No visible oiliness in stools",
+      "label1": "Oil floats in water",
+      "label2": "Oil felt in hands",
+      "isSelected": null as int?
+    },
+    "asamhataVarchas": {
+      "title": "Asamhata Varchas",
+      "label0": "Lump like stool",
+      "label1": "Mushy like stools",
+      "label2": "Liquid stools",
+      "isSelected": null as int?
+    },
+    "snehodwega": {
+      "title": "Snehodwega",
+      "label0": "No much problem in consuming ghee",
+      "label1": "Cannot smell ghee",
+      "label2": "Intolerance towards ghee",
+      "isSelected": null as int?
+    },
+    "angaSnigdhata": {
+      "title": "Anga Snigdhata",
+      "label0": "No profound changes found",
+      "label1": "Oiliness seen only on certain areas of the body",
+      "label2": "Oilliness noticed all over the body",
+      "isSelected": null as int?
+    },
+    "klama": {
+      "title": "Klama",
+      "label0": "Mild tiredness",
+      "label1": "Moderate tiredness",
+      "label2": "Fatigue with giddiness",
+      "isSelected": null as int?
+    },
+    "angaMardavta": {
+      "title": "Anga Mardavta",
+      "label0": "No changes in the muscle felt",
+      "label1": "Mild looseness of muscles",
+      "label2": "Laxity of the muscles",
+      "isSelected": null as int?
+    },
+    "angaLaghutwa": {
+      "title": "Anga Laghutwa",
+      "label0": "Mild lightness felt",
+      "label1": "Moderate lightness",
+      "label2": "Feeling of complete lightness of the body",
+      "isSelected": null as int?
+    }
   };
+  int score = 0;
+  String? grade = "";
 
-  String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  void calculateScore() {
+    int totalScore = 0;
+    snehanaLakshanaData.forEach((key, value) {
+      totalScore += (value["isSelected"] ?? 0) as int;
+    });
+    setState(() {
+      dev.log(totalScore.toString());
+      score = totalScore;
+    });
 
-  bool? doseSelected = null;
+    if (score >= 6 && score <= 8) {
+      setState(() {
+        grade = "Avara";
+      });
+    } else if (score >= 9 && score <= 13) {
+      setState(() {
+        grade = "Madhyama";
+      });
+    } else if (score >= 14 && score <= 18) {
+      setState(() {
+        grade = "Pravara";
+      });
+    } else {
+      setState(() {
+        grade = "";
+      });
+    }
+  }
 
   Days selectedDay = Days.day1;
   @override
@@ -79,7 +159,7 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer:  VamanaDrawer(selectedPage: "SnehJeeryamanLakshana",),
+        drawer: VamanaDrawer(selectedPage: "SnehanaLakshana",),
         body: Stack(
           children: [
             Image.asset(
@@ -88,14 +168,16 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
               height: screenHeight,
               fit: BoxFit.cover,
             ),
-            BlocListener<SnehJeeryamanLakshanaBloc, SnehJeeryamanLakshanaState>(
+            BlocListener<SnehanaLakshanaBloc, SnehanaLakshanaState>(
               listener: (context, state) {
-                if (state is SnehJeeryamanLakshanaLoaded) {
-                  if (state.SnehJeeryamanLakshanaDataRec != null) {
-                
-                    state.SnehJeeryamanLakshanaDataRec!.forEach((key, value) {
-                      snehajeeryamanaLakshanaData[key]["isSelected"] = value;
+                if (state is SnehanaLakshanaLoaded) {
+                  if (state.SnehanaLakshanaDataRec != null) {
+                    setState(() {
+                      state.SnehanaLakshanaDataRec!.forEach((key, value) {
+                        snehanaLakshanaData[key]["isSelected"] = value;
+                      });
                     });
+                    calculateScore();
                   }
                 }
               },
@@ -107,7 +189,7 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                       padding: EdgeInsets.all(8.0),
                       child: Center(
                         child: AutoSizeText(
-                          "Sneha Jeeryamana Assessment",
+                          "Snehana Lakshana Assessment",
                           minFontSize: 20,
                           style: TextStyle(
                               color: Color(0xff15400D),
@@ -129,6 +211,7 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                               scrollDirection: Axis.horizontal,
                               child: Padding(
                                 padding: EdgeInsets.only(
+                                    top: 8.0,
                                     left: screenWidth * 0.025,
                                     right: screenWidth * 0.025,
                                     bottom: 8.0),
@@ -175,12 +258,11 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                                     setState(() {
                                       selectedDay = newSelection.first;
                                       // Get Request of the day 1 data from server and update
-                                      snehajeeryamanaLakshanaData
-                                          .forEach((key, value) {
+                                      snehanaLakshanaData.forEach((key, value) {
                                         value["isSelected"] = null;
                                       });
 
-                                      getASnehJeeryamanLakshana();
+                                      getASnehanaLakshana();
                                     });
                                   },
                                 ),
@@ -193,46 +275,95 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                               decoration: BoxDecoration(
                                   color: const Color(0xffb5c99a),
                                   borderRadius: BorderRadius.circular(20)),
-                              child: BlocBuilder<SnehJeeryamanLakshanaBloc,
-                                  SnehJeeryamanLakshanaState>(
+                              child: BlocBuilder<SnehanaLakshanaBloc,
+                                  SnehanaLakshanaState>(
                                 builder: (context, state) {
-                                  if (state is SnehJeeryamanLakshanaLoading) {
+                                  if (state is SnehanaLakshanaLoading) {
                                     return const Center(
                                         child: CircularProgressIndicator
                                             .adaptive());
                                   }
                                   return SingleChildScrollView(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(20)),
-                                        child: Column(children: [
-                                          ...snehajeeryamanaLakshanaData.values
-                                              .map((lakshan) {
-                                            return ComplaintsRow(
-                                                screenWidth: screenWidth,
-                                                screenHeight: screenHeight,
-                                                label: lakshan["label"],
-                                                isSelected:
-                                                    lakshan["isSelected"],
-                                                onCheckPressed: () {
+                                      child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Column(children: [
+                                      ...snehanaLakshanaData.keys.map((key) {
+                                        return Column(children: [
+                                          AutoSizeText(
+                                            snehanaLakshanaData[key]["title"],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xff15400d)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: DropdownButtonFormField<int>(
+                                                decoration: InputDecoration(
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color: Color(
+                                                                0xff15400d)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color: Color(
+                                                                0xff15400d)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                  ),
+                                                  filled: true,
+                                                  fillColor:
+                                                      const Color(0xffe9f5db),
+                                                ),
+                                                isExpanded: true,
+                                                hint: const Text("Select"),
+                                                value: snehanaLakshanaData[key]
+                                                    ["isSelected"],
+                                                items: [
+                                                  DropdownMenuItem(
+                                                    value: 0,
+                                                    child: SizedBox(
+                                                      width: screenWidth * 0.7,
+                                                      child: AutoSizeText(
+                                                        snehanaLakshanaData[key]
+                                                            ["label0"],
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  DropdownMenuItem(
+                                                      value: 1,
+                                                      child: Text(
+                                                          snehanaLakshanaData[
+                                                              key]["label1"])),
+                                                  DropdownMenuItem(
+                                                      value: 2,
+                                                      child: Text(
+                                                          snehanaLakshanaData[
+                                                              key]["label2"])),
+                                                ],
+                                                onChanged: (int? newValue) {
                                                   setState(() {
-                                                    lakshan["isSelected"] =
-                                                        true;
+                                                    snehanaLakshanaData[key]
+                                                            ["isSelected"] =
+                                                        newValue;
                                                   });
-                                                },
-                                                onCrossPressed: () {
-                                                  setState(() {
-                                                    lakshan["isSelected"] =
-                                                        false;
-                                                  });
-                                                });
-                                          })
-                                        ]),
-                                      ),
-                                    ),
-                                  );
+                                                  calculateScore();
+                                                }),
+                                          ),
+                                        ]);
+                                      }),
+                                      AutoSizeText("Current Grade: $grade")
+                                    ]),
+                                  ));
                                 },
                               ),
                             )),
@@ -274,10 +405,10 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                                         ],
                                       )),
                                   const Spacer(),
-                                  BlocConsumer<SnehJeeryamanLakshanaBloc,
-                                      SnehJeeryamanLakshanaState>(
+                                  BlocConsumer<SnehanaLakshanaBloc,
+                                      SnehanaLakshanaState>(
                                     listener: (context, state) {
-                                      if (state is SnehJeeryamanLakshanaError) {
+                                      if (state is SnehanaLakshanaError) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                                 content: Text(
@@ -285,15 +416,14 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                                       }
                                     },
                                     builder: (context, state) {
-                                      if (state
-                                          is CreatingSnehJeeryamanLakshana) {
+                                      if (state is CreatingSnehanaLakshana) {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
                                                     MaterialStateProperty
                                                         .all<Color>(const Color(
                                                             0xff0f6f03))),
-                                            onPressed: () => null,
+                                            onPressed: () {},
                                             child: const Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Center(
@@ -323,27 +453,22 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                                                 "Does not exist");
 
                                             Map<String, dynamic>
-                                                snehajeeryamanaLakshanaReq = {
+                                                aamaLakshanReq = {
                                               "assessmentName":
-                                                  "SnehJeeryamanLakshana",
+                                                  "SnehanaLakshana",
                                               "day": selectedDay.dayNumber,
                                               "id": assessmentID,
-                                              "data": {
-                                                ...snehajeeryamanaLakshanaData
-                                                    .map((key, value) =>
-                                                        MapEntry(
-                                                            key,
-                                                            value[
-                                                                "isSelected"]))
-                                              }
+                                              "data": snehanaLakshanaData.map(
+                                                  (key, value) => MapEntry(
+                                                      key, value["isSelected"]))
                                             };
                                             dev.log(state.toString());
                                             BlocProvider.of<
-                                                        SnehJeeryamanLakshanaBloc>(
+                                                        SnehanaLakshanaBloc>(
                                                     context)
-                                                .add(CreateSnehJeeryamanLakshana(
-                                                    SnehJeeryamanLakshanaData:
-                                                        snehajeeryamanaLakshanaReq));
+                                                .add(CreateSnehanaLakshana(
+                                                    SnehanaLakshanaData:
+                                                        aamaLakshanReq));
                                           },
                                           child: const Row(
                                             mainAxisAlignment:
@@ -381,22 +506,59 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
   }
 }
 
-class ComplaintsRow extends StatefulWidget {
-  double screenWidth;
-  double screenHeight;
-  String label;
-  bool? isSelected;
-  VoidCallback onCheckPressed;
-  VoidCallback onCrossPressed;
-
-  ComplaintsRow({
+class SnehanaLakshanaObservation extends StatelessWidget {
+  SnehanaLakshanaObservation({
+    super.key,
     required this.screenWidth,
     required this.screenHeight,
-    required this.label,
+    required this.title,
+    required this.label0,
+    required this.label1,
+    required this.label2,
     required this.isSelected,
     required this.onCheckPressed,
     required this.onCrossPressed,
   });
+
+  final double screenWidth;
+  final double screenHeight;
+  VoidCallback onCheckPressed;
+  VoidCallback onCrossPressed;
+  final String title;
+  final String label0;
+  final String label1;
+  final String label2;
+  int? isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: Column(
+        children: [],
+      ),
+    );
+  }
+}
+
+class ComplaintsRow extends StatefulWidget {
+  double screenWidth;
+  double screenHeight;
+  String label;
+  int? isSelected;
+  int toCheck;
+  VoidCallback onCheckPressed;
+  VoidCallback onCrossPressed;
+
+  ComplaintsRow(
+      {required this.screenWidth,
+      required this.screenHeight,
+      required this.label,
+      required this.isSelected,
+      required this.onCheckPressed,
+      required this.onCrossPressed,
+      required this.toCheck});
 
   @override
   State<ComplaintsRow> createState() => _ComplaintsRowState();
@@ -430,7 +592,7 @@ class _ComplaintsRowState extends State<ComplaintsRow> {
             width: widget.screenWidth * 0.14,
             height: widget.screenHeight * 0.05,
             decoration: BoxDecoration(
-              color: widget.isSelected == true
+              color: widget.isSelected == widget.toCheck
                   ? Colors.green.withOpacity(0.5)
                   : const Color(0xffe9f5db),
               border: const Border(
@@ -447,7 +609,7 @@ class _ComplaintsRowState extends State<ComplaintsRow> {
             width: widget.screenWidth * 0.14,
             height: widget.screenHeight * 0.05,
             decoration: BoxDecoration(
-              color: widget.isSelected == false
+              color: widget.isSelected != widget.toCheck
                   ? Colors.red.withOpacity(0.5)
                   : const Color(0xffe9f5db),
             ),

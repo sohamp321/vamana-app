@@ -160,7 +160,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(),
+        drawer: VamanaDrawer(selectedPage: null,),
         body: Stack(children: [
           Image.asset(
             "assets/images/bg1.jpg",

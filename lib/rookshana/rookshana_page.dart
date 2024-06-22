@@ -143,7 +143,7 @@ class _RookshanaPageState extends State<RookshanaPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(),
+        drawer: VamanaDrawer(selectedPage: "Rookshana",),
         body: Stack(
           children: [
             Image.asset(
