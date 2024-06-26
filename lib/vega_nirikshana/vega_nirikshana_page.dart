@@ -549,7 +549,9 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                     top: 8.0,
                                     bottom: 8.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+
                                     ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor:
@@ -668,11 +670,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_rounded,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
+                                              ),
                                             ));
                                       },
                                     ),

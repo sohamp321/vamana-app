@@ -129,6 +129,7 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                               scrollDirection: Axis.horizontal,
                               child: Padding(
                                 padding: EdgeInsets.only(
+                                    top: screenWidth * 0.025,
                                     left: screenWidth * 0.025,
                                     right: screenWidth * 0.025,
                                     bottom: 8.0),
@@ -191,7 +192,7 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                               height: screenHeight * 0.5,
                               width: screenWidth * 0.9,
                               decoration: BoxDecoration(
-                                  color: const Color(0xffb5c99a),
+                                  // color: const Color(0xffb5c99a),
                                   borderRadius: BorderRadius.circular(20)),
                               child: BlocBuilder<SnehJeeryamanLakshanaBloc,
                                   SnehJeeryamanLakshanaState>(
@@ -243,37 +244,9 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                                   top: 8.0,
                                   bottom: 8.0),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  const Color(0xff0f6f03))),
-                                      onPressed: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DashBoardPage()));
-                                      },
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.arrow_back_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Back",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          )
-                                        ],
-                                      )),
-                                  const Spacer(),
+
                                   BlocConsumer<SnehJeeryamanLakshanaBloc,
                                       SnehJeeryamanLakshanaState>(
                                     listener: (context, state) {
@@ -345,22 +318,16 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
                                                     SnehJeeryamanLakshanaData:
                                                         snehajeeryamanaLakshanaReq));
                                           },
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              AutoSizeText(
-                                                "Next",
+                                          child: SizedBox(
+                                            width: 80,
+                                            height: 50,
+                                            child: Center(
+                                              child: AutoSizeText(
+                                                "Submit",
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
-                                              Icon(
-                                                Icons.arrow_forward_rounded,
-                                                color: Colors.white,
-                                              ),
-                                            ],
+                                            ),
                                           ));
                                     },
                                   ),

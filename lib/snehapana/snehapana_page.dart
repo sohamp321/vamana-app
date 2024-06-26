@@ -53,10 +53,11 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
   }
 
   Map<String, dynamic> snehapanaData = {
-    "dose": {"label": "Dose", "value": TextEditingController()},
-    "hunger": {"label": "Onset Of Hunger", "value": TextEditingController()},
+    "dose": {"label": "Dose", "hintText" : "Enter" , "value": TextEditingController()},
+    "hunger": {"label": "Onset Of Hunger", "hintText": "Enter" ,"value": TextEditingController()},
     "snehapanaScore": {
       "label": "Snehapana Score",
+      "hintText" : "Enter",
       "value": TextEditingController()
     }
   };
@@ -127,6 +128,7 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                 scrollDirection: Axis.horizontal,
                                 child: Padding(
                                   padding: EdgeInsets.only(
+                                    top: screenWidth*0.025,
                                       left: screenWidth * 0.025,
                                       right: screenWidth * 0.025,
                                       bottom: 8.0),
@@ -188,7 +190,7 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                 height: screenHeight * 0.5,
                                 width: screenWidth * 0.9,
                                 decoration: BoxDecoration(
-                                    color: const Color(0xffb5c99a),
+                                    // color: const Color(0xffb5c99a),
                                     borderRadius: BorderRadius.circular(20)),
                                 child:
                                     BlocBuilder<SnehapanaBloc, SnehapanaState>(
@@ -217,11 +219,13 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                                           const TextStyle(
                                                               color: Color(
                                                                   0xff15400d)),
-                                                      filled: true,
-                                                      fillColor:
-                                                          Color(0xffe9f5db),
+                                                      // filled: true,
+                                                      // fillColor:
+                                                      //     Color(0xffe9f5db),
+                                                      
                                                       border:
-                                                          OutlineInputBorder(),
+                                                          OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                                                      // hintText: Text("Enter"),
                                                       label: Text(
                                                           value["label"])),
                                                 ),
@@ -242,37 +246,7 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                     bottom: 8.0),
                                 child: Row(
                                   children: [
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
-                                                    const Color(0xff0f6f03))),
-                                        onPressed: () {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DashBoardPage()));
-                                        },
-                                        child: const Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.arrow_back_rounded,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              "Back",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            )
-                                          ],
-                                        )),
-                                    const Spacer(),
+
                                     BlocConsumer<SnehapanaBloc, SnehapanaState>(
                                       listener: (context, state) {
                                         if (state is SnehapanaError) {
@@ -338,23 +312,16 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                                       SnehapanaData:
                                                           aamaLakshanReq));
                                             },
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                AutoSizeText(
-                                                  "Next",
+                                            child: SizedBox(
+                                              width: 80,
+                                              height: 50,
+                                              child: Center(
+                                                child: AutoSizeText(
+                                                  "Submit",
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_rounded,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
+                                              ),
                                             ));
                                       },
                                     ),
