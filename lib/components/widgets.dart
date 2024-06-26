@@ -56,6 +56,26 @@ class VamanaDrawer extends StatefulWidget {
 }
 
 class _VamanaDrawerState extends State<VamanaDrawer> {
+  String? userName;
+  String? patientName;
+  String? patientUhid;
+  String? assessmentId;
+  void getHeaderData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString("userName") ?? "Physician UserName";
+      patientName = prefs.getString("patientName") ?? "Patient Name";
+      assessmentId = prefs.getString("assessmentID") ?? "Assessment ID";
+      patientUhid = prefs.getString("patientUhid") ?? "Patient UHID";
+    });
+  }
+
+  @override
+  void initState() {
+    getHeaderData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     dev.log(widget.selectedPage ?? "null");
@@ -70,18 +90,18 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 color: Color(0xff97a97c),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const DrawerHeader(
+              child: DrawerHeader(
                   margin: EdgeInsets.zero,
                   padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AutoSizeText("Physician Name"),
-                      Spacer(),
-                      AutoSizeText("Patient Name"),
-                      AutoSizeText("Patient UHID"),
-                      AutoSizeText("Assessment ID")
+                      AutoSizeText(userName ?? "User Name"),
+                      const Spacer(),
+                      AutoSizeText(patientName ?? "Patient Name"),
+                      AutoSizeText(patientUhid ?? "Patient UHID"),
+                      AutoSizeText(assessmentId ?? "Assessment ID")
                     ],
                   )),
             ),
@@ -142,21 +162,24 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-
-          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "AamaLakshana", label: "Aama Lakshana", onPressed:() {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) => AamaLakshanaPage())));
-          }),
-
-          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "Rookshana", label: "Rookshana", onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) => RookshanaPage())));
-          }),
-
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "AamaLakshana",
+              label: "Aama Lakshana",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => AamaLakshanaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "Rookshana",
+              label: "Rookshana",
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => RookshanaPage())));
+              }),
           Divider(
               color: Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
@@ -170,23 +193,27 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
             ),
           ),
-          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "SnehapanaCalculator", label: "Snehapana Calculator", onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) => SnehpanaPage())));
-          }),
-
-          VamanaDrawerTile(selectedPage: widget.selectedPage, toCheck: "SnehanaLakshana", label: "Snehana Lakshana", onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) => SnehanaLakshanaPage())));
-          } ),
-
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
-              toCheck: "Snehpana",
+              toCheck: "SnehapanaCalculator",
+              label: "Snehapana Calculator",
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => SnehpanaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "SnehanaLakshana",
+              label: "Snehana Lakshana",
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => SnehanaLakshanaPage())));
+              }),
+          VamanaDrawerTile(
+              selectedPage: widget.selectedPage,
+              toCheck: "Snehapana",
               label: "Snehpana",
               onPressed: () {
                 Navigator.push(context,
@@ -350,7 +377,7 @@ class _VamanaDrawerTileState extends State<VamanaDrawerTile> {
           ? Container(
               decoration: BoxDecoration(
                   color: Color(0xffb5c99a),
-                  borderRadius: BorderRadius.circular(30)),
+                  borderRadius: BorderRadius.circular(10)),
               child: ListTile(
                 title: Text(widget.label),
                 onTap: widget.onPressed,

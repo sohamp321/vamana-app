@@ -39,6 +39,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
 
         await prefs.setString('userToken', data["token"]);
+        await prefs.setString("userName", data["username"]);
 
         emit(UserVerified(token: data["token"]));
       } else {

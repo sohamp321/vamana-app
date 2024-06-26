@@ -42,7 +42,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: VamanaAppBar(),
-      drawer: VamanaDrawer(selectedPage: "Dashboard",),
+      drawer: VamanaDrawer(
+        selectedPage: "Dashboard",
+      ),
       body: BlocProvider(
         create: (context) => DashBoardBloc()..add(GetDashBoardData()),
         child: Stack(
@@ -148,11 +150,13 @@ class AssessmentItem extends StatelessWidget {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           if (assessmentID != null) {
             prefs.setString("assessmentID", assessmentID!);
+            prefs.setString("patientUhid", uhid!);
+            prefs.setString("patientName", patientName!);
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AamaLakshanaPage()));
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-               const SnackBar(content: Text("Error: Assessment ID does not exist")));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Error: Assessment ID does not exist")));
           }
         },
         child: Container(

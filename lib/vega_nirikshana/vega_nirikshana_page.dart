@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -169,7 +170,9 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SizedBox(height: screenHeight*0.195,),
+                      SizedBox(
+                        height: screenHeight * 0.195,
+                      ),
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
@@ -260,7 +263,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   color: Color(0xff15400d)),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: DropdownButtonFormField<
                                                       String>(
                                                   decoration: InputDecoration(
@@ -293,10 +297,13 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   value: selectedInput,
                                                   items: [
                                                     DropdownMenuItem(
-                                                      value: "madhuyashtiPhanta",
+                                                      value:
+                                                          "madhuyashtiPhanta",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Madhuyashti Phanta",
                                                           maxLines: 2,
                                                         ),
@@ -307,7 +314,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                         child: AutoSizeText(
                                                             "Lavanodaka")),
                                                   ],
-                                                  onChanged: (String? newValue) {
+                                                  onChanged:
+                                                      (String? newValue) {
                                                     setState(() {
                                                       selectedInput = newValue;
                                                     });
@@ -320,8 +328,9 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                 max: 25,
                                                 divisions: 24,
                                                 value: inputValue,
-                                                label:
-                                                    inputValue.toInt().toString(),
+                                                label: inputValue
+                                                    .toInt()
+                                                    .toString(),
                                                 onChanged: (double value) {
                                                   selectedInput != null
                                                       ? setState(() {
@@ -342,8 +351,9 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                 max: 8,
                                                 divisions: 7,
                                                 value: vegaValue,
-                                                label:
-                                                    vegaValue.toInt().toString(),
+                                                label: vegaValue
+                                                    .toInt()
+                                                    .toString(),
                                                 onChanged: (double value) {
                                                   setState(() {
                                                     vegaValue = value;
@@ -377,7 +387,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   color: Color(0xff15400D)),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: DropdownButtonFormField<
                                                       String>(
                                                   decoration: InputDecoration(
@@ -412,8 +423,10 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                     DropdownMenuItem(
                                                       value: "milkYavagu",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Milk Yavagu",
                                                           maxLines: 2,
                                                         ),
@@ -422,8 +435,10 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                     DropdownMenuItem(
                                                       value: "kapha",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Kapha",
                                                           maxLines: 2,
                                                         ),
@@ -432,8 +447,10 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                     DropdownMenuItem(
                                                       value: "pitta",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Pitta",
                                                           maxLines: 2,
                                                         ),
@@ -442,18 +459,23 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                     DropdownMenuItem(
                                                       value: "aushadha",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Aushadha",
                                                           maxLines: 2,
                                                         ),
                                                       ),
                                                     ),
                                                     DropdownMenuItem(
-                                                      value: "madhuyashtiPhanta",
+                                                      value:
+                                                          "madhuyashtiPhanta",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Madhuyashti Phanta",
                                                           maxLines: 2,
                                                         ),
@@ -462,26 +484,34 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                     DropdownMenuItem(
                                                       value: "lavanodaka",
                                                       child: SizedBox(
-                                                        width: screenWidth * 0.7,
-                                                        child: const AutoSizeText(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child:
+                                                            const AutoSizeText(
                                                           "Lavanodaka",
                                                           maxLines: 2,
                                                         ),
                                                       ),
                                                     ),
                                                   ],
-                                                  onChanged: (String? newValue) {
+                                                  onChanged:
+                                                      (String? newValue) {
                                                     setState(() {
                                                       observations = newValue;
                                                     });
                                                   }),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
                                                 controller: otherController,
-                                                decoration: const InputDecoration(
-                                                    border: OutlineInputBorder(),
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    15.0)),
                                                     label: Text("Others")),
                                               ),
                                             ),
@@ -492,11 +522,16 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   color: Color(0xff15400D)),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
                                                 controller: outputController,
-                                                decoration: const InputDecoration(
-                                                    border: OutlineInputBorder(),
+                                                decoration: InputDecoration(
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    15.0)),
                                                     label: Text("Output")),
                                               ),
                                             ),
@@ -518,7 +553,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                     ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor:
-                                                MaterialStateProperty.all<Color>(
+                                                MaterialStateProperty.all<
+                                                        Color>(
                                                     const Color(0xff0f6f03))),
                                         onPressed: () {
                                           Navigator.pushReplacement(
@@ -539,8 +575,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                             ),
                                             Text(
                                               "Back",
-                                              style:
-                                                  TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             )
                                           ],
                                         )),
@@ -560,8 +596,9 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                           return ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty
-                                                          .all<Color>(const Color(
+                                                      MaterialStateProperty.all<
+                                                              Color>(
+                                                          const Color(
                                                               0xff0f6f03))),
                                               onPressed: () => null,
                                               child: const Padding(
@@ -572,31 +609,33 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                           valueColor:
                                                               AlwaysStoppedAnimation<
                                                                       Color>(
-                                                                  Colors.white)),
+                                                                  Colors
+                                                                      .white)),
                                                 ),
                                               ));
                                         }
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty.all<
-                                                            Color>(
-                                                        const Color(0xff0f6f03))),
+                                                    MaterialStateProperty
+                                                        .all<Color>(const Color(
+                                                            0xff0f6f03))),
                                             onPressed: () async {
                                               final SharedPreferences prefs =
                                                   await SharedPreferences
                                                       .getInstance();
-                                              String? assessmentID =
-                                                  prefs.getString("assessmentID");
-                
+                                              String? assessmentID = prefs
+                                                  .getString("assessmentID");
+
                                               dev.log(assessmentID ??
                                                   "Does not exist");
-                
+
                                               Map<String, dynamic>
                                                   aamaLakshanReq = {
                                                 "assessmentName":
                                                     "VegaNirikshana",
-                                                "day": selectedEntry.entryNumber,
+                                                "day":
+                                                    selectedEntry.entryNumber,
                                                 "id": assessmentID,
                                                 "data": {
                                                   "date": selectedDate,
@@ -610,7 +649,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                 }
                                               };
                                               dev.log(state.toString());
-                                              BlocProvider.of<VegaNirikshanaBloc>(
+                                              BlocProvider.of<
+                                                          VegaNirikshanaBloc>(
                                                       context)
                                                   .add(CreateVegaNirikshana(
                                                       VegaNirikshanaData:
@@ -618,7 +658,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                             },
                                             child: const Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
@@ -650,86 +691,5 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
             )
           ],
         ));
-  }
-}
-
-class ComplaintsRow extends StatefulWidget {
-  double screenWidth;
-  double screenHeight;
-  String label;
-  bool? isSelected;
-  VoidCallback onCheckPressed;
-  VoidCallback onCrossPressed;
-
-  ComplaintsRow({
-    required this.screenWidth,
-    required this.screenHeight,
-    required this.label,
-    required this.isSelected,
-    required this.onCheckPressed,
-    required this.onCrossPressed,
-  });
-
-  @override
-  State<ComplaintsRow> createState() => _ComplaintsRowState();
-}
-
-class _ComplaintsRowState extends State<ComplaintsRow> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 2.0, bottom: 2.0),
-      child: Row(
-        children: [
-          Container(
-            width: widget.screenWidth * 0.595,
-            height: widget.screenHeight * 0.05,
-            decoration: const BoxDecoration(
-              color: Color(0xff97a97c),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Center(
-                child: AutoSizeText(
-                  maxLines: 2,
-                  widget.label,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: widget.screenWidth * 0.14,
-            height: widget.screenHeight * 0.05,
-            decoration: BoxDecoration(
-              color: widget.isSelected == true
-                  ? Colors.green.withOpacity(0.5)
-                  : const Color(0xffe9f5db),
-              border: const Border(
-                right: BorderSide(color: Color(0xff15400d)),
-                left: BorderSide(color: Color(0xff15400d)),
-              ),
-            ),
-            child: IconButton(
-              onPressed: widget.onCheckPressed,
-              icon: const Icon(Icons.check_rounded),
-            ),
-          ),
-          Container(
-            width: widget.screenWidth * 0.14,
-            height: widget.screenHeight * 0.05,
-            decoration: BoxDecoration(
-              color: widget.isSelected == false
-                  ? Colors.red.withOpacity(0.5)
-                  : const Color(0xffe9f5db),
-            ),
-            child: IconButton(
-              onPressed: widget.onCrossPressed,
-              icon: const Icon(Icons.close_rounded),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
