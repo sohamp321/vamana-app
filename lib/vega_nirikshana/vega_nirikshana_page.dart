@@ -551,7 +551,6 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-
                                     ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor:
@@ -617,48 +616,46 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                               ));
                                         }
                                         return ElevatedButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty
-                                                        .all<Color>(const Color(
-                                                            0xff0f6f03))),
-                                            onPressed: () async {
-                                              final SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              String? assessmentID = prefs
-                                                  .getString("assessmentID");
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      const Color(0xff0f6f03))),
+                                          onPressed: () async {
+                                            final SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            String? assessmentID =
+                                                prefs.getString("assessmentID");
 
-                                              dev.log(assessmentID ??
-                                                  "Does not exist");
+                                            dev.log(assessmentID ??
+                                                "Does not exist");
 
-                                              Map<String, dynamic>
-                                                  aamaLakshanReq = {
-                                                "assessmentName":
-                                                    "VegaNirikshana",
-                                                "day":
-                                                    selectedEntry.entryNumber,
-                                                "id": assessmentID,
-                                                "data": {
-                                                  "date": selectedDate,
-                                                  "dose": doseSelected == true
-                                                      ? "3"
-                                                      : "5",
-                                                  ...aamaLakshanData.map(
-                                                      (key, value) => MapEntry(
-                                                          key,
-                                                          value["isSelected"]))
-                                                }
-                                              };
-                                              dev.log(state.toString());
-                                              BlocProvider.of<
-                                                          VegaNirikshanaBloc>(
-                                                      context)
-                                                  .add(CreateVegaNirikshana(
-                                                      VegaNirikshanaData:
-                                                          aamaLakshanReq));
-                                            },
-                                            child: const Row(
+                                            Map<String, dynamic>
+                                                aamaLakshanReq = {
+                                              "assessmentName":
+                                                  "VegaNirikshana",
+                                              "day": selectedEntry.entryNumber,
+                                              "id": assessmentID,
+                                              "data": {
+                                                "date": selectedDate,
+                                                "dose": doseSelected == true
+                                                    ? "3"
+                                                    : "5",
+                                                ...aamaLakshanData.map(
+                                                    (key, value) => MapEntry(
+                                                        key,
+                                                        value["isSelected"]))
+                                              }
+                                            };
+                                            dev.log(state.toString());
+                                            BlocProvider.of<VegaNirikshanaBloc>(
+                                                    context)
+                                                .add(CreateVegaNirikshana(
+                                                    VegaNirikshanaData:
+                                                        aamaLakshanReq));
+                                          },
+                                          child: const Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
@@ -670,8 +667,8 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   style: TextStyle(
                                                       color: Colors.white),
                                                 ),
-                                              ),
-                                            ));
+                                              ]),
+                                        );
                                       },
                                     ),
                                   ],
