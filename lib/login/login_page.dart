@@ -18,11 +18,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  void checkUser(String userName, String password) async {}
-
+  // Controller for user inputs
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Toggle states
+  bool isLoginSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +65,37 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   width: screenWidth * 0.9,
-                  height: screenHeight * 0.37,
+                  height: screenHeight * 0.4,
                   child: Form(
                     key: _formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        // Segmented Toggle Button
+                        ToggleButtons(
+                          borderColor: const Color(0xff15400D),
+                          selectedBorderColor: const Color(0xff15400D),
+                          selectedColor: Colors.white,
+                          fillColor: const Color(0xff0f6f03),
+                          isSelected: [isLoginSelected, !isLoginSelected],
+                          onPressed: (index) {
+                            setState(() {
+                              isLoginSelected = index == 0;
+                            });
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Text("Log In"),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Text("Sign Up"),
+                            ),
+                          ],
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: TextFormField(
@@ -83,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                         ),
+
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: TextFormField(
@@ -133,7 +162,9 @@ class _LoginPageState extends State<LoginPage> {
                                                   userName:
                                                       userNameController.text,
                                                   userPwd:
-                                                      passwordController.text));
+                                                      passwordController.text,
+                                                  isLoggingIn:
+                                                      isLoginSelected));
                                         }
                                       },
                                 style: ButtonStyle(
@@ -146,9 +177,9 @@ class _LoginPageState extends State<LoginPage> {
                                             AlwaysStoppedAnimation<Color>(
                                                 Colors.white),
                                       )
-                                    : const Text(
-                                        "Sign In",
-                                        style: TextStyle(
+                                    : Text(
+                                        isLoginSelected ? "Log In" : "Sign Up",
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w600),

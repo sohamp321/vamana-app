@@ -118,11 +118,13 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? _userToken = prefs.getString("userToken");
+   
 
     if (_userToken != null) {
       try {
         var url = Uri.parse('${dotenv.env["SERVER_URL"]}/add');
         dev.log("Sending request to : $url");
+        dev.log("Request Body: $_addRequest");
         var response = await http.post(
           url,
           headers: {
@@ -137,8 +139,6 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
 
           dev.log(" Response: ${response.body}");
 
-
-         
           dev.log("Assessment ID: ${data["_id"]}");
 
           final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -151,6 +151,7 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
         } else {
           dev.log(
               "Error Occured with code : ${response.statusCode} and error message : ${response.body}");
+              emit(NewAssessmentError(error: "Error Occured with code : ${response.statusCode} and error message : ${response.body}"));
         }
       } catch (e) {
         emit(NewAssessmentError(error: e.toString()));

@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login_state.dart';
 import 'login_event.dart';
 import 'package:http/http.dart' as http;
-import "dart:developer" as dev;
+import 'dart:developer' as dev;
 import 'dart:convert';
-import "package:shared_preferences/shared_preferences.dart";
-import "package:flutter_dotenv/flutter_dotenv.dart";
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(UserUnknown()) {
@@ -13,60 +13,79 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<UserLoggedIn>(_isLoggedIn);
   }
 
-  void _checkUser(CheckUser event, Emitter<LoginState> emit) async {
+  Future<void> _checkUser(CheckUser event, Emitter<LoginState> emit) async {
     emit(CheckingUser());
-
-    // await Future.delayed(const Duration(seconds: 2));
-
-    // emit(UserVerified(token: "Token"));
+    final url = event.isLoggingIn
+        ? '${dotenv.env["SERVER_URL"]}/login'
+        : '${dotenv.env["SERVER_URL"]}/signup';
 
     try {
-      var url = Uri.parse('${dotenv.env["SERVER_URL"]}/login');
-      dev.log("Sending request to : $url");
-      var response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body:
-            jsonEncode({"username": event.userName, "password": event.userPwd}),
+      final response = await _sendPostRequest(
+        url: url,
+        body: {"username": event.userName, "password": event.userPwd},
       );
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        dev.log("Login Response: ${response.body}");
+        final data = jsonDecode(response.body);
+        dev.log("Response: ${response.body}");
 
-        dev.log("Saved Token: ${data["token"]}");
-
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        await prefs.setString('userToken', data["token"]);
-        await prefs.setString("userName", data["username"]);
-
+        await _saveUserData(data["token"], data["username"]);
         emit(UserVerified(token: data["token"]));
       } else {
-        dev.log("Error Occured");
+        // Extract error message from server response if available
+        final errorData = jsonDecode(response.body);
+        dev.log(errorData.toString());
+        final errorMessage = errorData['remark'] ?? 'Unknown error occurred';
+        dev.log("Error: $errorMessage");
+        emit(LoginError(errorMessage));
       }
     } catch (e) {
-      emit(LoginError(e.toString()));
-      dev.log("Login Error: $e");
+      emit(LoginError('Login failed: $e'));
+      dev.log("Error: $e");
     }
-
-    // final supabase = Supabase.instance.client;
-
-    // final response = await supabase.from("userInfo").select().eq("user_name", event.userName);
   }
 
-  void _isLoggedIn(UserLoggedIn event, Emitter<LoginState> emit) async {
+  Future<void> _isLoggedIn(UserLoggedIn event, Emitter<LoginState> emit) async {
     emit(CheckingUser());
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String? token = prefs.getString('userToken');
-    dev.log('Saved User Token : $token');
-
-    if (token != null) {
-      emit(UserVerified(token: token));
-    } else {
-      emit(UserUnknown());
+    try {
+      final token = await _getUserToken();
+      if (token != null) {
+        emit(UserVerified(token: token));
+      } else {
+        emit(UserUnknown());
+      }
+    } catch (e) {
+      emit(LoginError('Failed to retrieve user token: $e'));
+      dev.log("Error: $e");
     }
+  }
+
+  Future<http.Response> _sendPostRequest({
+    required String url,
+    required Map<String, dynamic> body,
+  }) async {
+    final uri = Uri.parse(url);
+    dev.log("Sending request to: $uri");
+
+    return await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(body),
+    );
+  }
+
+  Future<void> _saveUserData(String token, String username) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userToken', token);
+    await prefs.setString('userName', username);
+    dev.log("Saved token: $token, username: $username");
+  }
+
+  Future<String?> _getUserToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('userToken');
+    dev.log('Saved User Token: $token');
+    return token;
   }
 }

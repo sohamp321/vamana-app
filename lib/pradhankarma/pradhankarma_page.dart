@@ -80,6 +80,10 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
       "label": "Lavanodaka",
       "intakeQuantity": TextEditingController()
     },
+    "other" :{
+      "label": "Other",
+      "intakeQuantity": TextEditingController()
+    }
   };
 
 
@@ -290,7 +294,7 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
                                                       PradhanKarmaData:
                                                           aamaLakshanReq));
                                             },
-                                            child: SizedBox(
+                                            child: const SizedBox(
                                               width: 80,
                                               height: 50,
                                               child: Center(

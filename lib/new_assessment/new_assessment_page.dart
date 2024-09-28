@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import "package:carousel_slider/carousel_slider.dart";
 import "package:intl/intl.dart";
 import "package:vamana_app/aama_lakshana/aama_lakshana_page.dart";
+import "package:vamana_app/assessment_info/assessment_info_page.dart";
 import "package:vamana_app/components/widgets.dart";
 import "new_assessment_bloc/new_assessment_bloc.dart";
 import "new_assessment_bloc/new_assessment_event.dart";
@@ -44,6 +45,10 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
     'Medical History': {
       'controller': TextEditingController(),
       "errorText": "Medical History"
+    },
+    'Admission Date': {
+      'controller': TextEditingController(),
+      "errorText": "Date of Admission"
     },
   };
 
@@ -160,7 +165,9 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(selectedPage: null,),
+        drawer: VamanaDrawer(
+          selectedPage: null,
+        ),
         body: Stack(children: [
           Image.asset(
             "assets/images/bg1.jpg",
@@ -310,7 +317,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AamaLakshanaPage()));
+                                              AssessmentInfoPage()));
                                 }
                               },
                               child: ElevatedButton(
@@ -351,24 +358,19 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                     }
                                     // Investigations Page
                                     if (currentIndex == 2) {
-                                      if (investigationsKey.currentState
-                                              ?.validate() ??
-                                          false) {
-                                        Map<String, dynamic>
-                                            _investigationsData = {};
-                                        investigationsData
-                                            .forEach((key, value) {
-                                          _investigationsData[key] =
-                                              value["controller"].text;
-                                        });
-                                        BlocProvider.of<NewAssessmentBloc>(
-                                                context)
-                                            .add(UpdateInvestigations(
-                                                investigationsInfo:
-                                                    _investigationsData));
+                                      Map<String, dynamic> _investigationsData =
+                                          {};
+                                      investigationsData.forEach((key, value) {
+                                        _investigationsData[key] =
+                                            value["controller"].text;
+                                      });
+                                      BlocProvider.of<NewAssessmentBloc>(
+                                              context)
+                                          .add(UpdateInvestigations(
+                                              investigationsInfo:
+                                                  _investigationsData));
 
-                                        _carouselController.nextPage();
-                                      }
+                                      _carouselController.nextPage();
                                     }
                                     if (currentIndex == 3) {
                                       Map<String, dynamic> _deepanaPachanaData =
@@ -645,12 +647,8 @@ class _PatientDetailsFormState extends State<PatientDetailsForm> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: widget.fieldData.entries.map((entry) {
-                        if (entry.key != "Date of Birth") {
-                          return CustomFormField(
-                              fieldController: entry.value["controller"],
-                              labelText: entry.key,
-                              errorText: entry.value['errorText']);
-                        } else {
+                        if (entry.key == "Date of Birth" ||
+                            entry.key == "Admission Date") {
                           return GestureDetector(
                             onTap: () async {
                               final DateTime? picked = await showDatePicker(
@@ -675,6 +673,10 @@ class _PatientDetailsFormState extends State<PatientDetailsForm> {
                             ),
                           );
                         }
+                        return CustomFormField(
+                            fieldController: entry.value["controller"],
+                            labelText: entry.key,
+                            errorText: entry.value['errorText']);
                       }).toList(),
                     ),
                   ),

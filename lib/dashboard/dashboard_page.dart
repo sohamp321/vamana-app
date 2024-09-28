@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/aama_lakshana/aama_lakshana_bloc/aama_lakshana_bloc.dart';
+import 'package:vamana_app/assessment_info/assessment_info_page.dart';
 import 'package:vamana_app/components/widgets.dart';
 import 'package:vamana_app/login/login_page.dart';
 import 'package:vamana_app/new_assessment/new_assessment_page.dart';
@@ -59,6 +60,15 @@ class _DashBoardPageState extends State<DashBoardPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: screenWidth * 0.05),
+                      child: Image.asset('assets/images/aiia-logo.png', width: screenWidth*0.25,),
+                    ),
+                  ],
+                ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
@@ -153,7 +163,7 @@ class AssessmentItem extends StatelessWidget {
             prefs.setString("patientUhid", uhid!);
             prefs.setString("patientName", patientName!);
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AamaLakshanaPage()));
+                MaterialPageRoute(builder: (context) => AssessmentInfoPage()));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("Error: Assessment ID does not exist")));

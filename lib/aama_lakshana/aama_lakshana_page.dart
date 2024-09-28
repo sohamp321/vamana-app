@@ -58,7 +58,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
       "isSelected": null as bool?
     },
     "apakti": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
+      "label": "Apakti-Do you experience symptoms like indigestion or abdominal distension?",
       "isSelected": null as bool?
     },
     "nishteeva": {
@@ -539,16 +539,16 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
         ));
   }
 }
-
 class ComplaintsRow extends StatefulWidget {
-  double screenWidth;
-  double screenHeight;
-  String label;
-  bool? isSelected;
-  VoidCallback onCheckPressed;
-  VoidCallback onCrossPressed;
+  final double screenWidth;
+  final double screenHeight;
+  final String label;
+  final bool? isSelected;
+  final VoidCallback onCheckPressed;
+  final VoidCallback onCrossPressed;
 
-  ComplaintsRow({
+  const ComplaintsRow({
+    super.key,
     required this.screenWidth,
     required this.screenHeight,
     required this.label,
@@ -566,56 +566,61 @@ class _ComplaintsRowState extends State<ComplaintsRow> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 2.0, bottom: 2.0),
-      child: Row(
-        children: [
-          Container(
-            width: widget.screenWidth * 0.595,
-            height: widget.screenHeight * 0.05,
-            decoration: const BoxDecoration(
-              color: Color(0xff97a97c),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Center(
-                child: AutoSizeText(
-                  maxLines: 2,
-                  widget.label,
-                  style: const TextStyle(color: Colors.white),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 590,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xff97a97c),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Center(
+                    child: Text(
+                      widget.label,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            width: widget.screenWidth * 0.14,
-            height: widget.screenHeight * 0.05,
-            decoration: BoxDecoration(
-              color: widget.isSelected == true
-                  ? Colors.green.withOpacity(0.5)
-                  : const Color(0xffe9f5db),
-              border: const Border(
-                right: BorderSide(color: Color(0xff15400d)),
-                left: BorderSide(color: Color(0xff15400d)),
+            Expanded(
+              flex: 135,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: widget.isSelected == true
+                      ? Colors.green.withOpacity(0.5)
+                      : const Color(0xffe9f5db),
+                  border: const Border(
+                    right: BorderSide(color: Color(0xff15400d)),
+                    left: BorderSide(color: Color(0xff15400d)),
+                  ),
+                ),
+                child: IconButton(
+                  onPressed: widget.onCheckPressed,
+                  icon: const Icon(Icons.check_rounded),
+                ),
               ),
             ),
-            child: IconButton(
-              onPressed: widget.onCheckPressed,
-              icon: const Icon(Icons.check_rounded),
+            Expanded(
+              flex: 135,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: widget.isSelected == false
+                      ? Colors.red.withOpacity(0.5)
+                      : const Color(0xffe9f5db),
+                ),
+                child: IconButton(
+                  onPressed: widget.onCrossPressed,
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ),
             ),
-          ),
-          Container(
-            width: widget.screenWidth * 0.14,
-            height: widget.screenHeight * 0.05,
-            decoration: BoxDecoration(
-              color: widget.isSelected == false
-                  ? Colors.red.withOpacity(0.5)
-                  : const Color(0xffe9f5db),
-            ),
-            child: IconButton(
-              onPressed: widget.onCrossPressed,
-              icon: const Icon(Icons.close_rounded),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -158,32 +158,19 @@ class _SamsarKramaPageState extends State<SamsarKramaPage> {
                             color: const Color(0xffb5c99a),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: _tempPdfPaths.isEmpty
-                              ? const Center(
-                                  child: CircularProgressIndicator.adaptive(),
-                                )
-                              : Stack(
-                                  children: [
-                                    if (_selectedPdf == 'Pravar' &&
-                                        _tempPdfPaths['Pravar'] != null)
-                                      PDFView(
-                                        filePath: _tempPdfPaths['Pravar']!,
-                                  
-                                      ),
-                                    if (_selectedPdf == 'Madhyam' &&
-                                        _tempPdfPaths['Madhyam'] != null)
-                                      PDFView(
-                                        filePath: _tempPdfPaths['Madhyam']!,
-                                        
-                                      ),
-                                    if (_selectedPdf == 'Avara' &&
-                                        _tempPdfPaths['Avara'] != null)
-                                      PDFView(
-                                        filePath: _tempPdfPaths['Avara']!,
-                                      
-                                      ),
-                                  ],
-                                ),
+                          child: IndexedStack(
+                            index: _pdfFiles.keys.toList().indexOf(_selectedPdf),
+                            children: _pdfFiles.keys.map((pdfKey) {
+                              final pdfPath = _tempPdfPaths[pdfKey];
+                              return pdfPath != null
+                                  ? PDFView(
+                                      filePath: pdfPath,
+                                    )
+                                  : const Center(
+                                      child: CircularProgressIndicator.adaptive(),
+                                    );
+                            }).toList(),
+                          ),
                         ),
                         ElevatedButton(
                           onPressed: _sharePdf,

@@ -75,7 +75,9 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(selectedPage: "BloodPressure",),
+        drawer: VamanaDrawer(
+          selectedPage: "BloodPressure",
+        ),
         body: Stack(
           children: [
             Image.asset(
@@ -231,10 +233,12 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                                                 child: AbsorbPointer(
                                                   child: TextFormField(
                                                     controller: timeController,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            OutlineInputBorder(),
-                                                        label: Text("Time")),
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(),
+                                                            label:
+                                                                Text("Time")),
                                                   ),
                                                 ),
                                               ),
@@ -248,7 +252,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                                                   controller: value["value"],
                                                   decoration: InputDecoration(
                                                       border:
-                                                          OutlineInputBorder(),
+                                                          const OutlineInputBorder(),
                                                       label:
                                                           Text(value["label"])),
                                                 ),
@@ -268,7 +272,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                                     top: 8.0,
                                     bottom: 8.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end ,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     BlocConsumer<BloodPressureBloc,
                                         BloodPressureState>(
@@ -341,7 +345,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                                                       BloodPressureData:
                                                           aamaLakshanReq));
                                             },
-                                            child: SizedBox(
+                                            child: const SizedBox(
                                               width: 80,
                                               height: 50,
                                               child: Center(

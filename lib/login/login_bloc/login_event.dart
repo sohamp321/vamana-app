@@ -8,8 +8,9 @@ abstract class LoginEvent extends Equatable {
 class CheckUser extends LoginEvent {
   final String userName;
   final String userPwd;
+  final bool isLoggingIn;
 
-  CheckUser({required this.userName, required this.userPwd});
+  CheckUser({required this.userName, required this.userPwd, required this.isLoggingIn});
   @override
   List<Object> get props => [userName, userPwd];
 }

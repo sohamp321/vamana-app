@@ -16,6 +16,7 @@ import 'package:vamana_app/login/login_page.dart';
 import "package:auto_size_text/auto_size_text.dart";
 import 'vega_nirikshana_bloc/vega_nirikshana_event.dart';
 import 'vega_nirikshana_bloc/vega_nirikshana_state.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class VegaNirikshanaPage extends StatefulWidget {
   const VegaNirikshanaPage({super.key});
@@ -70,48 +71,26 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
     super.initState();
   }
 
-  Map<String, dynamic> aamaLakshanData = {
-    "aruchi": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
-      "isSelected": null as bool?
-    },
-    "apakti": {
-      "label": "Aruchi-Do you experience lack of desire towards food",
-      "isSelected": null as bool?
-    },
-    "nishteeva": {
-      "label":
-          "Nishtheeva-Do you have urge for repetitive spitting/ excessive salivation?",
-      "isSelected": null as bool?
-    },
-    "anilaMudata": {
-      "label":
-          "Do you have any bothersome feeling of improper  passing of Flatus / stool?",
-      "isSelected": null as bool?
-    },
-    "malaSanga": {
-      "label":
-          "Mala sanga- Do you experience decreased sweating ? micturition or incomplete evacuation ? (already covered in srotodhalakshan part)",
-      "isSelected": null as bool?
-    },
-    "gaurav": {
-      "label":
-          "Gaurav- Do you ever experience unusual feeling of heaviness in the body?",
-      "isSelected": null as bool?
-    }
-  };
-
   String? selectedInput;
   double inputValue = 1;
-  double vegaValue = 1;
-  double upvegaValue = 1;
+  double vegaValue = 0;
+  double upvegaValue = 0;
   String? observations;
+  String vegaTime = DateFormat('HH:mm').format(DateTime.now());
+  String upvegaTime = DateFormat('HH:mm').format(DateTime.now());
   final TextEditingController otherController = TextEditingController();
   final TextEditingController outputController = TextEditingController();
-
-  String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-
-  bool? doseSelected = null;
+  final TextEditingController vegaController = TextEditingController();
+  final TextEditingController upvegaController = TextEditingController();
+  List<String?> _observations = [];
+  final List<String> _items = [
+    "Milk Yavagu",
+    "Kapha",
+    "Pitta",
+    "Aushadha",
+    "Madhuyashti Phanta",
+    "Lavanodaka",
+  ];
 
   Entries selectedEntry = Entries.entry1;
   @override
@@ -138,30 +117,46 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                 if (state is VegaNirikshanaLoaded) {
                   if (state.VegaNirikshanaDataRec != null) {
                     setState(() {
-                      selectedDate = state.VegaNirikshanaDataRec!["date"];
-                    });
-
-                    state.VegaNirikshanaDataRec!.forEach((key, value) {
-                      if (key == "date") {
-                        selectedDate = value;
-                      } else if (key == "dose") {
-                        if (value == "3") {
-                          doseSelected = true;
-                        } else {
-                          doseSelected = false;
+                      state.VegaNirikshanaDataRec!.forEach((key, value) {
+                        if (key == "selectedInput") {
+                          selectedInput = value;
+                        } else if (key == "inputValue") {
+                          double newVal = (value as num).toDouble();
+                          inputValue = newVal;
+                        } else if (key == "vegaTime") {
+                          vegaTime = value;
+                          vegaController.text = value;
+                          dev.log(vegaController.text);
+                          dev.log(value);
+                          dev.log(vegaTime);
+                        } else if (key == "vegaValue") {
+                          double newVal = (value as num).toDouble();
+                          vegaValue = newVal;
+                        } else if (key == "upvegaTime") {
+                          upvegaTime = value;
+                          upvegaController.text = value;
+                        } else if (key == "upvegaValue") {
+                          double newVal = (value as num).toDouble();
+                          upvegaValue = newVal;
+                        } else if (key == "observations") {
+                          List<dynamic> dynamicList = value;
+                          _observations = dynamicList.map((item) => item as String?).toList();
+                        } else if (key == "otherObservations") {
+                          otherController.text = value;
+                        } else if (key == "output") {
+                          outputController.text = value;
                         }
-                      } else {
-                        aamaLakshanData[key]["isSelected"] = value;
-                      }
+                      });
                     });
                   } else {
                     selectedInput = null;
                     inputValue = 1;
-                    vegaValue = 1;
-                    upvegaValue = 1;
+                    vegaValue = 0;
+                    upvegaValue = 0;
                     observations = null;
                     otherController.clear();
                     outputController.clear();
+                    _observations = [];
                   }
                 }
               },
@@ -228,6 +223,14 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                         observations = null;
                                         otherController.clear();
                                         outputController.clear();
+                                        vegaTime = DateFormat('HH:mm')
+                                            .format(DateTime.now());
+
+                                        vegaController.text = vegaTime;
+                                        upvegaTime = DateFormat('HH:mm')
+                                            .format(DateTime.now());
+
+                                        upvegaController.text = upvegaTime;
                                         getAVegaNirikshana();
                                       });
                                     },
@@ -339,6 +342,49 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                       : null;
                                                 }),
                                             const AutoSizeText(
+                                              "Vega Time",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xff15400D)),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  final TimeOfDay? picked =
+                                                      await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now(),
+                                                  );
+                                                  if (picked != null) {
+                                                    setState(() {
+                                                      vegaTime = picked
+                                                          .format(context);
+                                                      vegaController.text =
+                                                          vegaTime;
+                                                    });
+                                                  }
+                                                },
+                                                child: AbsorbPointer(
+                                                  child: TextFormField(
+                                                    controller: vegaController,
+                                                    decoration: InputDecoration(
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15.0),
+                                                        ),
+                                                        label:
+                                                            const Text("Time")),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const AutoSizeText(
                                               "No. Of Vega",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -347,7 +393,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                             AutoSizeText(
                                                 vegaValue.toInt().toString()),
                                             Slider(
-                                                min: 1,
+                                                min: 0,
                                                 max: 8,
                                                 divisions: 7,
                                                 value: vegaValue,
@@ -360,6 +406,50 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                   });
                                                 }),
                                             const AutoSizeText(
+                                              "Upvega Time",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xff15400D)),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  final TimeOfDay? picked =
+                                                      await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now(),
+                                                  );
+                                                  if (picked != null) {
+                                                    setState(() {
+                                                      upvegaTime = picked
+                                                          .format(context);
+                                                      upvegaController.text =
+                                                          upvegaTime;
+                                                    });
+                                                  }
+                                                },
+                                                child: AbsorbPointer(
+                                                  child: TextFormField(
+                                                    controller:
+                                                        upvegaController,
+                                                    decoration: InputDecoration(
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15.0),
+                                                        ),
+                                                        label:
+                                                            const Text("Time")),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const AutoSizeText(
                                               "No. Of Upavega",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -368,7 +458,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                             AutoSizeText(
                                                 upvegaValue.toInt().toString()),
                                             Slider(
-                                                min: 1,
+                                                min: 0,
                                                 max: 20,
                                                 divisions: 19,
                                                 value: upvegaValue,
@@ -389,117 +479,61 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: DropdownButtonFormField<
-                                                      String>(
-                                                  decoration: InputDecoration(
-                                                    enabledBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color: Color(
-                                                                  0xff15400d)),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color: Color(
-                                                                  0xff15400d)),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
-                                                    filled: true,
-                                                    fillColor:
-                                                        const Color(0xffe9f5db),
+                                              child:
+                                                  MultiSelectBottomSheetField(
+                                                initialChildSize: 0.5,
+                                                items: _items
+                                                    .map((item) =>
+                                                        MultiSelectItem(
+                                                            item, item))
+                                                    .toList(),
+                                                title: const Text("Select"),
+                                                selectedColor:
+                                                    const Color(0xff15400d),
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0xffe9f5db),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  border: Border.all(
+                                                    color:
+                                                        const Color(0xff15400d),
+                                                    width: 2,
                                                   ),
-                                                  isExpanded: true,
-                                                  hint: const Text("Select"),
-                                                  value: observations,
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      value: "milkYavagu",
-                                                      child: SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child:
-                                                            const AutoSizeText(
-                                                          "Milk Yavagu",
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      value: "kapha",
-                                                      child: SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child:
-                                                            const AutoSizeText(
-                                                          "Kapha",
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      value: "pitta",
-                                                      child: SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child:
-                                                            const AutoSizeText(
-                                                          "Pitta",
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      value: "aushadha",
-                                                      child: SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child:
-                                                            const AutoSizeText(
-                                                          "Aushadha",
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      value:
-                                                          "madhuyashtiPhanta",
-                                                      child: SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child:
-                                                            const AutoSizeText(
-                                                          "Madhuyashti Phanta",
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      value: "lavanodaka",
-                                                      child: SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child:
-                                                            const AutoSizeText(
-                                                          "Lavanodaka",
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                  onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {
-                                                      observations = newValue;
-                                                    });
-                                                  }),
+                                                ),
+                                                buttonIcon: const Icon(
+                                                  Icons.arrow_drop_down,
+                                                  color: Color(0xff15400d),
+                                                ),
+                                                buttonText: const Text(
+                                                  "Select Observations",
+                                                  style: TextStyle(
+                                                    color: Color(0xff15400d),
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                initialValue: _observations,
+                                                onConfirm: (values) {
+                                                  setState(() {
+                                                    _observations = values
+                                                        .map(
+                                                            (e) => e.toString())
+                                                        .toList();
+                                                  });
+                                                },
+                                                chipDisplay:
+                                                    MultiSelectChipDisplay(
+                                                  items: _items
+                                                      .map((e) =>
+                                                          MultiSelectItem(
+                                                              e, e ?? ''))
+                                                      .toList(),
+                                                  onTap: (value) {
+                                                    dev.log(_observations
+                                                        .toString());
+                                                  },
+                                                ),
+                                              ),
                                             ),
                                             Padding(
                                               padding:
@@ -638,14 +672,16 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                               "day": selectedEntry.entryNumber,
                                               "id": assessmentID,
                                               "data": {
-                                                "date": selectedDate,
-                                                "dose": doseSelected == true
-                                                    ? "3"
-                                                    : "5",
-                                                ...aamaLakshanData.map(
-                                                    (key, value) => MapEntry(
-                                                        key,
-                                                        value["isSelected"]))
+                                                "selectedInput": selectedInput,
+                                                "inputValue": inputValue,
+                                                "vegaTime": vegaTime,
+                                                "vegaValue": vegaValue,
+                                                "upvegaTime": upvegaTime,
+                                                "upvegaValue": upvegaValue,
+                                                "observations": _observations,
+                                                "otherObservations":
+                                                    otherController.text,
+                                                "output": outputController.text
                                               }
                                             };
                                             dev.log(state.toString());
@@ -654,6 +690,10 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                 .add(CreateVegaNirikshana(
                                                     VegaNirikshanaData:
                                                         aamaLakshanReq));
+
+                                            _observations = [];
+                                            otherController.clear();
+                                            outputController.clear();
                                           },
                                           child: const Row(
                                               mainAxisAlignment:

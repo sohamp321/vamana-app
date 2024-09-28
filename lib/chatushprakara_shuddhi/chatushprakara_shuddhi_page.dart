@@ -46,6 +46,7 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
   String? selectedVaigikiShuddhi;
   double vaigikiShuddhi = 1.0;
   double manikiShuddhi = 0.0;
+  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -54,7 +55,9 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
         appBar: VamanaAppBar(),
-        drawer: VamanaDrawer(selectedPage: "ChatushPrakaraShuddhi",),
+        drawer: VamanaDrawer(
+          selectedPage: "ChatushPrakaraShuddhi",
+        ),
         body: Stack(
           children: [
             Image.asset(
@@ -75,6 +78,8 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                           selectedLaingikiShuddhi = value;
                         } else if (key == "manikiShuddhi") {
                           manikiShuddhi = value;
+                        } else if (key == "manikiShuddhiText") {
+                          _controller.text = value;
                         } else {
                           selectedVaigikiShuddhi = value["selection"];
                           vaigikiShuddhi = value["value"];
@@ -132,8 +137,9 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(4.0),
                                         child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
                                           child: Column(children: [
                                             const AutoSizeText(
                                               "Antiki Shuddhi",
@@ -197,6 +203,10 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                                                         value: "Pitta Darshana",
                                                         child: AutoSizeText(
                                                             "Pitta Darshana")),
+                                                    DropdownMenuItem(
+                                                        value: "Pittanta",
+                                                        child: AutoSizeText(
+                                                            "Pittanta")),
                                                   ],
                                                   onChanged:
                                                       (String? newValue) {
@@ -264,6 +274,10 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                                                         value: "Lightness",
                                                         child: AutoSizeText(
                                                             "Lightness")),
+                                                    DropdownMenuItem(
+                                                        value: "All",
+                                                        child:
+                                                            AutoSizeText("All"))
                                                   ],
                                                   onChanged:
                                                       (String? newValue) {
@@ -387,7 +401,13 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                                                   setState(() {
                                                     manikiShuddhi = value;
                                                   });
-                                                })
+                                                }),
+                                            TextField(
+                                              controller: _controller,
+                                              decoration: const InputDecoration(
+                                                  labelText: "Enter Text",
+                                                  border: OutlineInputBorder()),
+                                            )
                                           ]),
                                         ),
                                       ),
@@ -471,7 +491,10 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                                                   },
                                                   "laingikiShuddhi":
                                                       selectedLaingikiShuddhi,
-                                                  "manikiShuddhi": manikiShuddhi
+                                                  "manikiShuddhi":
+                                                      manikiShuddhi,
+                                                  "manikiShuddhiText":
+                                                      _controller.text
                                                 }
                                               };
                                               dev.log(state.toString());
@@ -481,8 +504,10 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
                                                   .add(CreateChatushprakaraShuddhi(
                                                       ChatushprakaraShuddhiData:
                                                           aamaLakshanReq));
+
+                                              _controller.clear();
                                             },
-                                            child: SizedBox(
+                                            child: const SizedBox(
                                               width: 80,
                                               height: 50,
                                               child: Center(
@@ -512,4 +537,3 @@ class _ChatushprakaraShuddhiPageState extends State<ChatushprakaraShuddhiPage> {
         ));
   }
 }
-

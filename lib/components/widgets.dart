@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vamana_app/aama_lakshana/aama_lakshana_page.dart';
+import 'package:vamana_app/assessment_info/assessment_info_page.dart';
 import 'package:vamana_app/blood_pressure/blood_pressure_page.dart';
 import 'package:vamana_app/chatushprakara_shuddhi/chatushprakara_shuddhi_page.dart';
 import 'package:vamana_app/dashboard/dashboard_page.dart';
@@ -10,6 +11,7 @@ import 'package:vamana_app/login/login_page.dart';
 import 'package:vamana_app/pashchat_karma/pashchat_karma_page.dart';
 import 'package:vamana_app/pradhankarma/pradhankarma_page.dart';
 import 'package:vamana_app/rookshana/rookshana_page.dart';
+import 'package:vamana_app/samsar_jana_krama/samsar_jana_krama_page.dart';
 import 'package:vamana_app/sarvanga_lakshana/sarvanga_lakshana_page.dart';
 import 'package:vamana_app/sneh_jeeryaman_lakshana/sneh_jeeryaman_lakshana_page.dart';
 import 'package:vamana_app/snehana_lakshana/snehana_lakshana_page.dart';
@@ -142,12 +144,20 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                         borderRadius: BorderRadius.circular(30)),
                     child: ListTile(
                       title: const Text("Assessment Info"),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => AssessmentInfoPage())));
+                      },
                     ),
                   )
                 : ListTile(
                     title: const Text("Assessment Info"),
-                    onTap: () {},
+                    onTap: () {Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => AssessmentInfoPage())));},
                   ),
           ),
           Divider(
@@ -330,9 +340,14 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
           ),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
-              toCheck: "SamsarjanaKrama",
+              toCheck: "SamsarJanaKrama",
               label: "Samsarjana Krama",
-              onPressed: () {}),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => SamsarKramaPage())));
+              }),
           VamanaDrawerTile(
             selectedPage: widget.selectedPage,
             toCheck: "PashchatKarma",

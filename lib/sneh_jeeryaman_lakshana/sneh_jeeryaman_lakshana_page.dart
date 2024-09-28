@@ -61,7 +61,7 @@ class _SnehJeeryamanLakshanaPageState extends State<SnehJeeryamanLakshanaPage> {
     },
     "daha": {"label": "Daha (Burning sensation)", "isSelected": null as bool?},
     "bhrama": {"label": "Bhrama (Dizziness)", "isSelected": null as bool?},
-    "saad": {"label": "Saad (Nausea)", "isSelected": null as bool?},
+    "saad": {"label": "Saad (Tiredness)", "isSelected": null as bool?},
     "arati": {"label": "Arati (Dislike/aversion)", "isSelected": null as bool?},
     "klama": {"label": "Klama (Fatigue)", "isSelected": null as bool?}
   };
