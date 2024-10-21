@@ -85,7 +85,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
 
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  bool? doseSelected = null;
+  bool? doseSelected;
 
   Days selectedDay = Days.day1;
   @override
@@ -95,7 +95,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(selectedPage: "AamaLakshana",),
         body: Stack(
           children: [
@@ -455,10 +455,10 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty
+                                                    WidgetStateProperty
                                                         .all<Color>(const Color(
                                                             0xff0f6f03))),
-                                            onPressed: () => null,
+                                            onPressed: () {},
                                             child: const Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Center(
@@ -474,7 +474,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                       return ElevatedButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all<
+                                                  WidgetStateProperty.all<
                                                           Color>(
                                                       const Color(0xff0f6f03))),
                                           onPressed: () async {
@@ -510,7 +510,7 @@ class _AamaLakshanaPageState extends State<AamaLakshanaPage> {
                                                     aamaLakshanaData:
                                                         aamaLakshanReq));
                                           },
-                                          child: SizedBox(
+                                          child: const SizedBox(
                                             width: 80,
                                             height: 50,
                                             child: Center(

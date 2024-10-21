@@ -70,7 +70,7 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(
           selectedPage: "Snehapana",
         ),
@@ -261,11 +261,11 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                           return ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty.all<
+                                                      WidgetStateProperty.all<
                                                               Color>(
                                                           const Color(
                                                               0xff0f6f03))),
-                                              onPressed: () => null,
+                                              onPressed: () {},
                                               child: const Padding(
                                                 padding: EdgeInsets.all(8.0),
                                                 child: Center(
@@ -282,7 +282,7 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty
+                                                    WidgetStateProperty
                                                         .all<Color>(const Color(
                                                             0xff0f6f03))),
                                             onPressed: () async {
@@ -312,7 +312,7 @@ class _SnehapanaPageState extends State<SnehapanaPage> {
                                                       SnehapanaData:
                                                           aamaLakshanReq));
                                             },
-                                            child: SizedBox(
+                                            child: const SizedBox(
                                               width: 80,
                                               height: 50,
                                               child: Center(

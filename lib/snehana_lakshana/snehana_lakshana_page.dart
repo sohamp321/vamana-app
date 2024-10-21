@@ -158,7 +158,7 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(selectedPage: "SnehanaLakshana",),
         body: Stack(
           children: [
@@ -400,7 +400,7 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty
+                                                    WidgetStateProperty
                                                         .all<Color>(const Color(
                                                             0xff0f6f03))),
                                             onPressed: () {},
@@ -419,7 +419,7 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                                       return ElevatedButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all<
+                                                  WidgetStateProperty.all<
                                                           Color>(
                                                       const Color(0xff0f6f03))),
                                           onPressed: () async {
@@ -450,7 +450,7 @@ class _SnehanaLakshanaPageState extends State<SnehanaLakshanaPage> {
                                                     SnehanaLakshanaData:
                                                         aamaLakshanReq));
                                           },
-                                          child: SizedBox(
+                                          child: const SizedBox(
                                             height: 50,
                                             width: 80,
                                             child: Center(
@@ -508,8 +508,8 @@ class SnehanaLakshanaObservation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration:
-          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Column(
+          const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: const Column(
         children: [],
       ),
     );
@@ -526,7 +526,7 @@ class ComplaintsRow extends StatefulWidget {
   VoidCallback onCrossPressed;
 
   ComplaintsRow(
-      {required this.screenWidth,
+      {super.key, required this.screenWidth,
       required this.screenHeight,
       required this.label,
       required this.isSelected,

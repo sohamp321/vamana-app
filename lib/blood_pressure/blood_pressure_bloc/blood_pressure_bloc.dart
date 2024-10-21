@@ -113,9 +113,9 @@ class BloodPressureBloc extends Bloc<BloodPressureEvent, BloodPressureState> {
           "assessmentName": "BloodPressure",
           "day": event.dayNumber
         };
-        var _fetchBody = jsonEncode(fetchBody);
+        var fetchBody0 = jsonEncode(fetchBody);
 
-        dev.log(_fetchBody);
+        dev.log(fetchBody0);
 
         dev.log("Sending request to : $url");
         var response = await http.post(
@@ -124,7 +124,7 @@ class BloodPressureBloc extends Bloc<BloodPressureEvent, BloodPressureState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: _fetchBody,
+          body: fetchBody0,
         );
         if (response.statusCode == 200) {
           dev.log("BloodPressure Response: ${response.body}");

@@ -164,7 +164,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(
           selectedPage: null,
         ),
@@ -270,7 +270,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                             ElevatedButton(
                                 style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             const Color(0xff0f6f03))),
                                 onPressed: () {
                                   _carouselController.previousPage();
@@ -317,13 +317,13 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AssessmentInfoPage()));
+                                              const AssessmentInfoPage()));
                                 }
                               },
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               const Color(0xff0f6f03))),
                                   onPressed: () {
                                     // Patient Details Page
@@ -358,22 +358,22 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                     }
                                     // Investigations Page
                                     if (currentIndex == 2) {
-                                      Map<String, dynamic> _investigationsData =
+                                      Map<String, dynamic> investigationsData =
                                           {};
                                       investigationsData.forEach((key, value) {
-                                        _investigationsData[key] =
+                                        investigationsData[key] =
                                             value["controller"].text;
                                       });
                                       BlocProvider.of<NewAssessmentBloc>(
                                               context)
                                           .add(UpdateInvestigations(
                                               investigationsInfo:
-                                                  _investigationsData));
+                                                  investigationsData));
 
                                       _carouselController.nextPage();
                                     }
                                     if (currentIndex == 3) {
-                                      Map<String, dynamic> _deepanaPachanaData =
+                                      Map<String, dynamic> deepanaPachanaData =
                                           {
                                         "guduchiChoorna": deepanaPachanaData[
                                             "guduchiChoorna"],
@@ -389,7 +389,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                               context)
                                           .add(UpdatePoorvaKarma(
                                               poorvaKarmaInfo:
-                                                  _deepanaPachanaData));
+                                                  deepanaPachanaData));
 
                                       BlocProvider.of<NewAssessmentBloc>(
                                               context)
@@ -422,7 +422,7 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
                                           );
                                         },
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_forward_rounded,
                                         color: Colors.white,
                                       ),
@@ -464,7 +464,7 @@ class DeepanaPachana extends StatefulWidget {
 class _DeepanaPachanaState extends State<DeepanaPachana> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: widget.screenWidth * 0.93,
         height: widget.screenHeight * 0.65,
         child: Column(children: [
@@ -500,7 +500,7 @@ class _DeepanaPachanaState extends State<DeepanaPachana> {
             children: [
               ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(widget
+                      backgroundColor: WidgetStateProperty.all<Color>(widget
                               .deepanaPachanaData["guduchiChoorna"]
                           ? const Color(0xff0f6f03)
                           : Theme.of(context).colorScheme.primaryContainer)),
@@ -517,7 +517,7 @@ class _DeepanaPachanaState extends State<DeepanaPachana> {
                               : Theme.of(context).colorScheme.primary))),
               ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(widget
+                      backgroundColor: WidgetStateProperty.all<Color>(widget
                               .deepanaPachanaData["mustaChoorna"]
                           ? const Color(0xff0f6f03)
                           : Theme.of(context).colorScheme.primaryContainer)),
@@ -534,7 +534,7 @@ class _DeepanaPachanaState extends State<DeepanaPachana> {
                               : Theme.of(context).colorScheme.primary))),
               ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(widget
+                      backgroundColor: WidgetStateProperty.all<Color>(widget
                               .deepanaPachanaData["panchaKolChoorna"]
                           ? const Color(0xff0f6f03)
                           : Theme.of(context).colorScheme.primaryContainer)),
@@ -618,7 +618,7 @@ class PatientDetailsForm extends StatefulWidget {
 class _PatientDetailsFormState extends State<PatientDetailsForm> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.screenWidth * 0.93,
       height: widget.screenHeight * 0.65,
       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -689,7 +689,7 @@ class _PatientDetailsFormState extends State<PatientDetailsForm> {
 }
 
 class Investigations extends StatelessWidget {
-  Investigations(
+  const Investigations(
       {super.key,
       required this.screenWidth,
       required this.screenHeight,
@@ -703,7 +703,7 @@ class Investigations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: screenWidth * 0.93,
       height: screenHeight * 0.65,
       // decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -755,7 +755,7 @@ class ComplaintsRow extends StatefulWidget {
   VoidCallback onCheckPressed;
   VoidCallback onCrossPressed;
 
-  ComplaintsRow({
+  ComplaintsRow({super.key, 
     required this.screenWidth,
     required this.screenHeight,
     required this.label,
@@ -785,7 +785,7 @@ class _ComplaintsRowState extends State<ComplaintsRow> {
             child: Center(
               child: Text(
                 widget.label,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -795,7 +795,7 @@ class _ComplaintsRowState extends State<ComplaintsRow> {
             decoration: BoxDecoration(
               color: widget.isSelected == true
                   ? Colors.green.withOpacity(0.5)
-                  : Color(0xffe9f5db),
+                  : const Color(0xffe9f5db),
               border: const Border(
                 right: BorderSide(color: Color(0xff15400d)),
                 left: BorderSide(color: Color(0xff15400d)),
@@ -812,7 +812,7 @@ class _ComplaintsRowState extends State<ComplaintsRow> {
             decoration: BoxDecoration(
               color: widget.isSelected == false
                   ? Colors.red.withOpacity(0.5)
-                  : Color(0xffe9f5db),
+                  : const Color(0xffe9f5db),
             ),
             child: IconButton(
               onPressed: widget.onCrossPressed,
@@ -866,7 +866,7 @@ class _ComplaintsState extends State<Complaints> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: widget.screenWidth * 0.93,
         height: widget.screenHeight * 0.65,
         child: Column(children: [

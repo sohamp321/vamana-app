@@ -30,8 +30,8 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
     super.initState();
   }
 
-  TextEditingController _doseController = TextEditingController();
-  TextEditingController _digestiveHoursController = TextEditingController();
+  final TextEditingController _doseController = TextEditingController();
+  final TextEditingController _digestiveHoursController = TextEditingController();
   double? _calculatedDose = 0;
 
   Days selectedDay = Days.day2;
@@ -137,7 +137,7 @@ class _SnehpanaPageState extends State<SnehpanaPage> {
                                 ),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: screenHeight * 0.5,
                               width: screenWidth * 0.9,
                               child: Column(

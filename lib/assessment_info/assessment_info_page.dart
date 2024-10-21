@@ -69,7 +69,7 @@ class _AssessmentInfoPageState extends State<AssessmentInfoPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(
           selectedPage: "AssessmentInfo",
         ),
@@ -162,7 +162,7 @@ class _AssessmentInfoPageState extends State<AssessmentInfoPage> {
                                       return ElevatedButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all<
+                                                  WidgetStateProperty.all<
                                                           Color>(
                                                       const Color(0xff0f6f03))),
                                           onPressed: () async {
@@ -181,7 +181,7 @@ class _AssessmentInfoPageState extends State<AssessmentInfoPage> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        AamaLakshanaPage()));
+                                                        const AamaLakshanaPage()));
                                           },
                                           child: SizedBox(
                                             width: screenWidth * 0.5,

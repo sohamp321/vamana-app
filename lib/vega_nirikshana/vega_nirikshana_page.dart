@@ -100,7 +100,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(
           selectedPage: "VegaNirikshana",
         ),
@@ -546,7 +546,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                             BorderRadius
                                                                 .circular(
                                                                     15.0)),
-                                                    label: Text("Others")),
+                                                    label: const Text("Others")),
                                               ),
                                             ),
                                             const AutoSizeText(
@@ -566,7 +566,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                                             BorderRadius
                                                                 .circular(
                                                                     15.0)),
-                                                    label: Text("Output")),
+                                                    label: const Text("Output")),
                                               ),
                                             ),
                                           ]),
@@ -588,7 +588,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                     ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor:
-                                                MaterialStateProperty.all<
+                                                WidgetStateProperty.all<
                                                         Color>(
                                                     const Color(0xff0f6f03))),
                                         onPressed: () {
@@ -596,7 +596,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      DashBoardPage()));
+                                                      const DashBoardPage()));
                                         },
                                         child: const Row(
                                           mainAxisAlignment:
@@ -631,11 +631,11 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                           return ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty.all<
+                                                      WidgetStateProperty.all<
                                                               Color>(
                                                           const Color(
                                                               0xff0f6f03))),
-                                              onPressed: () => null,
+                                              onPressed: () {},
                                               child: const Padding(
                                                 padding: EdgeInsets.all(8.0),
                                                 child: Center(
@@ -652,7 +652,7 @@ class _VegaNirikshanaPageState extends State<VegaNirikshanaPage> {
                                         return ElevatedButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all<
+                                                  WidgetStateProperty.all<
                                                           Color>(
                                                       const Color(0xff0f6f03))),
                                           onPressed: () async {

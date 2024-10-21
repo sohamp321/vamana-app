@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: ((context) =>
-                                            DashBoardPage())));
+                                            const DashBoardPage())));
                               }
                             }, builder: (context, state) {
                               return ElevatedButton(
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                                       },
                                 style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             const Color(0xff0f6f03))),
                                 child: state is CheckingUser
                                     ? const CircularProgressIndicator.adaptive(

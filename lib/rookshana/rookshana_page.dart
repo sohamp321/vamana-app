@@ -142,7 +142,7 @@ class _RookshanaPageState extends State<RookshanaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(selectedPage: "Rookshana",),
         body: Stack(
           children: [
@@ -470,10 +470,10 @@ class _RookshanaPageState extends State<RookshanaPage> {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty
+                                                    WidgetStateProperty
                                                         .all<Color>(const Color(
                                                             0xff0f6f03))),
-                                            onPressed: () => null,
+                                            onPressed: () {},
                                             child: const Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Center(
@@ -489,7 +489,7 @@ class _RookshanaPageState extends State<RookshanaPage> {
                                       return ElevatedButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStateProperty.all<
+                                                  WidgetStateProperty.all<
                                                           Color>(
                                                       const Color(0xff0f6f03))),
                                           onPressed: () async {
@@ -535,7 +535,7 @@ class _RookshanaPageState extends State<RookshanaPage> {
                                                     RookshanaData:
                                                         RookshanaReq));
                                           },
-                                          child: SizedBox(
+                                          child: const SizedBox(
                                             width: 80,
                                             height: 50,
                                             child: Center(
@@ -573,7 +573,7 @@ class ComplaintsRow extends StatefulWidget {
   VoidCallback onCheckPressed;
   VoidCallback onCrossPressed;
 
-  ComplaintsRow({
+  ComplaintsRow({super.key, 
     required this.screenWidth,
     required this.screenHeight,
     required this.label,

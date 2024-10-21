@@ -94,7 +94,7 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: true,
-        appBar: VamanaAppBar(),
+        appBar: const VamanaAppBar(),
         drawer: VamanaDrawer(selectedPage: "PradhanKarma",),
         body: Stack(
           children: [
@@ -243,10 +243,10 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
                                           return ElevatedButton(
                                               style: ButtonStyle(
                                                   backgroundColor:
-                                                      MaterialStateProperty
+                                                      WidgetStateProperty
                                                           .all<Color>(const Color(
                                                               0xff0f6f03))),
-                                              onPressed: () => null,
+                                              onPressed: () {},
                                               child: const Padding(
                                                 padding: EdgeInsets.all(8.0),
                                                 child: Center(
@@ -262,7 +262,7 @@ class _PradhanKarmaPageState extends State<PradhanKarmaPage> {
                                         return ElevatedButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStateProperty.all<
+                                                    WidgetStateProperty.all<
                                                             Color>(
                                                         const Color(0xff0f6f03))),
                                             onPressed: () async {

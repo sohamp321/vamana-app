@@ -113,9 +113,9 @@ class ChatushprakaraShuddhiBloc extends Bloc<ChatushprakaraShuddhiEvent, Chatush
           "assessmentName": "ChatushprakaraShuddhi",
           "day": event.dayNumber
         };
-        var _fetchBody = jsonEncode(fetchBody);
+        var fetchBody0 = jsonEncode(fetchBody);
 
-        dev.log(_fetchBody);
+        dev.log(fetchBody0);
 
         dev.log("Sending request to : $url");
         var response = await http.post(
@@ -124,7 +124,7 @@ class ChatushprakaraShuddhiBloc extends Bloc<ChatushprakaraShuddhiEvent, Chatush
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: _fetchBody,
+          body: fetchBody0,
         );
         if (response.statusCode == 200) {
           dev.log("ChatushprakaraShuddhi Response: ${response.body}");

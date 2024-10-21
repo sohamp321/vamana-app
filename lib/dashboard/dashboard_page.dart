@@ -42,7 +42,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: VamanaAppBar(),
+      appBar: const VamanaAppBar(),
       drawer: VamanaDrawer(
         selectedPage: "Dashboard",
       ),
@@ -125,7 +125,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NewAssessmentPage(),
+                builder: (context) => const NewAssessmentPage(),
               ));
         },
         backgroundColor: const Color(0xff0F6f03),
@@ -133,7 +133,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
         child: const Icon(Icons.add_rounded),
       ),
     );
-    ;
   }
 }
 
@@ -163,7 +162,7 @@ class AssessmentItem extends StatelessWidget {
             prefs.setString("patientUhid", uhid!);
             prefs.setString("patientName", patientName!);
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AssessmentInfoPage()));
+                MaterialPageRoute(builder: (context) => const AssessmentInfoPage()));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("Error: Assessment ID does not exist")));

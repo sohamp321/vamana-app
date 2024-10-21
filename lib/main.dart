@@ -70,11 +70,11 @@ class MyApp extends StatelessWidget {
           },
           builder: (context, state) {
             if (state is UserVerified) {
-              return DashBoardPage();
+              return const DashBoardPage();
             } else if (state is CheckingUser) {
               return const CircularProgressIndicator.adaptive();
             } else {
-              return LoginPage();
+              return const LoginPage();
             }
           },
         ),

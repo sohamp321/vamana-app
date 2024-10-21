@@ -115,9 +115,9 @@ class YogaLakshanaBloc extends Bloc<YogaLakshanaEvent, YogaLakshanaState> {
           "assessmentName": "YogaLakshana",
           "day": "1"
         };
-        var _fetchBody = jsonEncode(fetchBody);
+        var fetchBody0 = jsonEncode(fetchBody);
 
-        dev.log(_fetchBody);
+        dev.log(fetchBody0);
 
         dev.log("Sending request to : $url");
         var response = await http.post(
@@ -126,7 +126,7 @@ class YogaLakshanaBloc extends Bloc<YogaLakshanaEvent, YogaLakshanaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: _fetchBody,
+          body: fetchBody0,
         );
         if (response.statusCode == 200) {
           dev.log("YogaLakshana Response: ${response.body}");

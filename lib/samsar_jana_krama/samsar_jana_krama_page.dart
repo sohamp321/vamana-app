@@ -56,7 +56,7 @@ class _SamsarKramaPageState extends State<SamsarKramaPage> {
       return file.path;
     } catch (e) {
       dev.log('Error loading PDF: $e', error: e);
-      throw e;
+      rethrow;
     }
   }
 
@@ -74,7 +74,7 @@ class _SamsarKramaPageState extends State<SamsarKramaPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      appBar: VamanaAppBar(),
+      appBar: const VamanaAppBar(),
       drawer: VamanaDrawer(
         selectedPage: "SamsarJanaKrama",
       ),

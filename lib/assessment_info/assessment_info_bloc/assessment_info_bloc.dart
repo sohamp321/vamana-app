@@ -31,9 +31,9 @@ class AssessmentInfoBloc
         var fetchBody = {
           "assessmentId": assessmentID,
         };
-        var _fetchBody = jsonEncode(fetchBody);
+        var fetchBody0 = jsonEncode(fetchBody);
 
-        dev.log(_fetchBody);
+        dev.log(fetchBody0);
 
         dev.log("Sending request to : $url");
         var response = await http.post(
@@ -42,7 +42,7 @@ class AssessmentInfoBloc
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: _fetchBody,
+          body: fetchBody0,
         );
         if (response.statusCode == 200) {
           dev.log("AssessmentInfo Response: ${response.body}");
@@ -51,7 +51,7 @@ class AssessmentInfoBloc
           } else {
             var data = jsonDecode(response.body);
 
-            dev.log("Data Received: ${data}");
+            dev.log("Data Received: $data");
             emit(AssessmentInfoLoaded(AssessmentInfoDataRec: data));
           }
         } else {

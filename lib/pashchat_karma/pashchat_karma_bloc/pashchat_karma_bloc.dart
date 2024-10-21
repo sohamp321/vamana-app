@@ -113,9 +113,9 @@ class PashchatKarmaBloc extends Bloc<PashchatKarmaEvent, PashchatKarmaState> {
           "assessmentName": "PashchatKarma",
           "day": event.dayNumber
         };
-        var _fetchBody = jsonEncode(fetchBody);
+        var fetchBody0 = jsonEncode(fetchBody);
 
-        dev.log(_fetchBody);
+        dev.log(fetchBody0);
 
         dev.log("Sending request to : $url");
         var response = await http.post(
@@ -124,7 +124,7 @@ class PashchatKarmaBloc extends Bloc<PashchatKarmaEvent, PashchatKarmaState> {
             'Content-Type': 'application/json',
             "Authorization": "Bearer $userToken"
           },
-          body: _fetchBody,
+          body: fetchBody0,
         );
         if (response.statusCode == 200) {
           dev.log("PashchatKarma Response: ${response.body}");

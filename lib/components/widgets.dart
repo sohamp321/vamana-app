@@ -37,7 +37,7 @@ class VamanaAppBar extends StatelessWidget implements PreferredSizeWidget {
 
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                   (route) => false);
             },
             icon: const Icon(Icons.logout_rounded))
@@ -82,19 +82,19 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
   Widget build(BuildContext context) {
     dev.log(widget.selectedPage ?? "null");
     return Drawer(
-      backgroundColor: Color(0xffcfe1b9),
+      backgroundColor: const Color(0xffcfe1b9),
       child: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xff97a97c),
+                color: const Color(0xff97a97c),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: DrawerHeader(
                   margin: EdgeInsets.zero,
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +113,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
             child: widget.selectedPage == "Dashboard"
                 ? Container(
                     decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
+                        color: const Color(0xffb5c99a),
                         borderRadius: BorderRadius.circular(30)),
                     child: ListTile(
                       title: const Text("Dashboard"),
@@ -121,7 +121,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => DashBoardPage())));
+                                builder: ((context) => const DashBoardPage())));
                       },
                     ),
                   )
@@ -131,7 +131,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => DashBoardPage())));
+                              builder: ((context) => const DashBoardPage())));
                     },
                   ),
           ),
@@ -140,7 +140,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
             child: widget.selectedPage == "AssessmentInfo"
                 ? Container(
                     decoration: BoxDecoration(
-                        color: Color(0xffb5c99a),
+                        color: const Color(0xffb5c99a),
                         borderRadius: BorderRadius.circular(30)),
                     child: ListTile(
                       title: const Text("Assessment Info"),
@@ -148,7 +148,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => AssessmentInfoPage())));
+                              builder: ((context) => const AssessmentInfoPage())));
                       },
                     ),
                   )
@@ -157,15 +157,15 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                     onTap: () {Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => AssessmentInfoPage())));},
+                              builder: ((context) => const AssessmentInfoPage())));},
                   ),
           ),
           Divider(
-              color: Color(0xff15400d),
+              color: const Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 20.0),
             child: AutoSizeText(
               "Poorvakarma",
               style: TextStyle(
@@ -180,7 +180,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => AamaLakshanaPage())));
+                        builder: ((context) => const AamaLakshanaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -188,16 +188,16 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
               label: "Rookshana",
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => RookshanaPage())));
+                    MaterialPageRoute(builder: ((context) => const RookshanaPage())));
               }),
           Divider(
-              color: Color(0xff15400d),
+              color: const Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
           Padding(
             padding:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            child: AutoSizeText(
+            child: const AutoSizeText(
               "Snehapana",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
@@ -209,7 +209,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
               label: "Snehapana Calculator",
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => SnehpanaPage())));
+                    MaterialPageRoute(builder: ((context) => const SnehpanaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -219,7 +219,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => SnehanaLakshanaPage())));
+                        builder: ((context) => const SnehanaLakshanaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -227,7 +227,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
               label: "Snehpana",
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => SnehapanaPage())));
+                    MaterialPageRoute(builder: ((context) => const SnehapanaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -237,16 +237,16 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => SnehJeeryamanLakshanaPage())));
+                        builder: ((context) => const SnehJeeryamanLakshanaPage())));
               }),
           Divider(
-              color: Color(0xff15400d),
+              color: const Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
           Padding(
             padding:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            child: AutoSizeText(
+            child: const AutoSizeText(
               "Vishrama Kala",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
@@ -260,16 +260,16 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => SarvangaLakshanaPage())));
+                        builder: ((context) => const SarvangaLakshanaPage())));
               }),
           Divider(
-              color: Color(0xff15400d),
+              color: const Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
           Padding(
             padding:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            child: AutoSizeText(
+            child: const AutoSizeText(
               "Pradhan Karma",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
@@ -283,7 +283,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => PradhanKarmaPage())));
+                        builder: ((context) => const PradhanKarmaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -293,7 +293,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => VegaNirikshanaPage())));
+                        builder: ((context) => const VegaNirikshanaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -303,7 +303,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => BloodPressurePage())));
+                        builder: ((context) => const BloodPressurePage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -313,7 +313,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => YogaLakshanaPage())));
+                        builder: ((context) => const YogaLakshanaPage())));
               }),
           VamanaDrawerTile(
               selectedPage: widget.selectedPage,
@@ -323,16 +323,16 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: ((context) => ChatushprakaraShuddhiPage())));
+                        builder: ((context) => const ChatushprakaraShuddhiPage())));
               }),
           Divider(
-              color: Color(0xff15400d),
+              color: const Color(0xff15400d),
               endIndent: MediaQuery.of(context).size.width * 0.05,
               indent: MediaQuery.of(context).size.width * 0.05),
           Padding(
             padding:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            child: AutoSizeText(
+            child: const AutoSizeText(
               "Paschat Karma",
               style: TextStyle(
                   fontWeight: FontWeight.bold, color: Color(0xff15400D)),
@@ -346,7 +346,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: ((context) => SamsarKramaPage())));
+                      builder: ((context) => const SamsarKramaPage())));
               }),
           VamanaDrawerTile(
             selectedPage: widget.selectedPage,
@@ -356,7 +356,7 @@ class _VamanaDrawerState extends State<VamanaDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: ((context) => PashchatKarmaPage())));
+                      builder: ((context) => const PashchatKarmaPage())));
             },
           ),
         ],
@@ -391,7 +391,7 @@ class _VamanaDrawerTileState extends State<VamanaDrawerTile> {
       child: widget.selectedPage == widget.toCheck
           ? Container(
               decoration: BoxDecoration(
-                  color: Color(0xffb5c99a),
+                  color: const Color(0xffb5c99a),
                   borderRadius: BorderRadius.circular(10)),
               child: ListTile(
                 title: Text(widget.label),

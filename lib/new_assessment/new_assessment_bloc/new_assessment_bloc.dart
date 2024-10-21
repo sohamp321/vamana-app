@@ -114,24 +114,24 @@ class NewAssessmentBloc extends Bloc<NewAssessmentEvent, NewAssessmentState> {
       "poorvaKarma": poorvaKarmaInfo
     };
 
-    var _addRequest = jsonEncode(addRequest);
+    var addRequest0 = jsonEncode(addRequest);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? _userToken = prefs.getString("userToken");
+    String? userToken = prefs.getString("userToken");
    
 
-    if (_userToken != null) {
+    if (userToken != null) {
       try {
         var url = Uri.parse('${dotenv.env["SERVER_URL"]}/add');
         dev.log("Sending request to : $url");
-        dev.log("Request Body: $_addRequest");
+        dev.log("Request Body: $addRequest0");
         var response = await http.post(
           url,
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": "Bearer $_userToken"
+            "Authorization": "Bearer $userToken"
           },
-          body: _addRequest,
+          body: addRequest0,
         );
 
         if (response.statusCode == 200) {

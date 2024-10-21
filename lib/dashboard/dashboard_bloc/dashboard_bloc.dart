@@ -26,14 +26,14 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DashBoardState> {
         dev.log("Sending request to : $url");
         dev.log('Token Value For Dashboard Request: $token');
 
-        final Map<String, String> _headers = {
+        final Map<String, String> headers = {
           "Content-type": "application/json",
           "Authorization": "Bearer $token"
         };
 
-        dev.log(_headers["Authorization"]!);
+        dev.log(headers["Authorization"]!);
 
-        var response = await http.get(url, headers: _headers).timeout(const Duration(seconds: 300));
+        var response = await http.get(url, headers: headers).timeout(const Duration(seconds: 300));
 
         if (response.statusCode == 200) {
           var data = jsonDecode(response.body);
